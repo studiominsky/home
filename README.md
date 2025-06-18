@@ -1,0 +1,2 @@
+# home
+Studio Minsky homepage.
