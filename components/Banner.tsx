@@ -3,6 +3,7 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Container from './Container';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -46,6 +47,9 @@ export default function Banner() {
     const ctx = gsap.context(() => {
       const buildAnimation = () => {
         gsap.killTweensOf(circlesRef.current);
+        if (textRef.current) {
+          gsap.killTweensOf(textRef.current);
+        }
         tl.clear();
 
         const { width: Cw, height: Ch } =
@@ -64,9 +68,23 @@ export default function Banner() {
         ];
 
         if (textRef.current) {
+          const finalTopPadding = 300;
+
+          const textHeight = textRef.current.offsetHeight;
+
+          const initialBottomOffset = 10;
+
+          const yTravelDistance =
+            Ch - textHeight - initialBottomOffset - finalTopPadding;
+
+          gsap.set(textRef.current, { y: 0, opacity: 1 });
+
           tl.to(
             textRef.current,
-            { y: '-280%', opacity: 1, ease: 'power2.inOut' },
+            {
+              y: -yTravelDistance,
+              ease: 'power2.inOut',
+            },
             0
           );
         }
@@ -89,7 +107,6 @@ export default function Banner() {
             yPercent: -50,
             opacity: 0,
             scale: 0,
-            pinSpacer: true,
           });
 
           gsap.to(el, {
@@ -135,9 +152,9 @@ export default function Banner() {
         scrollTrigger: {
           trigger: container,
           start: 'top top',
-          end: '+=200%',
+          end: '+=100%',
           pin: true,
-          scrub: 0.25,
+          scrub: 0.05,
         },
       });
 
@@ -180,12 +197,16 @@ export default function Banner() {
           />
         ))}
       </div>
-      <span
-        ref={textRef}
-        className="absolute text-white top-[70%] left-[5%] text-[100px] w-[60%]"
-      >
-        It’s time to create for future today.
-      </span>
+      <Container>
+        <span
+          ref={textRef}
+          className="absolute bottom-10 text-white text-[110px] w-[70%] leading-[1.25] "
+        >
+          <span>It’s time to build</span>
+          <br />
+          <span>for today.</span>
+        </span>
+      </Container>
     </section>
   );
 }
