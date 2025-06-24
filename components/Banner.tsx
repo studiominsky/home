@@ -45,6 +45,7 @@ export default function Banner() {
 
     const ctx = gsap.context(() => {
       const buildAnimation = () => {
+        gsap.killTweensOf(circlesRef.current);
         tl.clear();
 
         const { width: Cw, height: Ch } =
@@ -62,7 +63,6 @@ export default function Banner() {
           { x: 0.4 * Cw, y: 1.0 * Ch, size: 0.12 * Cw },
         ];
 
-        // Animate text
         if (textRef.current) {
           tl.to(
             textRef.current,
@@ -87,7 +87,17 @@ export default function Banner() {
             borderRadius: '50%',
             xPercent: -50,
             yPercent: -50,
+            opacity: 0,
+            scale: 0,
+            pinSpacer: true,
+          });
+
+          gsap.to(el, {
             opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: 'power2.out',
+            delay: 0.2 + i * 0.1,
           });
 
           let finalX: number, finalY: number, finalSize: number;
@@ -149,6 +159,16 @@ export default function Banner() {
       ref={mainRef}
       className="relative w-full h-screen overflow-hidden bg-black"
     >
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundSize: '350px 350px',
+          backgroundImage: `
+            linear-gradient(to right, rgba(52, 52, 52, 0.700) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(52, 52, 52, 0.700) 1px, transparent 1px)
+          `,
+        }}
+      />
       <div className="absolute inset-0">
         {Array.from({ length: NUM_CIRCLES }).map((_, i) => (
           <span
