@@ -68,7 +68,7 @@ export default function Banner() {
         ];
 
         if (textRef.current) {
-          const finalTopPadding = 300;
+          const finalTopPadding = 250;
 
           const textHeight = textRef.current.offsetHeight;
 
@@ -200,11 +200,9 @@ export default function Banner() {
       <Container>
         <span
           ref={textRef}
-          className="absolute bottom-10 text-white text-[110px] w-[70%] leading-[1.25] "
+          className="font-geometric absolute bottom-10 flex flex-col text-white text-[100px] w-[70%] leading-[1.25] "
         >
-          <span>It’s time to build</span>
-          <br />
-          <span>for today.</span>
+          <span>Digital products for today’s world.</span>
         </span>
       </Container>
     </section>

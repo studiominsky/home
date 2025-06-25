@@ -1,18 +1,25 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-
+import { Geist } from 'next/font/google';
 import './globals.css';
+
+// app/layout.tsx
+
+const geist = Geist({
+  subsets: ['latin'],
+  variable: '--font-geist',
+});
 
 const geometric = localFont({
   src: [
     {
-      path: '/fonts/geometric-regular.woff2',
-      weight: '400',
+      path: '/fonts/geometric-light.woff2',
+      weight: '100',
       style: 'normal',
     },
     {
-      path: '/fonts/geometric-light.woff2',
-      weight: '100',
+      path: '/fonts/geometric-regular.woff2',
+      weight: '400',
       style: 'normal',
     },
     {
@@ -21,6 +28,7 @@ const geometric = localFont({
       style: 'normal',
     },
   ],
+  variable: '--font-geometric',
 });
 
 export const metadata: Metadata = {
@@ -30,12 +38,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`${geometric.className} antialiased`}>
+      <body
+        className={`${geist.variable} ${geometric.variable} antialiased`}
+      >
         {children}
       </body>
     </html>
