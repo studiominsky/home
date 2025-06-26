@@ -75,23 +75,13 @@ export default function Header() {
         'fixed top-0 left-0 right-0 z-50 flex h-[80px] items-center transition-all duration-300',
         {
           'bg-transparent text-white': style === 'dark',
-          // FIX: Added the transparent background for the light theme's menu,
-          // while the header itself gets its color from the menu component.
           'text-black': style === 'light',
         }
       )}
     >
       <Container>
         <div className="flex h-full w-full items-center justify-between gap-4">
-          <Link
-            href="/"
-            className={clsx('flex items-center', {
-              'text-white': style === 'dark',
-              'text-black': style === 'light',
-            })}
-          >
-            <Logo className="w-42" />
-          </Link>
+          <Logo className="w-42" />
 
           <Menu>
             <MenuList

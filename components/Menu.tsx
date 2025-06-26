@@ -23,6 +23,7 @@ function Menu({
       className={cn(
         'group/navigation-menu relative flex max-w-max items-center rounded-xl',
         'backdrop-blur-[14px] backdrop-saturate-[180%] ring-transparent',
+        'overflow-visible',
         {
           'bg-grayscale-06/35': style === 'dark',
           'bg-[#e3e3e3]/50': style === 'light',
@@ -32,7 +33,7 @@ function Menu({
       {...props}
     >
       {children}
-      <MenuIndicator />
+
       {viewport && <MenuViewport />}
     </MenuPrimitive.Root>
   );
@@ -61,7 +62,7 @@ function MenuItem({
   return (
     <MenuPrimitive.Item
       data-slot="navigation-menu-item"
-      className={cn('relative', className)}
+      className={cn('relative ', className)}
       {...props}
     />
   );
@@ -70,7 +71,7 @@ function MenuItem({
 const MenuTriggerStyle = cn(
   'group inline-flex h-9 w-max items-center justify-center px-4 py-2 text-sm font-medium',
   'bg-transparent',
-  'transition-[color,background,box-shadow,transform] duration-300 ease-out',
+  'transition-colors duration-300 ease-out',
   'focus-visible:ring-2 focus-visible:ring-current/40 focus-visible:outline-none',
   'disabled:pointer-events-none disabled:opacity-50',
   'rounded-none first:rounded-l-xl last:rounded-r-xl'
@@ -81,10 +82,23 @@ function MenuTrigger({
   children,
   ...props
 }: React.ComponentProps<typeof MenuPrimitive.Trigger>) {
+  const { style } = useHeaderStyle();
+
   return (
     <MenuPrimitive.Trigger
       data-slot="navigation-menu-trigger"
-      className={cn(MenuTriggerStyle, className)}
+      className={cn(
+        'cursor-pointer  group inline-flex h-9 w-max items-center justify-center px-4 py-2 text-sm font-medium',
+        'transition-[color,background,box-shadow,transform] duration-300 ease-out',
+        'focus-visible:ring-2 focus-visible:ring-current/40 focus-visible:outline-none',
+        'disabled:pointer-events-none disabled:opacity-50',
+        'rounded-none first:rounded-l-xl last:rounded-r-xl',
+        {
+          'bg-transparent hover:bg-white/10': style === 'dark',
+          'bg-transparent hover:bg-black/5': style === 'light',
+        },
+        className
+      )}
       {...props}
     >
       {children}{' '}
@@ -98,8 +112,11 @@ function MenuTrigger({
 
 function MenuContent({
   className,
+  children,
   ...props
-}: React.ComponentProps<typeof MenuPrimitive.Content>) {
+}: React.ComponentProps<typeof MenuPrimitive.Content> & {
+  children?: React.ReactNode;
+}) {
   return (
     <MenuPrimitive.Content
       data-slot="navigation-menu-content"
@@ -113,7 +130,9 @@ function MenuContent({
         className
       )}
       {...props}
-    />
+    >
+      {children}
+    </MenuPrimitive.Content>
   );
 }
 
@@ -137,6 +156,7 @@ function MenuViewport({
             'bg-[#86868637]/65': style === 'dark',
             'bg-white/80': style === 'light',
           },
+
           'origin-top-center data-[state=open]:animate-in data-[state=closed]:animate-out',
           'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90',
           'relative mt-1.5 overflow-hidden rounded-2xl',
@@ -153,47 +173,24 @@ function MenuLink({
   className,
   ...props
 }: React.ComponentProps<typeof MenuPrimitive.Link>) {
+  const { style } = useHeaderStyle();
   return (
     <MenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        'flex flex-col gap-1 p-2 text-sm transition-all',
+        'cursor-pointer  flex flex-col gap-1 p-2 text-sm transition-all',
         'focus:bg-black/5 data-[active=true]:bg-black/8',
-        'text-black',
+
+        {
+          'bg-[#86868637]/65': style === 'dark',
+          'bg-white/80': style === 'light',
+        },
         'focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:outline-none',
         "[&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
     />
-  );
-}
-
-function MenuIndicator({
-  className,
-  ...props
-}: React.ComponentProps<typeof MenuPrimitive.Indicator>) {
-  return (
-    <MenuPrimitive.Indicator
-      data-slot="navigation-menu-indicator"
-      className={cn(
-        'absolute bottom-0',
-        'left-[var(--radix-navigation-menu-indicator-offset)]',
-        'w-[var(--radix-navigation-menu-indicator-width)]',
-        'h-[var(--radix-navigation-menu-indicator-width)]',
-        'overflow-visible pointer-events-none',
-        'transition-transform duration-200',
-        'data-[state=visible]:animate-in data-[state=hidden]:animate-out',
-        'data-[state=visible]:fade-in data-[state=hidden]:fade-out',
-        className
-      )}
-      {...props}
-    >
-      <div
-        className="absolute inset-0 bg-white drop-shadow-lg"
-        style={{ transform: 'translateY(-50%) rotate(45deg)' }}
-      />
-    </MenuPrimitive.Indicator>
   );
 }
 
@@ -204,7 +201,6 @@ export {
   MenuContent,
   MenuTrigger,
   MenuLink,
-  MenuIndicator,
   MenuViewport,
   MenuTriggerStyle,
 };
