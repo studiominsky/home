@@ -159,8 +159,7 @@ export default function Header() {
                     <span className="sr-only">Choose language</span>
                   </MenuTrigger>
                   <MenuContent>
-                    <ul className="grid w-[150px] gap-1 p-2">
-                      {/* Note: In a real app, these would call a function to change the language */}
+                    <ul className="w-[150px] gap-1 p-2">
                       <li className="cursor-pointer rounded-md p-2 text-sm hover:bg-neutral-100">
                         English
                       </li>

@@ -29,48 +29,16 @@ function Services() {
   }, [setStyle]);
 
   return (
-    <div
+    <section
       ref={sectionRef}
-      className="min-h-screen bg-[#F6F6F0] mt-[-1px]"
+      className="py-26 min-h-screen bg-[#F6F6F0] mt-[-1px]"
     >
       <Container>
         <div className="flex justify-between pt-10">
-          <div className="max-w-[70%]">
+          <div className="max-w-[40%]">
             <h1 className="font-geometric text-[75px] text-black">
               SERVICES
             </h1>
-            <div>
-              <span className="font-geometric border-b-1 border-[#bdbdbd] mb-10 flex items-center gap-4">
-                <span className="text-[23px]">01</span>
-                <span className="text-[45px] uppercase">
-                  Web Applications
-                </span>
-              </span>
-              <span className="font-geometric border-b-1 border-[#bdbdbd] mb-10 flex items-center gap-4">
-                <span className="text-[23px]">02</span>
-                <span className="text-[45px] uppercase">
-                  Websites
-                </span>
-              </span>
-              <span className="font-geometric border-b-1 border-[#bdbdbd] mb-10 flex items-center gap-4">
-                <span className="text-[23px]">03</span>
-                <span className="text-[45px] uppercase">
-                  Data Visualizations
-                </span>
-              </span>
-              <span className="font-geometric border-b-1 border-[#bdbdbd] mb-10 flex items-center gap-4">
-                <span className="text-[23px]">04</span>
-                <span className="text-[45px] uppercase">
-                  AI Integrations
-                </span>
-              </span>
-              <span className="font-geometric border-b-1 border-[#bdbdbd] mb-10 flex items-center gap-4">
-                <span className="text-[23px]">05</span>
-                <span className="text-[45px] uppercase">
-                  Chatbots
-                </span>
-              </span>
-            </div>
             <p className="text-lg">
               Studio Minsky builds the digital tools that drive
               business growth. From websites that turn visitors into
@@ -81,9 +49,37 @@ function Services() {
               you to make smarter, data-driven decisions.
             </p>
           </div>
+          <div className="flex flex-col gap-10 w-1/2">
+            <span className="font-geometric border-b-1 border-[#bdbdbd] flex items-center gap-4">
+              <span className="text-[23px]">01</span>
+              <span className="text-[45px] uppercase">
+                Web Applications
+              </span>
+            </span>
+            <span className="font-geometric border-b-1 border-[#bdbdbd] flex items-center gap-4">
+              <span className="text-[23px]">02</span>
+              <span className="text-[45px] uppercase">Websites</span>
+            </span>
+            <span className="font-geometric border-b-1 border-[#bdbdbd] flex items-center gap-4">
+              <span className="text-[23px]">03</span>
+              <span className="text-[45px] uppercase">
+                Data Visualizations
+              </span>
+            </span>
+            <span className="font-geometric border-b-1 border-[#bdbdbd] flex items-center gap-4">
+              <span className="text-[23px]">04</span>
+              <span className="text-[45px] uppercase">
+                AI Integrations
+              </span>
+            </span>
+            <span className="font-geometric border-b-1 border-[#bdbdbd] flex items-center gap-4">
+              <span className="text-[23px]">05</span>
+              <span className="text-[45px] uppercase">Chatbots</span>
+            </span>
+          </div>
         </div>
       </Container>
-    </div>
+    </section>
   );
 }
 
