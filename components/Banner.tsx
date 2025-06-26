@@ -3,7 +3,7 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Container from './Container';
+import FullWidth from './FullWidth';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,20 +36,26 @@ const debounce = (func: () => void, delay: number) => {
 export default function Banner() {
   const mainRef = useRef<HTMLDivElement>(null);
   const circlesRef = useRef<HTMLSpanElement[]>([]);
-  const textRef = useRef<HTMLSpanElement>(null);
+  const textFullWidthRef = useRef<HTMLDivElement>(null);
+  const pRef = useRef<HTMLParagraphElement>(null);
 
   useLayoutEffect(() => {
-    const container = mainRef.current!;
+    const FullWidth = mainRef.current!;
 
     const ctx = gsap.context(() => {
       const buildAnimation = () => {
         gsap.killTweensOf(circlesRef.current);
-        if (textRef.current) {
-          gsap.killTweensOf(textRef.current);
+        if (textFullWidthRef.current) {
+          gsap.killTweensOf(textFullWidthRef.current);
         }
+        if (pRef.current) {
+          gsap.killTweensOf(pRef.current);
+        }
+
         tl.clear();
+
         const { width: Cw, height: Ch } =
-          container.getBoundingClientRect();
+          FullWidth.getBoundingClientRect();
         const scale = (Cw * 0.4875) / VB_WIDTH;
         const finalShapeWidth = VB_WIDTH * scale;
         const finalShapeHeight = VB_HEIGHT * scale;
@@ -61,19 +67,41 @@ export default function Banner() {
           { x: 0.3 * Cw, y: 0.0 * Ch, size: 0.12 * Cw },
           { x: 0.4 * Cw, y: 1.0 * Ch, size: 0.12 * Cw },
         ];
-        if (textRef.current) {
+
+        if (textFullWidthRef.current) {
           const finalTopPadding = 250;
-          const textHeight = textRef.current.offsetHeight;
+          const textBlockHeight =
+            textFullWidthRef.current.offsetHeight;
           const initialBottomOffset = 10;
           const yTravelDistance =
-            Ch - textHeight - initialBottomOffset - finalTopPadding;
-          gsap.set(textRef.current, { y: 0, opacity: 1 });
+            Ch -
+            textBlockHeight -
+            initialBottomOffset -
+            finalTopPadding;
+
+          gsap.set(textFullWidthRef.current, { y: 0, opacity: 1 });
+
           tl.to(
-            textRef.current,
+            textFullWidthRef.current,
             { y: -yTravelDistance, ease: 'power2.inOut' },
             0
           );
         }
+
+        if (pRef.current) {
+          gsap.set(pRef.current, { y: 15 });
+
+          tl.to(
+            pRef.current,
+            {
+              opacity: 1,
+              y: 0,
+              ease: 'power2.out',
+            },
+            0.2
+          );
+        }
+
         let extraIdx = 0;
         circlesRef.current.forEach((el, i) => {
           const def = INITIAL_CIRCLES[i];
@@ -127,16 +155,19 @@ export default function Banner() {
         });
         ScrollTrigger.refresh();
       };
+
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: container,
+          trigger: FullWidth,
           start: 'top top',
           end: '+=100%',
           pin: true,
           scrub: 0.05,
         },
       });
+
       buildAnimation();
+
       const debouncedBuild = debounce(buildAnimation, 250);
       window.addEventListener('resize', debouncedBuild);
       return () => {
@@ -150,7 +181,7 @@ export default function Banner() {
   return (
     <section
       ref={mainRef}
-      className="relative h-screen w-full overflow-hidden bg-black"
+      className="relative h-screen min-h-screen w-full overflow-hidden bg-black"
     >
       <div
         className="absolute inset-0 pointer-events-none overflow-hidden"
@@ -170,14 +201,31 @@ export default function Banner() {
           />
         ))}
       </div>
-      <Container>
-        <span
-          ref={textRef}
-          className="font-geometric absolute bottom-10 flex w-[70%] flex-col text-[100px] leading-[1.25] text-white "
+      <FullWidth>
+        <div
+          ref={textFullWidthRef}
+          className="absolute bottom-10 flex w-[70%] flex-col text-white"
         >
-          <span>Digital products for today’s world.</span>
-        </span>
-      </Container>
+          <span className="font-geometric text-[100px] leading-[1.25] flex flex-col">
+            <span>Digital products for </span>
+            <span>today’s world.</span>
+          </span>
+
+          <p
+            ref={pRef}
+            className="absolute top-full font-sans mt-6 max-w-2xl text-[21px] leading-[32px] tracking-[-0.03em] text-neutral-200"
+            style={{ opacity: 0 }}
+          >
+            Studio Minsky builds the digital tools that drive business
+            growth. From websites that turn visitors into customers,
+            to custom software that streamlines your operations, every
+            product is designed to increase your impact and
+            efficiency. Automated chatbots engage your audience 24/7,
+            while clear data visualizations empower you to make
+            smarter, data-driven decisions.
+          </p>
+        </div>
+      </FullWidth>
     </section>
   );
 }

@@ -14,6 +14,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --container-width: 82rem;
 }
 
 html {
@@ -26,4 +27,8 @@ html {
 
 .font-geometric {
   font-family: var(--font-geometric), sans-serif;
+}
+
+.container-width {
+  max-width: var(--container-width);
 }

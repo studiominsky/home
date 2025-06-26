@@ -1,5 +1,9 @@
 function Container({ children }: { children: React.ReactNode }) {
-  return <div className="px-20 mx-auto w-full">{children}</div>;
+  return (
+    <div className="px-20 mx-auto w-full container-width">
+      {children}
+    </div>
+  );
 }
 
 export default Container;

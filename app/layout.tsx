@@ -4,8 +4,6 @@ import { Geist } from 'next/font/google';
 import './globals.css';
 import { HeaderStyleProvider } from '@/contexts/HeaderStyleContext';
 
-// app/layout.tsx
-
 const geist = Geist({
   subsets: ['latin'],
   variable: '--font-geist',
@@ -14,22 +12,13 @@ const geist = Geist({
 const geometric = localFont({
   src: [
     {
-      path: '/fonts/geometric-light.woff2',
-      weight: '100',
-      style: 'normal',
-    },
-    {
       path: '/fonts/geometric-regular.woff2',
       weight: '400',
       style: 'normal',
     },
-    {
-      path: '/fonts/geometric-ultra.woff2',
-      weight: '700',
-      style: 'normal',
-    },
   ],
   variable: '--font-geometric',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {

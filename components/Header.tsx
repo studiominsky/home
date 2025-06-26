@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Container from './Container';
+import FullWidth from './FullWidth';
 import Link from 'next/link';
 import {
   Menu,
@@ -15,6 +15,7 @@ import {
 import clsx from 'clsx';
 import { useHeaderStyle } from '@/contexts/HeaderStyleContext';
 import Logo from './Logo';
+import { GlobeIcon } from 'lucide-react';
 
 const navItems = [
   {
@@ -79,7 +80,7 @@ export default function Header() {
         }
       )}
     >
-      <Container>
+      <FullWidth>
         <div className="flex h-full w-full items-center justify-between gap-4">
           <Logo className="w-42" />
 
@@ -142,7 +143,39 @@ export default function Header() {
             </MenuList>
           </Menu>
 
-          <div>
+          <div className="flex items-center gap-4">
+            <Menu transparent={true}>
+              <MenuList>
+                <MenuItem className="bg-transparent">
+                  <MenuTrigger
+                    className={clsx('bg-transparent h-10 w-10 p-0', {
+                      'border-white/20 hover:bg-white/10':
+                        style === 'dark',
+                      'border-black/10 hover:bg-black/5':
+                        style === 'light',
+                    })}
+                  >
+                    <GlobeIcon className="size-5" />
+                    <span className="sr-only">Choose language</span>
+                  </MenuTrigger>
+                  <MenuContent>
+                    <ul className="grid w-[150px] gap-1 p-2">
+                      {/* Note: In a real app, these would call a function to change the language */}
+                      <li className="cursor-pointer rounded-md p-2 text-sm hover:bg-neutral-100">
+                        English
+                      </li>
+                      <li className="cursor-pointer rounded-md p-2 text-sm hover:bg-neutral-100">
+                        Español
+                      </li>
+                      <li className="cursor-pointer rounded-md p-2 text-sm hover:bg-neutral-100">
+                        Français
+                      </li>
+                    </ul>
+                  </MenuContent>
+                </MenuItem>
+              </MenuList>
+            </Menu>
+
             <button
               className={clsx(
                 'cursor-pointer font-sans text-[13px] font-medium px-6 py-2 flex items-center justify-center rounded-lg transition-colors text-center',
@@ -158,7 +191,7 @@ export default function Header() {
             </button>
           </div>
         </div>
-      </Container>
+      </FullWidth>
     </header>
   );
 }

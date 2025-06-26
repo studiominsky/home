@@ -10,9 +10,11 @@ function Menu({
   className,
   children,
   viewport = true,
+  transparent = false,
   ...props
 }: React.ComponentProps<typeof MenuPrimitive.Root> & {
   viewport?: boolean;
+  transparent?: boolean;
 }) {
   const { style } = useHeaderStyle();
 
@@ -22,12 +24,14 @@ function Menu({
       data-viewport={viewport}
       className={cn(
         'group/navigation-menu relative flex max-w-max items-center rounded-xl',
-        'backdrop-blur-[14px] backdrop-saturate-[180%] ring-transparent',
+        !transparent && [
+          'backdrop-blur-[14px] backdrop-saturate-[180%]',
+          {
+            'bg-grayscale-06/35': style === 'dark',
+            'bg-[#e3e3e3]/50': style === 'light',
+          },
+        ],
         'overflow-visible',
-        {
-          'bg-grayscale-06/35': style === 'dark',
-          'bg-[#e3e3e3]/50': style === 'light',
-        },
         className
       )}
       {...props}
