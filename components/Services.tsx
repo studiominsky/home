@@ -34,12 +34,13 @@ function Services() {
       className="py-26 min-h-screen bg-[#F6F6F0] mt-[-1px]"
     >
       <Container>
-        <div className="flex justify-between pt-10">
-          <div className="max-w-[40%]">
-            <h1 className="font-geometric text-[75px] text-black">
-              SERVICES
+        <div className="flex flex-col pt-10">
+          <div className="flex justify-between gap-10">
+            <h1 className="font-geometric text-[75px] text-black flex items-center gap-5 w-1/3">
+              <span>01</span>
+              <span>SERVICES</span>
             </h1>
-            <p className="text-lg">
+            <p className="text-lg w-1/3">
               Studio Minsky builds the digital tools that drive
               business growth. From websites that turn visitors into
               customers, to custom software that streamlines your
@@ -49,33 +50,29 @@ function Services() {
               you to make smarter, data-driven decisions.
             </p>
           </div>
-          <div className="flex flex-col gap-10 w-1/2">
-            <span className="font-geometric border-b-1 border-[#bdbdbd] flex items-center gap-4">
-              <span className="text-[23px]">01</span>
-              <span className="text-[45px] uppercase">
+          <div className="flex flex-col pt-20 w-fit">
+            <div className="font-geometric border-b-1 border-[#bdbdbd] flex gap-3 mt-3 items-center py-5">
+              <div className="inline-block w-4 h-4 rounded-full bg-[#D3704A]" />
+              <h3 className="text-[45px] uppercase">
                 Web Applications
-              </span>
-            </span>
-            <span className="font-geometric border-b-1 border-[#bdbdbd] flex items-center gap-4">
-              <span className="text-[23px]">02</span>
-              <span className="text-[45px] uppercase">Websites</span>
-            </span>
-            <span className="font-geometric border-b-1 border-[#bdbdbd] flex items-center gap-4">
-              <span className="text-[23px]">03</span>
-              <span className="text-[45px] uppercase">
+              </h3>
+            </div>
+            <div className="font-geometric border-b-1 border-[#bdbdbd] flex gap-3 mt-3 items-center py-5">
+              <h3 className="text-[45px] uppercase">Websites</h3>
+            </div>
+            <div className="font-geometric border-b-1 border-[#bdbdbd] flex gap-3 mt-3 items-center py-5">
+              <h3 className="text-[45px] uppercase">
                 Data Visualizations
-              </span>
-            </span>
-            <span className="font-geometric border-b-1 border-[#bdbdbd] flex items-center gap-4">
-              <span className="text-[23px]">04</span>
-              <span className="text-[45px] uppercase">
+              </h3>
+            </div>
+            <div className="font-geometric border-b-1 border-[#bdbdbd] flex gap-3 mt-3 items-center py-5">
+              <h3 className="text-[45px] uppercase">
                 AI Integrations
-              </span>
-            </span>
-            <span className="font-geometric border-b-1 border-[#bdbdbd] flex items-center gap-4">
-              <span className="text-[23px]">05</span>
-              <span className="text-[45px] uppercase">Chatbots</span>
-            </span>
+              </h3>
+            </div>
+            <div className="font-geometric border-b-1 border-[#bdbdbd] flex gap-3 mt-3 items-center py-5">
+              <h3 className="text-[45px] uppercase">Chatbots</h3>
+            </div>
           </div>
         </div>
       </Container>
