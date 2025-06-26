@@ -3,7 +3,6 @@
 import React from 'react';
 import Container from './Container';
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   Menu,
   MenuContent,
@@ -13,6 +12,9 @@ import {
   MenuTrigger,
   MenuTriggerStyle,
 } from '@/components/Menu';
+import clsx from 'clsx';
+import { useHeaderStyle } from '@/contexts/HeaderStyleContext';
+import Logo from './Logo';
 
 const navItems = [
   {
@@ -65,22 +67,39 @@ function ListItem({
 }
 
 export default function Header() {
+  const { style } = useHeaderStyle();
+
   return (
-    <header className="fixed flex top-0 left-0 right-0 z-50 h-[80px] ">
+    <header
+      className={clsx(
+        'fixed top-0 left-0 right-0 z-50 flex h-[80px] items-center transition-all duration-300',
+        {
+          'bg-transparent text-white': style === 'dark',
+          // FIX: Added the transparent background for the light theme's menu,
+          // while the header itself gets its color from the menu component.
+          'text-black': style === 'light',
+        }
+      )}
+    >
       <Container>
-        <div className="flex h-full items-center justify-between gap-4 w-full">
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/logo.svg"
-              alt="Logo"
-              width={185}
-              height={140}
-              className="inline-block"
-            />
+        <div className="flex h-full w-full items-center justify-between gap-4">
+          <Link
+            href="/"
+            className={clsx('flex items-center', {
+              'text-white': style === 'dark',
+              'text-black': style === 'light',
+            })}
+          >
+            <Logo className="w-42" />
           </Link>
 
           <Menu>
-            <MenuList>
+            <MenuList
+              className={clsx({
+                'text-white': style === 'dark',
+                'text-neutral-700': style === 'light',
+              })}
+            >
               <MenuItem>
                 <MenuTrigger>Home</MenuTrigger>
                 <MenuContent>
@@ -134,7 +153,17 @@ export default function Header() {
           </Menu>
 
           <div>
-            <button className="cursor-pointer font-sans text-[13px] font-medium px-6 py-2 bg-[#83cc29] flex items-center justify-center text-black rounded-lg hover:bg-[#7da251] transition-colors text-center">
+            <button
+              className={clsx(
+                'cursor-pointer font-sans text-[13px] font-medium px-6 py-2 flex items-center justify-center rounded-lg transition-colors text-center',
+                {
+                  'bg-[#83cc29] text-black hover:bg-[#7da251]':
+                    style === 'light',
+                  'bg-white text-black hover:bg-neutral-200':
+                    style === 'dark',
+                }
+              )}
+            >
               Contact
             </button>
           </div>

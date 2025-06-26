@@ -10,7 +10,6 @@ gsap.registerPlugin(ScrollTrigger);
 const NUM_CIRCLES = 7;
 const VB_WIDTH = 4893;
 const VB_HEIGHT = 5099;
-
 const INITIAL_CIRCLES = [
   { color: '#D3704A', xPct: 90, yPct: 20, sizeVw: 16, mapsTo: 0 },
   { color: '#B55DE4', xPct: 50, yPct: 25, sizeVw: 16, mapsTo: 3 },
@@ -20,14 +19,12 @@ const INITIAL_CIRCLES = [
   { color: '#83CC29', xPct: 0, yPct: 30, sizeVw: 8, mapsTo: -1 },
   { color: '#83CC29', xPct: 70, yPct: 75, sizeVw: 8, mapsTo: -1 },
 ];
-
 const FINAL_SHAPES = [
   { x: 2666, y: 2481, width: 2031, height: 2131 },
   { x: 883, y: 3628, width: 1069, height: 1123 },
   { x: 2886, y: 347, width: 1069, height: 1123 },
   { x: 196, y: 586, width: 2031, height: 2031 },
 ];
-
 const debounce = (func: () => void, delay: number) => {
   let timeout: ReturnType<typeof setTimeout>;
   return () => {
@@ -51,7 +48,6 @@ export default function Banner() {
           gsap.killTweensOf(textRef.current);
         }
         tl.clear();
-
         const { width: Cw, height: Ch } =
           container.getBoundingClientRect();
         const scale = (Cw * 0.4875) / VB_WIDTH;
@@ -60,42 +56,30 @@ export default function Banner() {
         const PADDING = 45;
         const offsetX = Cw - finalShapeWidth - PADDING;
         const offsetY = Ch - finalShapeHeight - PADDING;
-
         const extras = [
           { x: -0.05 * Cw, y: 0.7 * Ch, size: 0.16 * Cw },
           { x: 0.3 * Cw, y: 0.0 * Ch, size: 0.12 * Cw },
           { x: 0.4 * Cw, y: 1.0 * Ch, size: 0.12 * Cw },
         ];
-
         if (textRef.current) {
           const finalTopPadding = 250;
-
           const textHeight = textRef.current.offsetHeight;
-
           const initialBottomOffset = 10;
-
           const yTravelDistance =
             Ch - textHeight - initialBottomOffset - finalTopPadding;
-
           gsap.set(textRef.current, { y: 0, opacity: 1 });
-
           tl.to(
             textRef.current,
-            {
-              y: -yTravelDistance,
-              ease: 'power2.inOut',
-            },
+            { y: -yTravelDistance, ease: 'power2.inOut' },
             0
           );
         }
-
         let extraIdx = 0;
         circlesRef.current.forEach((el, i) => {
           const def = INITIAL_CIRCLES[i];
           const initX = (def.xPct / 100) * Cw;
           const initY = (def.yPct / 100) * Ch;
           const initSize = (def.sizeVw / 100) * Cw;
-
           gsap.set(el, {
             width: initSize,
             height: initSize,
@@ -108,7 +92,6 @@ export default function Banner() {
             opacity: 0,
             scale: 0,
           });
-
           gsap.to(el, {
             opacity: 1,
             scale: 1,
@@ -116,7 +99,6 @@ export default function Banner() {
             ease: 'power2.out',
             delay: 0.2 + i * 0.1,
           });
-
           let finalX: number, finalY: number, finalSize: number;
           if (def.mapsTo > -1) {
             const shape = FINAL_SHAPES[def.mapsTo];
@@ -129,7 +111,6 @@ export default function Banner() {
             finalY = e.y;
             finalSize = e.size;
           }
-
           tl.to(
             el,
             {
@@ -144,10 +125,8 @@ export default function Banner() {
             0
           );
         });
-
         ScrollTrigger.refresh();
       };
-
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
@@ -157,12 +136,9 @@ export default function Banner() {
           scrub: 0.05,
         },
       });
-
       buildAnimation();
-
       const debouncedBuild = debounce(buildAnimation, 250);
       window.addEventListener('resize', debouncedBuild);
-
       return () => {
         window.removeEventListener('resize', debouncedBuild);
       };
@@ -174,16 +150,13 @@ export default function Banner() {
   return (
     <section
       ref={mainRef}
-      className="relative w-full h-screen overflow-hidden bg-black"
+      className="relative h-screen w-full overflow-hidden bg-black"
     >
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none overflow-hidden"
         style={{
           backgroundSize: '350px 350px',
-          backgroundImage: `
-            linear-gradient(to right, rgba(52, 52, 52, 0.700) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(52, 52, 52, 0.700) 1px, transparent 1px)
-          `,
+          backgroundImage: ` linear-gradient(to right, rgba(52, 52, 52, 0.700) 1px, transparent 1px), linear-gradient(to bottom, rgba(52, 52, 52, 0.700) 1px, transparent 1px) `,
         }}
       />
       <div className="absolute inset-0">
@@ -200,7 +173,7 @@ export default function Banner() {
       <Container>
         <span
           ref={textRef}
-          className="font-geometric absolute bottom-10 flex flex-col text-white text-[100px] w-[70%] leading-[1.25] "
+          className="font-geometric absolute bottom-10 flex w-[70%] flex-col text-[100px] leading-[1.25] text-white "
         >
           <span>Digital products for today’s world.</span>
         </span>

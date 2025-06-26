@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Geist } from 'next/font/google';
 import './globals.css';
+import { HeaderStyleProvider } from '@/contexts/HeaderStyleContext';
 
 // app/layout.tsx
 
@@ -43,11 +44,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${geist.variable} ${geometric.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <HeaderStyleProvider>
+        <body
+          className={`${geist.variable} ${geometric.variable} antialiased`}
+        >
+          {children}
+        </body>
+      </HeaderStyleProvider>
     </html>
   );
 }

@@ -1,10 +1,10 @@
+'use client';
+
 import * as React from 'react';
 import * as MenuPrimitive from '@radix-ui/react-navigation-menu';
 import { ChevronDownIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-const glassPane =
-  'bg-[#86868637]/65 backdrop-blur-[14px] backdrop-saturate-[180%] ring-transparent';
+import { useHeaderStyle } from '@/contexts/HeaderStyleContext';
 
 function Menu({
   className,
@@ -14,13 +14,19 @@ function Menu({
 }: React.ComponentProps<typeof MenuPrimitive.Root> & {
   viewport?: boolean;
 }) {
+  const { style } = useHeaderStyle();
+
   return (
     <MenuPrimitive.Root
       data-slot="navigation-menu"
       data-viewport={viewport}
       className={cn(
-        'group/navigation-menu relative flex max-w-max flex-1 items-center justify-center rounded-xl',
-        glassPane,
+        'group/navigation-menu relative flex max-w-max items-center rounded-xl',
+        'backdrop-blur-[14px] backdrop-saturate-[180%] ring-transparent',
+        {
+          'bg-grayscale-06/35': style === 'dark',
+          'bg-[#e3e3e3]/50': style === 'light',
+        },
         className
       )}
       {...props}
@@ -62,10 +68,10 @@ function MenuItem({
 }
 
 const MenuTriggerStyle = cn(
-  'group inline-flex h-9 w-max items-center justify-center px-4 py-2 text-sm font-medium text-white',
+  'group inline-flex h-9 w-max items-center justify-center px-4 py-2 text-sm font-medium',
   'bg-transparent',
   'transition-[color,background,box-shadow,transform] duration-300 ease-out',
-  'focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none',
+  'focus-visible:ring-2 focus-visible:ring-current/40 focus-visible:outline-none',
   'disabled:pointer-events-none disabled:opacity-50',
   'rounded-none first:rounded-l-xl last:rounded-r-xl'
 );
@@ -115,6 +121,8 @@ function MenuViewport({
   className,
   ...props
 }: React.ComponentProps<typeof MenuPrimitive.Viewport>) {
+  const { style } = useHeaderStyle();
+
   return (
     <div
       className={cn(
@@ -124,7 +132,11 @@ function MenuViewport({
       <MenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"
         className={cn(
-          glassPane,
+          'backdrop-blur-[14px] backdrop-saturate-[180%]',
+          {
+            'bg-[#86868637]/65': style === 'dark',
+            'bg-white/80': style === 'light',
+          },
           'origin-top-center data-[state=open]:animate-in data-[state=closed]:animate-out',
           'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90',
           'relative mt-1.5 overflow-hidden rounded-2xl',
@@ -146,10 +158,10 @@ function MenuLink({
       data-slot="navigation-menu-link"
       className={cn(
         'flex flex-col gap-1 p-2 text-sm transition-all',
-        'focus:bg-white/6 data-[active=true]:bg-white/8',
+        'focus:bg-black/5 data-[active=true]:bg-black/8',
         'text-black',
-        'focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:outline-none',
-        "[&_svg:not([class*='text-'])]:text-white/70 [&_svg:not([class*='size-'])]:size-4",
+        'focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:outline-none',
+        "[&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
@@ -165,14 +177,22 @@ function MenuIndicator({
     <MenuPrimitive.Indicator
       data-slot="navigation-menu-indicator"
       className={cn(
-        'top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden',
+        'absolute bottom-0',
+        'left-[var(--radix-navigation-menu-indicator-offset)]',
+        'w-[var(--radix-navigation-menu-indicator-width)]',
+        'h-[var(--radix-navigation-menu-indicator-width)]',
+        'overflow-visible pointer-events-none',
+        'transition-transform duration-200',
         'data-[state=visible]:animate-in data-[state=hidden]:animate-out',
-        'data-[state=hidden]:fade-out data-[state=visible]:fade-in',
+        'data-[state=visible]:fade-in data-[state=hidden]:fade-out',
         className
       )}
       {...props}
     >
-      <div className="bg-white/15 ring-1 ring-inset ring-white/25 relative top-[60%] h-2 w-2 rotate-45" />
+      <div
+        className="absolute inset-0 bg-white drop-shadow-lg"
+        style={{ transform: 'translateY(-50%) rotate(45deg)' }}
+      />
     </MenuPrimitive.Indicator>
   );
 }
