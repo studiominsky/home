@@ -12,6 +12,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-ibm-plex-mono: var(--font-ibm-plex-mono);
+
   --container-width: 120rem;
 }
 
@@ -25,6 +27,10 @@ html {
 
 .font-geometric {
   font-family: var(--font-geometric), sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-ibm-plex-mono), sans-serif;
 }
 
 .container-width {

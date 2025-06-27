@@ -92,7 +92,7 @@ function MenuTrigger({
     <MenuPrimitive.Trigger
       data-slot="navigation-menu-trigger"
       className={cn(
-        'cursor-pointer  group inline-flex h-9 w-max items-center justify-center px-4 py-2 text-sm font-medium',
+        'cursor-pointer  group inline-flex h-9 w-max items-center justify-center px-4 py-2 text-md font-medium',
         'transition-[color,background,box-shadow,transform] duration-300 ease-out',
         'focus-visible:ring-2 focus-visible:ring-current/40 focus-visible:outline-none',
         'disabled:pointer-events-none disabled:opacity-50',

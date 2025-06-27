@@ -82,7 +82,7 @@ export default function Header() {
     >
       <FullWidth>
         <div className="flex h-full w-full items-center justify-between gap-4">
-          <Logo className="w-42" />
+          <Logo className="w-48" />
 
           <Menu>
             <MenuList
@@ -177,7 +177,7 @@ export default function Header() {
 
             <button
               className={clsx(
-                'cursor-pointer font-sans text-[13px] font-medium px-6 py-2 flex items-center justify-center rounded-lg transition-colors text-center',
+                'cursor-pointer font-sans text-md font-medium px-6 py-2 flex items-center justify-center rounded-lg transition-colors text-center',
                 {
                   'bg-[#83cc29] text-black hover:bg-[#7da251]':
                     style === 'light',
