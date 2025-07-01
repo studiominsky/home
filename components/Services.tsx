@@ -118,12 +118,12 @@ const Services: React.FC = () => {
               ))}
             </div>
 
-            <div className="w-2/3">
-              <span className="font-mono text-sm py-2 block ">
+            <div className="w-2/3 ">
+              <span className="font-mono text-sm py-2 block  ">
                 1.0 Fin wins every head-to-head test ON RESOLUTION
                 RATE
               </span>
-              <div className="backdrop-blur-sm overflow-hidden border-1 border-gray-400/50">
+              <div className="backdrop-blur-sm overflow-hidden border-1 border-gray-400/50 rounded-md">
                 <div ref={browserContentRef} className="aspect-[4/3]">
                   <ServiceVisual activeIndex={activeIndex} />
                 </div>

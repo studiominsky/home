@@ -11,8 +11,26 @@ interface ServiceVisualProps {
 // --- Individual Visual Components ---
 
 const WebAppVisual: React.FC = () => (
-  <div className="w-full h-full bg-white p-6 rounded-lg flex flex-col gap-3">
-    <div>Dashboard</div>
+  <div className="w-full h-full p-4 ">
+    <div className="w-full h-full grid grid-cols-3 grid-rows-2 gap-4">
+      <div className="col-span-2 bg-white border-1 border-[#ccc] rounded-md  p-4 flex flex-col justify-between">
+        <h4 className="font-semibold text-black">Main Panel</h4>
+        <div className="w-full h-12  rounded-md animate-pulse"></div>
+      </div>
+      <div className="col-span-1 bg-white  p-4 border-1 rounded-md border-[#ccc] flex flex-col">
+        <h4 className="font-semibold text-black text-sm">Sidebar</h4>
+        <div className="w-full h-4 mt-2  rounded-md animate-pulse"></div>
+        <div className="w-full h-4 mt-2  rounded-md animate-pulse"></div>
+      </div>
+      <div className="col-span-1 bg-white  p-4 border-1 rounded-md border-[#ccc]">
+        <h4 className="font-semibold text-black text-sm">Stats</h4>
+        <div className="w-full h-8 mt-2  rounded-md animate-pulse"></div>
+      </div>
+      <div className="col-span-2 bg-white  p-4 border-1 rounded-md border-[#ccc]">
+        <h4 className="font-semibold text-black">Activity Feed</h4>
+        <div className="w-full h-6 mt-2  rounded-md animate-pulse"></div>
+      </div>
+    </div>
   </div>
 );
 
