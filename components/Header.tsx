@@ -72,7 +72,7 @@ export default function Header() {
   return (
     <header
       className={clsx(
-        'bg-card border-border border-b fixed top-0 left-0 right-0 z-50 flex h-[60px] items-center transition-all duration-300'
+        'bg-card border-border border-b fixed top-0 left-0 right-0 z-50 flex h-[70px] items-center'
       )}
     >
       <FullWidth>
