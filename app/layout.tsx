@@ -1,18 +1,19 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
-import { HeaderStyleProvider } from '@/contexts/HeaderStyleContext';
+import { ThemeProvider } from 'next-themes';
+
+import '@/styles/globals.css';
 
 const geist = Geist({
   subsets: ['latin'],
   variable: '--font-geist',
 });
 
-const ibmPlexMono = Geist_Mono({
+const mono = Geist_Mono({
   subsets: ['latin'],
   weight: ['400'],
-  variable: '--font-ibm-plex-mono',
+  variable: '--font-mono',
   display: 'swap',
 });
 
@@ -39,14 +40,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <HeaderStyleProvider>
-        <body
-          className={`${geist.variable} ${ibmPlexMono.variable} ${geometric.variable} antialiased`}
-        >
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geist.variable} ${mono.variable} ${geometric.variable} antialiased bg-[var(--background)] text-[var(--foreground)]`}
+      >
+        <ThemeProvider enableSystem={true} defaultTheme="system">
           {children}
-        </body>
-      </HeaderStyleProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

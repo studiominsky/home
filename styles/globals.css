@@ -1,0 +1,67 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme {
+  --color-card: #fff;
+  --color-background-light: #fcfafa;
+  --color-background-dark: #000;
+  /* --color-background-custom: hsl(187 71% 82%);
+  --color-background-pastel: hsl(279 100% 93%); */
+  --color-border: #eaeaea;
+  --color-primary: #ff7d36;
+}
+
+@layer base {
+  [data-theme='light'] {
+    --color-card: hsl(0, 0%, 100%);
+    --color-border: #eaeaea;
+  }
+  [data-theme='dark'] {
+    --color-card: hsl(0, 0%, 0%);
+    --color-border: #1f1f1f;
+    --color-primary: #36ff4e;
+  }
+  [data-theme='custom'] {
+    --color-card: hsl(182, 87%, 39%);
+  }
+  [data-theme='pastel'] {
+    --color-card: hsl(291 46% 83%);
+  }
+}
+
+:root[data-theme='light'] {
+  background-color: var(--color-background-light);
+}
+
+:root[data-theme='dark'] {
+  background-color: var(--color-background-dark);
+}
+
+:root[data-theme='custom'] {
+  background-color: var(--color-background-custom);
+}
+
+:root[data-theme='pastel'] {
+  background-color: var(--color-background-pastel);
+}
+
+html {
+  box-sizing: border-box;
+}
+
+.font-sans {
+  font-family: var(--font-geist), sans-serif;
+}
+
+.font-geometric {
+  font-family: var(--font-geometric), sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-mono), sans-serif;
+}
+
+.container-width {
+  max-width: var(--container-width);
+}

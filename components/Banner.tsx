@@ -181,15 +181,9 @@ export default function Banner() {
   return (
     <section
       ref={mainRef}
-      className="relative h-screen min-h-screen w-full overflow-hidden bg-black"
+      className="relative h-screen min-h-screen w-full overflow-hidden"
     >
-      <div
-        className="absolute inset-0 pointer-events-none overflow-hidden"
-        style={{
-          backgroundSize: '350px 350px',
-          backgroundImage: ` linear-gradient(to right, rgba(52, 52, 52, 0.700) 1px, transparent 1px), linear-gradient(to bottom, rgba(52, 52, 52, 0.700) 1px, transparent 1px) `,
-        }}
-      />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" />
       <div className="absolute inset-0">
         {Array.from({ length: NUM_CIRCLES }).map((_, i) => (
           <span
@@ -204,7 +198,7 @@ export default function Banner() {
       <FullWidth>
         <div
           ref={textFullWidthRef}
-          className="absolute bottom-10 flex w-[70%] flex-col text-white"
+          className="absolute bottom-10 flex w-[70%] flex-col text-foreground"
         >
           <span className="font-geometric text-[100px] leading-[1.25] flex flex-col">
             <span>Digital products for </span>
@@ -213,7 +207,7 @@ export default function Banner() {
 
           <p
             ref={pRef}
-            className="absolute top-full font-sans mt-6 max-w-2xl text-[21px] leading-[32px] tracking-[-0.03em] text-neutral-200"
+            className="absolute top-full font-sans mt-6 max-w-2xl text-[21px] leading-[32px] tracking-[-0.03em] text-foreground"
             style={{ opacity: 0 }}
           >
             Studio Minsky builds the digital tools that drive business

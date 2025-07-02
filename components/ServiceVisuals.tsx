@@ -2,31 +2,30 @@
 
 import React, { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-
-// --- Type Definitions ---
 interface ServiceVisualProps {
   activeIndex: number;
 }
 
-// --- Individual Visual Components ---
-
 const WebAppVisual: React.FC = () => (
   <div className="w-full h-full p-4 ">
-    <div className="w-full h-full grid grid-cols-3 grid-rows-2 gap-4">
-      <div className="col-span-2 bg-white border-1 border-[#ccc] rounded-md  p-4 flex flex-col justify-between">
-        <h4 className="font-semibold text-black">Main Panel</h4>
-        <div className="w-full h-12  rounded-md animate-pulse"></div>
+    <div
+      className="w-full h-full grid grid-cols-3 grid-rows-2 gap-4"
+      style={{ borderColor: 'var(--border)' }}
+    >
+      <div className="col-span-2 bg-card border border-border rounded-md p-4 flex flex-col justify-between">
+        <h4 className="font-semibold text-foreground">Main Panel</h4>
+        <div className="w-full h-12 rounded-md animate-pulse bg-muted" />
       </div>
-      <div className="col-span-1 bg-white  p-4 border-1 rounded-md border-[#ccc] flex flex-col">
+      <div className="col-span-1 bg-card  p-4 border border-border rounded-md  flex flex-col">
         <h4 className="font-semibold text-black text-sm">Sidebar</h4>
         <div className="w-full h-4 mt-2  rounded-md animate-pulse"></div>
         <div className="w-full h-4 mt-2  rounded-md animate-pulse"></div>
       </div>
-      <div className="col-span-1 bg-white  p-4 border-1 rounded-md border-[#ccc]">
+      <div className="col-span-1 bg-card  p-4  border-border rounded-md border">
         <h4 className="font-semibold text-black text-sm">Stats</h4>
         <div className="w-full h-8 mt-2  rounded-md animate-pulse"></div>
       </div>
-      <div className="col-span-2 bg-white  p-4 border-1 rounded-md border-[#ccc]">
+      <div className="col-span-2 bg-card  p-4 border border-border rounded-md">
         <h4 className="font-semibold text-black">Activity Feed</h4>
         <div className="w-full h-6 mt-2  rounded-md animate-pulse"></div>
       </div>
@@ -35,7 +34,7 @@ const WebAppVisual: React.FC = () => (
 );
 
 const WebsiteVisual: React.FC = () => (
-  <div className="w-full h-full bg-white p-4 rounded-lg">
+  <div className="w-full h-full bg-card p-4 rounded-lg">
     <div>123</div>
     <div className="w-1/3 h-5 bg-orange-200 rounded mb-4" />
     <div className="w-full h-20 bg-orange-100 rounded-lg" />
@@ -117,12 +116,12 @@ const ChatbotVisual: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full h-full bg-white rounded-lg p-6 flex flex-col justify-end">
+    <div className="w-full h-full bg-card rounded-lg p-6 flex flex-col justify-end">
       <div ref={chatRef} className="flex flex-col gap-3">
         <div className="p-3 bg-gray-200 rounded-lg self-start max-w-xs">
           Hello! How can I help you?
         </div>
-        <div className="p-3 bg-[#D3704A] text-white rounded-lg self-end max-w-xs">
+        <div className="p-3 bg-[#D3704A] text-background rounded-lg self-end max-w-xs">
           I&#39;d like to start a project.
         </div>
         <div className="p-3 w-12 bg-gray-200 rounded-lg self-start flex items-center justify-center gap-1">
@@ -144,7 +143,6 @@ const ChatbotVisual: React.FC = () => {
   );
 };
 
-// The main "switcher" component with typed props
 const ServiceVisual: React.FC<ServiceVisualProps> = ({
   activeIndex,
 }) => {
