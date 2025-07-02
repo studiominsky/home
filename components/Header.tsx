@@ -179,7 +179,7 @@ export default function Header() {
             <Link
               href="/contact"
               className={clsx(
-                'cursor-pointer font-sans text-md font-medium px-6 py-2 flex items-center justify-center rounded-lg transition-colors text-center bg-primary text-primary-foreground hover:bg-primary/90'
+                'cursor-pointer text-inverted bg-background-inverted font-sans text-sm font-medium px-6 py-2 flex items-center justify-center rounded-lg text-center border border-border'
               )}
             >
               Contact

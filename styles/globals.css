@@ -10,6 +10,8 @@
 
   --color-border: #eaeaea;
   --color-primary: #ff7d36;
+  --color-inverted: #000;
+  --color-background-inverted: #000000;
   --container-width: 120rem;
 }
 
@@ -17,11 +19,15 @@
   [data-theme='light'] {
     --color-card: hsl(0, 0%, 100%);
     --color-border: #eaeaea;
+    --color-inverted: #ffffff;
+    --color-background-inverted: #000000;
   }
   [data-theme='dark'] {
     --color-card: hsl(0, 0%, 0%);
     --color-border: #1f1f1f;
     --color-primary: #36ff4e;
+    --color-inverted: #000000;
+    --color-background-inverted: #ffffff;
   }
   [data-theme='custom'] {
     --color-card: hsl(182, 87%, 39%);
