@@ -15,14 +15,14 @@ const INITIAL_CIRCLES = [
   { color: '#B55DE4', xPct: 50, yPct: 25, sizeVw: 16, mapsTo: 3 },
   { color: '#D3704A', xPct: 15, yPct: 100, sizeVw: 8, mapsTo: -1 },
   { color: '#E4BF45', xPct: 70, yPct: 0, sizeVw: 8, mapsTo: 2 },
-  { color: '#549ADB', xPct: 88, yPct: 55, sizeVw: 8, mapsTo: 1 },
-  { color: '#83CC29', xPct: 0, yPct: 30, sizeVw: 8, mapsTo: -1 },
-  { color: '#83CC29', xPct: 70, yPct: 75, sizeVw: 8, mapsTo: -1 },
+  { color: ' #6090C3', xPct: 88, yPct: 55, sizeVw: 8, mapsTo: 1 },
+  { color: '#90C360', xPct: 0, yPct: 30, sizeVw: 8, mapsTo: -1 },
+  { color: '#90C360', xPct: 70, yPct: 75, sizeVw: 8, mapsTo: -1 },
 ];
 const FINAL_SHAPES = [
-  { x: 2666, y: 2481, width: 2031, height: 2131 },
-  { x: 883, y: 3628, width: 1069, height: 1123 },
-  { x: 2886, y: 347, width: 1069, height: 1123 },
+  { x: 2666, y: 2481, width: 2031, height: 2031 },
+  { x: 883, y: 3628, width: 1069, height: 1069 },
+  { x: 2886, y: 347, width: 1069, height: 1069 },
   { x: 196, y: 586, width: 2031, height: 2031 },
 ];
 const debounce = (func: () => void, delay: number) => {
@@ -159,9 +159,10 @@ export default function Banner() {
         scrollTrigger: {
           trigger: FullWidth,
           start: 'top top',
-          end: '+=100%',
+          end: '+=50%',
           pin: true,
-          scrub: 0.05,
+          scrub: 0.75,
+          pinSpacing: true,
         },
       });
 
