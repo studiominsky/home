@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import FullWidth from './FullWidth';
 import Link from 'next/link';
 import clsx from 'clsx';
+import { MessageCircleIcon } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -169,7 +170,7 @@ export default function Banner() {
           start: 'top top',
           end: '+=60%',
           pin: true,
-          scrub: 1.2,
+          scrub: 1,
           pinSpacing: true,
         },
       });
@@ -240,18 +241,31 @@ export default function Banner() {
               <Link
                 href="/contact"
                 className={clsx(
-                  'cursor-pointer z-99 max-w-[120px] mt-5 text-inverted bg-background-inverted font-sans text-sm font-medium px-8 py-3 flex items-center justify-center rounded-full text-center'
+                  'cursor-pointer text-inverted z-99 max-w-[120px] mt-5 bg-background-inverted font-sans px-8 py-1 flex items-center justify-center rounded-full text-center',
+                  'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
+                  'text-[var(--ds-background-100)]'
                 )}
+                style={{
+                  letterSpacing: 'initial',
+                }}
               >
+                <span>
+                  <MessageCircleIcon className="mr-1 size-4 text-inverted" />
+                </span>
                 Contact
               </Link>
               <Link
                 href="/contact"
                 className={clsx(
-                  'cursor-pointer max-w-[120px] z-99 mt-5 text-primary bg-primary-dimmed font-sans text-sm font-bold px-8 py-3 flex items-center justify-center rounded-full text-center'
+                  'cursor-pointer max-w-[120px] z-99 mt-5 bg-primary-dimmed font-sans px-8 py-3 flex items-center justify-center rounded-full text-center',
+                  'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
+                  'text-[var(--ds-background-100)]'
                 )}
+                style={{
+                  letterSpacing: 'initial',
+                }}
               >
-                Details
+                Services
               </Link>
             </span>
           </span>
