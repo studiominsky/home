@@ -17,7 +17,7 @@ const INITIAL_CIRCLES = [
   { color: '#B55DE4', xPct: 50, yPct: 25, sizeVw: 16, mapsTo: 3 },
   { color: '#D3704A', xPct: 15, yPct: 100, sizeVw: 8, mapsTo: -1 },
   { color: '#E4BF45', xPct: 70, yPct: 0, sizeVw: 8, mapsTo: 2 },
-  { color: ' #6090C3', xPct: 88, yPct: 55, sizeVw: 8, mapsTo: 1 },
+  { color: '#6090C3', xPct: 88, yPct: 55, sizeVw: 8, mapsTo: 1 },
   { color: '#90C360', xPct: 0, yPct: 30, sizeVw: 8, mapsTo: -1 },
   { color: '#90C360', xPct: 70, yPct: 75, sizeVw: 8, mapsTo: -1 },
 ];
@@ -39,31 +39,30 @@ export default function Banner() {
   const mainRef = useRef<HTMLDivElement>(null);
   const circlesRef = useRef<HTMLSpanElement[]>([]);
   const textFullWidthRef = useRef<HTMLDivElement>(null);
-
   const availabilityRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLSpanElement>(null);
 
   useLayoutEffect(() => {
-    const FullWidth = mainRef.current!;
+    const component = mainRef.current!;
 
     const ctx = gsap.context(() => {
       const buildAnimation = () => {
-        gsap.killTweensOf(circlesRef.current);
-        if (textFullWidthRef.current) {
-          gsap.killTweensOf(textFullWidthRef.current);
-        }
         const childElements = [
           availabilityRef.current,
           descriptionRef.current,
           buttonsRef.current,
         ];
-        gsap.killTweensOf(childElements);
+        gsap.killTweensOf([
+          circlesRef.current,
+          textFullWidthRef.current,
+          ...childElements,
+        ]);
 
-        tl.clear();
+        scrollTl.clear();
 
         const { width: Cw, height: Ch } =
-          FullWidth.getBoundingClientRect();
+          component.getBoundingClientRect();
         const scale = (Cw * 0.4875) / VB_WIDTH;
         const finalShapeWidth = VB_WIDTH * scale;
         const finalShapeHeight = VB_HEIGHT * scale;
@@ -75,41 +74,6 @@ export default function Banner() {
           { x: 0.3 * Cw, y: 0.0 * Ch, size: 0.12 * Cw },
           { x: 0.4 * Cw, y: 1.0 * Ch, size: 0.12 * Cw },
         ];
-
-        if (textFullWidthRef.current) {
-          const finalTopPadding = 250;
-          const textBlockHeight =
-            textFullWidthRef.current.offsetHeight;
-          const initialBottomOffset = 10;
-          const yTravelDistance =
-            Ch -
-            textBlockHeight -
-            initialBottomOffset -
-            finalTopPadding;
-
-          gsap.set(textFullWidthRef.current, { y: 0, opacity: 1 });
-
-          tl.to(
-            textFullWidthRef.current,
-            { y: -yTravelDistance, ease: 'power2.inOut' },
-            0
-          );
-        }
-
-        if (childElements.every((el) => el)) {
-          tl.fromTo(
-            childElements,
-            { opacity: 0, x: -30 },
-            {
-              opacity: 1,
-              x: 0,
-              duration: 0.8,
-              ease: 'power3.out',
-              stagger: 0.15,
-            },
-            0.2
-          );
-        }
 
         let extraIdx = 0;
         circlesRef.current.forEach((el, i) => {
@@ -132,10 +96,11 @@ export default function Banner() {
           gsap.to(el, {
             opacity: 1,
             scale: 1,
-            duration: 0.6,
-            ease: 'power2.out',
+            duration: 0.8,
+            ease: 'power3.out',
             delay: 0.2 + i * 0.1,
           });
+
           let finalX: number, finalY: number, finalSize: number;
           if (def.mapsTo > -1) {
             const shape = FINAL_SHAPES[def.mapsTo];
@@ -148,30 +113,63 @@ export default function Banner() {
             finalY = e.y;
             finalSize = e.size;
           }
-          tl.to(
+          scrollTl.to(
             el,
             {
               x: finalX,
               y: finalY,
               width: finalSize,
               height: finalSize,
-              ease: 'power2.inOut',
+              ease: 'power3.inOut',
               xPercent: -50,
               yPercent: -50,
             },
             0
           );
         });
+
+        if (textFullWidthRef.current) {
+          const finalTopPadding = 250;
+          const textBlockHeight =
+            textFullWidthRef.current.offsetHeight;
+          const initialBottomOffset = 10;
+          const yTravelDistance =
+            Ch -
+            textBlockHeight -
+            initialBottomOffset -
+            finalTopPadding;
+          gsap.set(textFullWidthRef.current, { y: 0, opacity: 1 });
+          scrollTl.to(
+            textFullWidthRef.current,
+            { y: -yTravelDistance, ease: 'power3.inOut' },
+            0
+          );
+        }
+
+        if (childElements.every((el) => el)) {
+          scrollTl.fromTo(
+            childElements,
+            { opacity: 0, x: -50 },
+            {
+              opacity: 1,
+              x: 0,
+              ease: 'power3.out',
+              stagger: 0.2,
+            },
+            0.2
+          );
+        }
+
         ScrollTrigger.refresh();
       };
 
-      const tl = gsap.timeline({
+      const scrollTl = gsap.timeline({
         scrollTrigger: {
-          trigger: FullWidth,
+          trigger: component,
           start: 'top top',
-          end: '+=50%',
+          end: '+=60%',
           pin: true,
-          scrub: 0.75,
+          scrub: 1.2,
           pinSpacing: true,
         },
       });
@@ -182,6 +180,7 @@ export default function Banner() {
       window.addEventListener('resize', debouncedBuild);
       return () => {
         window.removeEventListener('resize', debouncedBuild);
+        scrollTl.kill();
       };
     }, mainRef);
 
@@ -214,7 +213,6 @@ export default function Banner() {
             <span>Digital products for </span>
             <span>today’s world.</span>
           </span>
-
           <span className="absolute top-full font-sans mt-2 max-w-2xl text-[21px] leading-[32px] tracking-[-0.03em] text-foreground">
             <div
               ref={availabilityRef}
@@ -228,7 +226,6 @@ export default function Banner() {
                 Available for new projects
               </span>
             </div>
-
             <p
               ref={descriptionRef}
               className="tracking-[0] text-[21px] leading-[35px] opacity-0"
@@ -239,7 +236,6 @@ export default function Banner() {
               operations, every product is designed to increase your
               impact and efficiency.
             </p>
-
             <span ref={buttonsRef} className="flex gap-4 opacity-0">
               <Link
                 href="/contact"
