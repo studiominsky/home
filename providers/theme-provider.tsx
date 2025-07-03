@@ -46,7 +46,7 @@ function useColorThemeManager() {
   );
 
   useEffect(() => {
-    document.body.setAttribute('ui-color-theme', colorTheme);
+    document.body.setAttribute('data-color-theme', colorTheme);
     localStorage.setItem(COLOR_THEME_STORAGE_KEY, colorTheme);
   }, [colorTheme]);
 

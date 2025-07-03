@@ -16,18 +16,6 @@
 }
 
 @layer base {
-  [data-theme='light-green'] {
-    --color-primary: #90c360;
-  }
-  [data-theme='light-orange'] {
-    --color-primary: #eb7f32;
-  }
-  [data-theme='light-blue'] {
-    --color-primary: #4c9ce7;
-  }
-  [data-theme='light-purple'] {
-    --color-primary: #945bd9;
-  }
   [data-theme='dark'] {
     --color-card: #000;
     --color-foreground: #ffffff;
@@ -38,18 +26,18 @@
     --color-background-inverted: #ffffff;
     --color-primary: #90c360;
   }
-  [ui-color-theme='green'] {
+  [data-color-theme='green'] {
     --color-primary: #90c360;
   }
-  [ui-color-theme='orange'] {
+  [data-color-theme='orange'] {
     --color-primary: #eb7f32;
   }
 
-  [ui-color-theme='blue'] {
+  [data-color-theme='blue'] {
     --color-primary: #4c9ce7;
   }
 
-  [ui-color-theme='purple'] {
+  [data-color-theme='purple'] {
     --color-primary: #945bd9;
   }
 }
