@@ -104,7 +104,7 @@ const Services: React.FC = () => {
             >
               <span>SERVICES</span>
             </h1>
-            <p ref={paragraphRef} className="text-lg w-1/3">
+            <p ref={paragraphRef} className="text-xl w-1/3">
               Studio Minsky builds the digital tools that drive
               business growth. From websites that turn visitors into
               customers, to custom software that streamlines your

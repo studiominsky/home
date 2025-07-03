@@ -15,12 +15,12 @@ const VB_WIDTH = 4893;
 const VB_HEIGHT = 5099;
 const INITIAL_CIRCLES = [
   { color: '#D3704A', xPct: 90, yPct: 20, sizeVw: 16, mapsTo: 0 },
-  { color: '#B55DE4', xPct: 50, yPct: 25, sizeVw: 16, mapsTo: 3 },
-  { color: '#D3704A', xPct: 15, yPct: 100, sizeVw: 8, mapsTo: -1 },
-  { color: '#E4BF45', xPct: 70, yPct: 0, sizeVw: 8, mapsTo: 2 },
+  { color: '#90C360', xPct: 50, yPct: 25, sizeVw: 16, mapsTo: 3 },
+  { color: '#90C360', xPct: 15, yPct: 100, sizeVw: 8, mapsTo: -1 },
+  { color: '#B55DE4', xPct: 70, yPct: 0, sizeVw: 8, mapsTo: 2 },
   { color: '#6090C3', xPct: 88, yPct: 55, sizeVw: 8, mapsTo: 1 },
-  { color: '#90C360', xPct: 0, yPct: 30, sizeVw: 8, mapsTo: -1 },
-  { color: '#90C360', xPct: 70, yPct: 75, sizeVw: 8, mapsTo: -1 },
+  { color: '#D3704A', xPct: 0, yPct: 30, sizeVw: 8, mapsTo: -1 },
+  { color: '#B55DE4', xPct: 70, yPct: 75, sizeVw: 8, mapsTo: -1 },
 ];
 const FINAL_SHAPES = [
   { x: 2666, y: 2481, width: 2031, height: 2031 },
@@ -168,9 +168,9 @@ export default function Banner() {
         scrollTrigger: {
           trigger: component,
           start: 'top top',
-          end: '+=60%',
+          end: '+=120%',
           pin: true,
-          scrub: 1,
+          scrub: 1.5,
           pinSpacing: true,
         },
       });
@@ -220,8 +220,8 @@ export default function Banner() {
               className="relative flex items-center gap-2 mb-3 opacity-0"
             >
               <span className="relative flex size-3">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex size-3 rounded-full bg-primary"></span>
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-positive opacity-75"></span>
+                <span className="relative inline-flex size-3 rounded-full bg-positive"></span>
               </span>
               <span className="font-mono text-sm">
                 Available for new projects
@@ -241,7 +241,7 @@ export default function Banner() {
               <Link
                 href="/contact"
                 className={clsx(
-                  'cursor-pointer text-inverted z-99 max-w-[120px] mt-5 bg-background-inverted font-sans px-8 py-1 flex items-center justify-center rounded-full text-center',
+                  'cursor-pointer text-card z-99 max-w-[120px] mt-5 bg-background-inverted font-sans px-8 py-1 flex items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
                   'text-[var(--ds-background-100)]'
                 )}
@@ -250,14 +250,14 @@ export default function Banner() {
                 }}
               >
                 <span>
-                  <MessageCircleIcon className="mr-1 size-4 text-inverted" />
+                  <MessageCircleIcon className="mr-1 size-4 text-card" />
                 </span>
                 Contact
               </Link>
               <Link
                 href="/contact"
                 className={clsx(
-                  'cursor-pointer max-w-[120px] z-99 mt-5 bg-primary-dimmed font-sans px-8 py-3 flex items-center justify-center rounded-full text-center',
+                  'cursor-pointer max-w-[120px] z-99 mt-5 bg-primary text-black font-medium font-sans px-8 py-3 flex items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
                   'text-[var(--ds-background-100)]'
                 )}
