@@ -9,7 +9,8 @@
   --color-background-dark: #000;
 
   --color-border: #eaeaea;
-  --color-primary: #ff7d36;
+  --color-primary: #fd6220;
+  --color-primary-dimmed: #febe99;
   --color-inverted: #000;
   --color-background-inverted: #000000;
   --container-width: 120rem;
@@ -21,11 +22,13 @@
     --color-border: #eaeaea;
     --color-inverted: #ffffff;
     --color-background-inverted: #000000;
+    --color-primary-dimmed: #febe99;
   }
   [data-theme='dark'] {
     --color-card: hsl(0, 0%, 0%);
     --color-border: #1f1f1f;
-    --color-primary: #36ff4e;
+    --color-primary: #90c360;
+    --color-primary-dimmed: #2a4016;
     --color-inverted: #000000;
     --color-background-inverted: #ffffff;
   }

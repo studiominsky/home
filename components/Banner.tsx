@@ -4,6 +4,8 @@ import React, { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import FullWidth from './FullWidth';
+import Link from 'next/link';
+import clsx from 'clsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,7 +39,10 @@ export default function Banner() {
   const mainRef = useRef<HTMLDivElement>(null);
   const circlesRef = useRef<HTMLSpanElement[]>([]);
   const textFullWidthRef = useRef<HTMLDivElement>(null);
-  const pRef = useRef<HTMLParagraphElement>(null);
+
+  const availabilityRef = useRef<HTMLDivElement>(null);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLSpanElement>(null);
 
   useLayoutEffect(() => {
     const FullWidth = mainRef.current!;
@@ -48,9 +53,12 @@ export default function Banner() {
         if (textFullWidthRef.current) {
           gsap.killTweensOf(textFullWidthRef.current);
         }
-        if (pRef.current) {
-          gsap.killTweensOf(pRef.current);
-        }
+        const childElements = [
+          availabilityRef.current,
+          descriptionRef.current,
+          buttonsRef.current,
+        ];
+        gsap.killTweensOf(childElements);
 
         tl.clear();
 
@@ -88,14 +96,16 @@ export default function Banner() {
           );
         }
 
-        if (pRef.current) {
+        if (childElements.every((el) => el)) {
           tl.fromTo(
-            pRef.current,
-            { opacity: 0, y: 15 },
+            childElements,
+            { opacity: 0, x: -30 },
             {
               opacity: 1,
-              y: 0,
-              ease: 'power2.out',
+              x: 0,
+              duration: 0.8,
+              ease: 'power3.out',
+              stagger: 0.15,
             },
             0.2
           );
@@ -205,19 +215,50 @@ export default function Banner() {
             <span>today’s world.</span>
           </span>
 
-          <p
-            ref={pRef}
-            className="absolute top-full font-sans mt-6 max-w-2xl text-[21px] leading-[32px] tracking-[-0.03em] text-foreground"
-            style={{ opacity: 0 }}
-          >
-            Studio Minsky builds the digital tools that drive business
-            growth. From websites that turn visitors into customers,
-            to custom software that streamlines your operations, every
-            product is designed to increase your impact and
-            efficiency. Automated chatbots engage your audience 24/7,
-            while clear data visualizations empower you to make
-            smarter, data-driven decisions.
-          </p>
+          <span className="absolute top-full font-sans mt-2 max-w-2xl text-[21px] leading-[32px] tracking-[-0.03em] text-foreground">
+            <div
+              ref={availabilityRef}
+              className="relative flex items-center gap-2 mb-3 opacity-0"
+            >
+              <span className="relative flex size-3">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex size-3 rounded-full bg-primary"></span>
+              </span>
+              <span className="font-mono text-sm">
+                Available for new projects
+              </span>
+            </div>
+
+            <p
+              ref={descriptionRef}
+              className="tracking-[0] text-[21px] leading-[35px] opacity-0"
+            >
+              Studio Minsky builds the digital tools that drive
+              business growth. From websites that turn visitors into
+              customers, to custom software that streamlines your
+              operations, every product is designed to increase your
+              impact and efficiency.
+            </p>
+
+            <span ref={buttonsRef} className="flex gap-4 opacity-0">
+              <Link
+                href="/contact"
+                className={clsx(
+                  'cursor-pointer z-99 max-w-[120px] mt-5 text-inverted bg-background-inverted font-sans text-sm font-medium px-8 py-3 flex items-center justify-center rounded-full text-center'
+                )}
+              >
+                Contact
+              </Link>
+              <Link
+                href="/contact"
+                className={clsx(
+                  'cursor-pointer max-w-[120px] z-99 mt-5 text-primary bg-primary-dimmed font-sans text-sm font-bold px-8 py-3 flex items-center justify-center rounded-full text-center'
+                )}
+              >
+                Details
+              </Link>
+            </span>
+          </span>
         </div>
       </FullWidth>
     </section>
