@@ -16,12 +16,6 @@
   --color-primary: #90c360;
   --color-primary-rgb: 144, 195, 96;
   --color-positive: #90c360;
-
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
 }
 
 @layer base {
@@ -32,16 +26,9 @@
     --color-border: #1f1f1f;
     --color-primary: #90c360;
     --color-primary-rgb: 144, 195, 96;
-    --color-primary-dimmed: #2a4016;
     --color-inverted: #000000;
     --color-background-inverted: #ffffff;
     --color-positive: #90c360;
-
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
   }
   [data-color-theme='green'] {
     --color-primary: #90c360;
@@ -108,7 +95,6 @@ html {
 
 .web-card {
   position: relative;
-  overflow: hidden;
   background-color: var(--color-background);
 }
 

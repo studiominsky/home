@@ -60,6 +60,9 @@ const serviceData: ServiceDataItem[] = [
 
 const Services: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(
+    null
+  );
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const browserContentRef = useRef<HTMLDivElement>(null);
@@ -68,6 +71,9 @@ const Services: React.FC = () => {
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const serviceListRef = useRef<(HTMLDivElement | null)[]>([]);
   const serviceContentRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  const circleRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
 
   useLayoutEffect(() => {
     if (browserContentRef.current) {
@@ -142,6 +148,50 @@ const Services: React.FC = () => {
     setActiveIndex(index);
   };
 
+  const handleMouseEnter = (index: number) => {
+    if (index === activeIndex) return;
+
+    setHoveredIndex(index);
+
+    gsap.killTweensOf([
+      circleRefs.current[index],
+      titleRefs.current[index],
+    ]);
+
+    gsap.to(circleRefs.current[index], {
+      x: 12,
+      duration: 0.5,
+      ease: 'back.out(1.2)',
+    });
+    gsap.to(titleRefs.current[index], {
+      x: 12,
+      duration: 0.5,
+      ease: 'back.out(1.2)',
+      delay: 0.075,
+    });
+  };
+
+  const handleMouseLeave = (index: number) => {
+    setHoveredIndex(null);
+
+    gsap.killTweensOf([
+      circleRefs.current[index],
+      titleRefs.current[index],
+    ]);
+
+    gsap.to(titleRefs.current[index], {
+      x: 0,
+      duration: 0.5,
+      ease: 'back.out(1.2)',
+    });
+    gsap.to(circleRefs.current[index], {
+      x: 0,
+      duration: 0.5,
+      ease: 'back.out(1.2)',
+      delay: 0.075,
+    });
+  };
+
   return (
     <section ref={sectionRef} className="py-50 min-h-screen">
       <Container>
@@ -173,27 +223,37 @@ const Services: React.FC = () => {
                     serviceListRef.current[index] = el;
                   }}
                   key={service.title}
-                  className="font-geometric pb-12 cursor-pointer group"
+                  className="font-geometric pb-12 cursor-pointer"
                   onClick={() => handleServiceClick(index)}
+                  onMouseEnter={() => handleMouseEnter(index)}
+                  onMouseLeave={() => handleMouseLeave(index)}
                 >
                   <div className="flex gap-4 items-center">
                     <div
+                      ref={(el) => {
+                        circleRefs.current[index] = el;
+                      }}
                       className={`
-                        inline-block w-4 h-4 rounded-full transition-colors duration-300
+                        inline-block w-4 h-4 rounded-full border transition-colors duration-300
                         ${
-                          activeIndex === index
-                            ? 'bg-primary'
-                            : 'bg-transparent border border-border group-hover:bg-primary/50'
+                          activeIndex === index ||
+                          hoveredIndex === index
+                            ? 'bg-primary border-primary'
+                            : 'bg-foreground/30 border-border'
                         }
                       `}
                     />
                     <h3
+                      ref={(el) => {
+                        titleRefs.current[index] = el;
+                      }}
                       className={`
                         text-[32px] uppercase transition-colors duration-300
                         ${
-                          activeIndex === index
+                          activeIndex === index ||
+                          hoveredIndex === index
                             ? 'text-foreground'
-                            : 'text-foreground/40 group-hover:text-foreground'
+                            : 'text-foreground/40'
                         }
                       `}
                     >

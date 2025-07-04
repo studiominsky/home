@@ -125,7 +125,6 @@ export default function Header() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              {/* FIX: Updated "Docs" link to remove legacyBehavior */}
               <NavigationMenuItem>
                 <Link
                   href="/docs"
