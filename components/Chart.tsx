@@ -2,31 +2,26 @@
 
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart';
+import { ChartConfig, ChartContainer } from '@/components/ui/chart';
 
 export const description = 'An area chart with gradient fill';
 
 const chartData = [
-  { month: 'January', desktop: 186, mobile: 80 },
-  { month: 'February', desktop: 305, mobile: 200 },
-  { month: 'March', desktop: 237, mobile: 120 },
-  { month: 'April', desktop: 73, mobile: 190 },
-  { month: 'May', desktop: 209, mobile: 130 },
-  { month: 'June', desktop: 214, mobile: 140 },
+  { month: 'January', sales: 93, expenses: 120 },
+  { month: 'February', sales: 105, expenses: 200 },
+  { month: 'March', sales: 107, expenses: 170 },
+  { month: 'April', sales: 173, expenses: 190 },
+  { month: 'May', sales: 209, expenses: 130 },
+  { month: 'June', sales: 314, expenses: 240 },
 ];
 
 const chartConfig = {
-  desktop: {
-    label: 'Desktop',
+  sales: {
+    label: 'Sales',
     color: 'var(--color-primary)',
   },
-  mobile: {
-    label: 'Mobile',
+  expenses: {
+    label: 'Expenses',
     color: 'var(--color-primary)',
   },
 } satisfies ChartConfig;
@@ -50,13 +45,10 @@ export function ChartAreaGradient() {
           tickMargin={8}
           tickFormatter={(value) => value.slice(0, 3)}
         />
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent />}
-        />
+
         <defs>
           <linearGradient
-            id="fillDesktop"
+            id="fillPrimary"
             x1="0"
             y1="0"
             x2="0"
@@ -64,16 +56,22 @@ export function ChartAreaGradient() {
           >
             <stop
               offset="5%"
-              stopColor="var(--color-desktop)"
+              stopColor="var(--color-primary)"
               stopOpacity={0.8}
             />
             <stop
               offset="95%"
-              stopColor="var(--color-desktop)"
+              stopColor="var(--color-primary)"
               stopOpacity={0.1}
             />
           </linearGradient>
-          <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient
+            id="fillPrimary"
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="1"
+          >
             <stop
               offset="5%"
               stopColor="var(--color-mobile)"
@@ -87,20 +85,24 @@ export function ChartAreaGradient() {
           </linearGradient>
         </defs>
         <Area
-          dataKey="mobile"
+          dataKey="expenses"
           type="natural"
-          fill="url(#fillMobile)"
+          fill="url(#fillPrimary)"
           fillOpacity={0.4}
-          stroke="var(--color-mobile)"
+          stroke="var(--color-primary)"
           stackId="a"
+          dot={false} // ← no dots at all
+          activeDot={false} // ← no hover-dots either
         />
         <Area
-          dataKey="desktop"
+          dataKey="sales"
           type="natural"
-          fill="url(#fillDesktop)"
+          fill="url(#fillPrimary)"
           fillOpacity={0.4}
-          stroke="var(--color-desktop)"
+          stroke="var(--color-primary)"
           stackId="a"
+          dot={false} // ← no dots at all
+          activeDot={false} // ← no hover-dots either
         />
       </AreaChart>
     </ChartContainer>

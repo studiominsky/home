@@ -22,7 +22,7 @@ const serviceData: ServiceDataItem[] = [
       'We build robust and scalable web applications tailored to your business needs. From complex dashboards to interactive platforms, we deliver high-performance solutions.',
     tags: ['React', 'Next.js', 'Node.js', 'Databases'],
     additional:
-      'Our applications have proven to increase user engagement by an average of 40%.',
+      '1.0 Our applications have proven to increase user engagement by an average of 40%.',
   },
   {
     title: 'Websites',
@@ -69,7 +69,6 @@ const Services: React.FC = () => {
   const serviceListRef = useRef<(HTMLDivElement | null)[]>([]);
   const serviceContentRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Animation for the right-side visual content when activeIndex changes
   useLayoutEffect(() => {
     if (browserContentRef.current) {
       gsap.fromTo(
@@ -86,7 +85,6 @@ const Services: React.FC = () => {
     }
   }, [activeIndex]);
 
-  // Animation for the initial reveal of the section on scroll
   useLayoutEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -127,7 +125,6 @@ const Services: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  // Animation for expanding/collapsing the service description
   useLayoutEffect(() => {
     serviceContentRef.current.forEach((content, index) => {
       if (!content) return;
