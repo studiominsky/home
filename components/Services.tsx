@@ -173,7 +173,7 @@ const Services: React.FC = () => {
                     serviceListRef.current[index] = el;
                   }}
                   key={service.title}
-                  className="font-geometric pb-15 cursor-pointer group"
+                  className="font-geometric pb-12 cursor-pointer group"
                   onClick={() => handleServiceClick(index)}
                 >
                   <div className="flex gap-4 items-center">
@@ -189,7 +189,7 @@ const Services: React.FC = () => {
                     />
                     <h3
                       className={`
-                        text-[35px] uppercase transition-colors duration-300
+                        text-[32px] uppercase transition-colors duration-300
                         ${
                           activeIndex === index
                             ? 'text-foreground'
@@ -206,14 +206,14 @@ const Services: React.FC = () => {
                     }}
                     className="pl-8 overflow-hidden h-0 opacity-0"
                   >
-                    <p className="text-foreground/80 mt-4">
+                    <p className="mt-4 font-sans text-md text-foreground/60">
                       {service.description}
                     </p>
                     <div className="flex gap-2 flex-wrap mt-4">
                       {service.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-3 py-1 bg-primary text-white rounded-full text-[12px] font-bold font-mono"
+                          className="px-3 py-1 bg-primary text-card rounded-full text-[12px] font-bold font-mono"
                         >
                           {tag}
                         </span>
@@ -229,11 +229,7 @@ const Services: React.FC = () => {
                 {serviceData[activeIndex].additional}
               </span>
               <div className="backdrop-blur-sm overflow-hidden border border-border rounded-md">
-                <div
-                  ref={browserContentRef}
-                  // TODO: Remove once all services are there
-                  className="h-[780px]"
-                >
+                <div ref={browserContentRef} className="h-auto">
                   <ServiceVisual activeIndex={activeIndex} />
                 </div>
               </div>
