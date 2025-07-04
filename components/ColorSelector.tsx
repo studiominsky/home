@@ -26,7 +26,7 @@ export function ColorSelector() {
           }
           onClick={() => setColorTheme(color.name as ColorTheme)}
           className={clsx(
-            'flex size-6 items-center justify-center rounded-full border-2 transition-all',
+            'flex size-5 items-center justify-center rounded-full border-2 transition-all',
             color.class,
             colorTheme === color.name
               ? 'border-primary'

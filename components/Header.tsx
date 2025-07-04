@@ -14,7 +14,7 @@ import {
 import clsx from 'clsx';
 import FullWidth from './FullWidth';
 import Logo from './Logo';
-import { GlobeIcon } from 'lucide-react';
+import { GlobeIcon, MessageCircleIcon } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { ColorSelector } from './ColorSelector';
 
@@ -188,9 +188,17 @@ export default function Header() {
             <Link
               href="/contact"
               className={clsx(
-                'cursor-pointer text-inverted bg-background-inverted font-sans text-sm font-medium px-6 py-2 flex items-center justify-center rounded-full text-center border border-border'
+                'cursor-pointer text-card z-99 max-w-[120px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center',
+                'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
+                'text-[var(--ds-background-100)]'
               )}
+              style={{
+                letterSpacing: 'initial',
+              }}
             >
+              <span>
+                <MessageCircleIcon className="mr-1 size-4 text-card" />
+              </span>
               Contact
             </Link>
           </div>

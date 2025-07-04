@@ -10,6 +10,7 @@ export default function Home() {
       <Banner />
       <Services />
       <Info />
+      <Services />
     </>
   );
 }

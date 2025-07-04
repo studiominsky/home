@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import FullWidth from './FullWidth';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { MessageCircleIcon } from 'lucide-react';
+import { LayoutPanelLeft, MessageCircleIcon } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -257,7 +257,7 @@ export default function Banner() {
               <Link
                 href="/contact"
                 className={clsx(
-                  'cursor-pointer max-w-[120px] z-99 mt-5 bg-primary text-black font-medium font-sans px-8 py-3 flex items-center justify-center rounded-full text-center',
+                  'cursor-pointer max-w-[120px] z-99 mt-5 bg-transparent text-foreground border  font-medium font-sans px-8 py-3 flex items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
                   'text-[var(--ds-background-100)]'
                 )}
@@ -265,6 +265,9 @@ export default function Banner() {
                   letterSpacing: 'initial',
                 }}
               >
+                <span>
+                  <LayoutPanelLeft className="mr-1 size-4 text-foreground" />
+                </span>
                 Services
               </Link>
             </span>

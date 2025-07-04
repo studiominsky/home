@@ -5,6 +5,7 @@
 
 @theme {
   --color-card: #fff;
+  --color-background: #fbfbfb;
   --color-background-light: #f7f7f7;
   --color-background-dark: #000;
   --color-foreground: #000;
@@ -13,11 +14,13 @@
   --color-background-inverted: #000000;
   --container-width: 120rem;
   --color-primary: #90c360;
+  --color-positive: #90c360;
 }
 
 @layer base {
   [data-theme='dark'] {
     --color-card: #000;
+    --color-background: #000000;
     --color-foreground: #ffffff;
     --color-border: #1f1f1f;
     --color-primary: #90c360;
@@ -25,6 +28,7 @@
     --color-inverted: #000000;
     --color-background-inverted: #ffffff;
     --color-primary: #90c360;
+    --color-positive: #90c360;
   }
   [data-color-theme='green'] {
     --color-primary: #90c360;
@@ -42,8 +46,12 @@
   }
 }
 
+:root[data-theme='light'] {
+  background-color: var(--color-background);
+}
+
 :root[data-theme='dark'] {
-  background-color: var(--color-background-dark);
+  background-color: var(--color-background);
 }
 
 html {
