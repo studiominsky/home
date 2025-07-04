@@ -3,21 +3,59 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import Container from './Container';
-import ServiceVisual from './ServiceVisuals'; // Import the typed component
+import Container from './Container'; // Assuming this is a standard container component
+import ServiceVisual from './ServiceVisuals';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface ServiceDataItem {
   title: string;
+  description: string;
+  tags: string[];
+  additional: string;
 }
 
 const serviceData: ServiceDataItem[] = [
-  { title: 'Web Applications' },
-  { title: 'Websites' },
-  { title: 'Data Visualizations' },
-  { title: 'AI Integrations' },
-  { title: 'Chatbots' },
+  {
+    title: 'Web Applications',
+    description:
+      'We build robust and scalable web applications tailored to your business needs. From complex dashboards to interactive platforms, we deliver high-performance solutions.',
+    tags: ['React', 'Next.js', 'Node.js', 'Databases'],
+    additional:
+      'Our applications have proven to increase user engagement by an average of 40%.',
+  },
+  {
+    title: 'Websites',
+    description:
+      "Your website is your digital storefront. We create beautiful, responsive, and SEO-friendly websites that capture your brand's essence and convert visitors into customers.",
+    tags: ['Webflow', 'Wordpress', 'Shopify', 'SEO'],
+    additional:
+      'We focus on a mobile-first approach, ensuring a seamless experience on all devices.',
+  },
+  {
+    title: 'Data Visualizations',
+    description:
+      'We transform complex data into clear and compelling visual stories. Our interactive charts and maps help you uncover insights and make data-driven decisions.',
+    tags: ['D3.js', 'Tableau', 'PowerBI', 'Charts'],
+    additional:
+      'Our visualizations have been featured in several industry-leading publications.',
+  },
+  {
+    title: 'AI Integrations',
+    description:
+      'Leverage the power of AI to automate processes and enhance user experiences. We integrate cutting-edge AI models into your products and workflows.',
+    tags: ['OpenAI', 'LangChain', 'Embeddings', 'Automation'],
+    additional:
+      'Automate up to 80% of your customer support inquiries with our AI-powered chatbots.',
+  },
+  {
+    title: 'Chatbots',
+    description:
+      'Engage your audience with intelligent and conversational chatbots. We design and build custom chatbots for customer support, lead generation, and more.',
+    tags: ['Dialogflow', 'Botpress', 'NLP', 'Conversational AI'],
+    additional:
+      'Our chatbots are available 24/7, providing instant support to your customers.',
+  },
 ];
 
 const Services: React.FC = () => {
@@ -29,7 +67,9 @@ const Services: React.FC = () => {
   const headerRef = useRef<HTMLHeadingElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const serviceListRef = useRef<(HTMLDivElement | null)[]>([]);
+  const serviceContentRef = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Animation for the right-side visual content when activeIndex changes
   useLayoutEffect(() => {
     if (browserContentRef.current) {
       gsap.fromTo(
@@ -46,6 +86,7 @@ const Services: React.FC = () => {
     }
   }, [activeIndex]);
 
+  // Animation for the initial reveal of the section on scroll
   useLayoutEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -86,6 +127,20 @@ const Services: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
+  // Animation for expanding/collapsing the service description
+  useLayoutEffect(() => {
+    serviceContentRef.current.forEach((content, index) => {
+      if (!content) return;
+
+      gsap.to(content, {
+        height: index === activeIndex ? 'auto' : 0,
+        opacity: index === activeIndex ? 1 : 0,
+        duration: 0.5,
+        ease: 'power3.out',
+      });
+    });
+  }, [activeIndex]);
+
   const handleServiceClick = (index: number) => {
     setActiveIndex(index);
   };
@@ -121,39 +176,60 @@ const Services: React.FC = () => {
                     serviceListRef.current[index] = el;
                   }}
                   key={service.title}
-                  className="font-geometric flex gap-4 items-center pb-10 cursor-pointer group"
+                  className="font-geometric pb-10 cursor-pointer group"
                   onClick={() => handleServiceClick(index)}
                 >
+                  <div className="flex gap-4 items-center">
+                    <div
+                      className={`
+                        inline-block w-4 h-4 rounded-full transition-colors duration-300
+                        ${
+                          activeIndex === index
+                            ? 'bg-primary'
+                            : 'bg-transparent border border-border group-hover:bg-primary/50'
+                        }
+                      `}
+                    />
+                    <h3
+                      className={`
+                        text-[32px] uppercase transition-colors duration-300
+                        ${
+                          activeIndex === index
+                            ? 'text-foreground'
+                            : 'text-foreground/40 group-hover:text-foreground'
+                        }
+                      `}
+                    >
+                      {service.title}
+                    </h3>
+                  </div>
                   <div
-                    className={`
-                      inline-block w-4 h-4 rounded-full transition-colors duration-300
-                      ${
-                        activeIndex === index
-                          ? 'bg-primary'
-                          : 'bg-transparent border border-border group-hover:bg-primary/50'
-                      }
-                    `}
-                  />
-                  <h3
-                    className={`
-                      text-[28px] uppercase transition-colors duration-300
-                      ${
-                        activeIndex === index
-                          ? 'text-foreground'
-                          : 'text-foreground/40 group-hover:text-foreground'
-                      }
-                    `}
+                    ref={(el) => {
+                      serviceContentRef.current[index] = el;
+                    }}
+                    className="pl-8 overflow-hidden h-0 opacity-0"
                   >
-                    {service.title}
-                  </h3>
+                    <p className="text-foreground/80 mt-4">
+                      {service.description}
+                    </p>
+                    <div className="flex gap-2 flex-wrap mt-4">
+                      {service.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 bg-muted text-foreground/60 rounded-full text-sm font-mono"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
 
             <div className="w-2/3">
-              <span className="font-mono text-sm py-2 block">
-                1.0 Fin wins every head-to-head test ON RESOLUTION
-                RATE
+              <span className="font-mono text-sm py-2 block min-h-[40px]">
+                {serviceData[activeIndex].additional}
               </span>
               <div className="backdrop-blur-sm overflow-hidden border border-border rounded-md">
                 <div ref={browserContentRef} className="aspect-[4/3]">

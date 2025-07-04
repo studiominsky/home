@@ -48,6 +48,8 @@ export default function Banner() {
   const { colorTheme } = useTheme();
   const isInitialMount = useRef(true);
 
+  const pulseAnimation = useRef<gsap.core.Tween | null>(null);
+
   const mainRef = useRef<HTMLDivElement>(null);
   const circlesRef = useRef<HTMLSpanElement[]>([]);
   const textFullWidthRef = useRef<HTMLDivElement>(null);
@@ -67,7 +69,18 @@ export default function Banner() {
     if (selectedColor && circlesRef.current.length > 0) {
       const targets = circlesRef.current;
 
-      gsap.to(targets, {
+      if (pulseAnimation.current) {
+        pulseAnimation.current.kill();
+      }
+
+      targets.forEach((el, i) => {
+        gsap.set(el, {
+          backgroundColor: INITIAL_CIRCLES[i].color,
+          scale: 1,
+        });
+      });
+
+      pulseAnimation.current = gsap.to(targets, {
         backgroundColor: selectedColor.hex,
         scale: 1.25,
         duration: 0.5,
