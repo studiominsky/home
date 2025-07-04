@@ -253,7 +253,7 @@ const Services: React.FC = () => {
                           activeIndex === index ||
                           hoveredIndex === index
                             ? 'text-foreground'
-                            : 'text-foreground/40'
+                            : 'text-foreground/30'
                         }
                       `}
                     >
