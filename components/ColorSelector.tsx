@@ -7,10 +7,10 @@ import { useTheme } from '@/providers/theme-provider';
 type ColorTheme = 'orange' | 'green' | 'blue' | 'purple';
 
 const colors = [
-  { name: 'orange', class: 'bg-[#f07d2b]' },
-  { name: 'green', class: 'bg-[#90c360]' },
-  { name: 'blue', class: 'bg-[#4994d5]' },
-  { name: 'purple', class: 'bg-[#a956d5]' },
+  { name: 'orange', hex: '#D3704A', class: 'bg-[#D3704A]' },
+  { name: 'green', hex: '#90C360', class: 'bg-[#90C360]' },
+  { name: 'blue', hex: '#6090C3', class: 'bg-[#6090C3]' },
+  { name: 'purple', hex: '#B55DE4', class: 'bg-[#B55DE4]' },
 ];
 
 export function ColorSelector() {

@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useRef, useLayoutEffect } from 'react';
+import React, { useRef, useLayoutEffect, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import FullWidth from './FullWidth';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { LayoutPanelLeft, MessageCircleIcon } from 'lucide-react';
+import { MessageCircleIcon } from 'lucide-react';
+import { useTheme } from '@/providers/theme-provider';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,6 +29,13 @@ const FINAL_SHAPES = [
   { x: 2886, y: 347, width: 1069, height: 1069 },
   { x: 196, y: 586, width: 2031, height: 2031 },
 ];
+const THEME_COLORS = [
+  { name: 'orange', hex: '#D3704A' },
+  { name: 'green', hex: '#90C360' },
+  { name: 'blue', hex: '#6090C3' },
+  { name: 'purple', hex: '#B55DE4' },
+];
+
 const debounce = (func: () => void, delay: number) => {
   let timeout: ReturnType<typeof setTimeout>;
   return () => {
@@ -37,12 +45,39 @@ const debounce = (func: () => void, delay: number) => {
 };
 
 export default function Banner() {
+  const { colorTheme } = useTheme();
+  const isInitialMount = useRef(true);
+
   const mainRef = useRef<HTMLDivElement>(null);
   const circlesRef = useRef<HTMLSpanElement[]>([]);
   const textFullWidthRef = useRef<HTMLDivElement>(null);
   const availabilityRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    const selectedColor = THEME_COLORS.find(
+      (c) => c.name === colorTheme
+    );
+    if (selectedColor && circlesRef.current.length > 0) {
+      const targets = circlesRef.current;
+
+      gsap.to(targets, {
+        backgroundColor: selectedColor.hex,
+        scale: 1.25,
+        duration: 0.5,
+        stagger: 0.15,
+        ease: 'power2.inOut',
+        yoyo: true,
+        repeat: 1,
+      });
+    }
+  }, [colorTheme]);
 
   useLayoutEffect(() => {
     const component = mainRef.current!;
@@ -265,9 +300,6 @@ export default function Banner() {
                   letterSpacing: 'initial',
                 }}
               >
-                <span>
-                  <LayoutPanelLeft className="mr-1 size-4 text-foreground" />
-                </span>
                 Services
               </Link>
             </span>
