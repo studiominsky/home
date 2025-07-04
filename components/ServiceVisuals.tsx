@@ -2,19 +2,21 @@
 
 import React, { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+
 import { ChartAreaGradient } from './Chart';
+import InvoiceTable from './Table';
 
 interface ServiceVisualProps {
   activeIndex: number;
 }
 
 const WebAppVisual: React.FC = () => (
-  <div className="w-full p-4">
+  <div className="w-full p-7">
     <div
-      className="w-full h-full grid grid-cols-3 grid-rows-2 gap-4"
+      className="w-full h-full grid grid-cols-3 grid-rows-3 gap-7"
       style={{ borderColor: 'var(--border)' }}
     >
-      <div className="col-span-2 bg-card border border-border rounded-md p-4 flex flex-col">
+      <div className="col-span-2 row-span-2 bg-card border border-border rounded-md p-4 flex flex-col">
         <h4 className="font-semibold text-foreground">Revenue</h4>
         <div className="flex items-center gap-2 mt-3">
           <span className="text-4xl">$20.5K</span>
@@ -25,69 +27,69 @@ const WebAppVisual: React.FC = () => (
             <span className="text-gray-500 text-sm">($15,020)</span>
           </span>
         </div>
-
         <ChartAreaGradient />
       </div>
-      {/* <div className="col-span-1 bg-card p-4 border border-border rounded-md flex flex-col">
+
+      <div className="col-start-3 bg-card p-4 border border-border rounded-md flex flex-col">
         <h4 className="font-semibold text-sm">Sidebar</h4>
-        <div className="w-full h-4 mt-2 bg-muted rounded-md animate-pulse"></div>
-        <div className="w-full h-4 mt-2 bg-muted rounded-md animate-pulse"></div>
+        <div>123</div>
       </div>
-      <div className="col-span-1 bg-card p-4 border-border rounded-md border">
+
+      <div className="col-start-3 row-start-2 bg-card p-4 border-border rounded-md">
         <h4 className="font-semibold text-sm">Stats</h4>
-        <div className="w-full h-8 mt-2 bg-muted rounded-md animate-pulse"></div>
+        <div className="w-full h-8 mt-2 bg-muted rounded-md animate-pulse" />
       </div>
-      <div className="col-span-2 bg-card p-4 border border-border rounded-md">
-        <h4 className="font-semibold">Activity Feed</h4>
-        <div className="w-full h-6 mt-2 bg-muted rounded-md animate-pulse"></div>
-      </div> */}
+
+      <div className="col-span-3 bg-card p-4 border border-border rounded-md">
+        <h4 className="font-semibold mb-4">Customers</h4>
+        <InvoiceTable />
+      </div>
     </div>
   </div>
 );
 
-const WebsiteVisual: React.FC = () => (
-  <div className="w-full h-full bg-card p-6 rounded-lg">
-    <div className="w-1/3 h-5 bg-muted rounded mb-4" />
-    <div className="w-full h-20 bg-muted/50 rounded-lg" />
-    <div className="w-3/4 h-4 bg-muted rounded mt-4" />
-    <div className="w-1/2 h-4 bg-muted rounded mt-2" />
-    <p className="text-sm text-foreground/40 mt-6 text-center">
-      A clean and modern layout representing a corporate website.
-    </p>
-  </div>
-);
+export function WebsiteVisual() {
+  return (
+    <div className="w-full h-full web-card p-6 rounded-lg min-h-[800px] flex flex-col justify-between">
+      <div className="h-full">
+        <h4 className="text-4xl font-geometric text-center max-w-90 mt-23 mx-auto">
+          Your amazing website in 3 weeks
+        </h4>
+      </div>
+    </div>
+  );
+}
 
 const DataVizVisual: React.FC = () => {
   const chartRef = useRef<HTMLDivElement>(null);
-
   useLayoutEffect(() => {
-    if (chartRef.current) {
-      const bars = Array.from(chartRef.current.children);
-      gsap.fromTo(
-        bars,
-        { scaleY: 0, transformOrigin: 'bottom' },
-        {
-          scaleY: 1,
-          duration: 0.8,
-          ease: 'power3.out',
-          stagger: 0.1,
-          delay: 0.2,
-        }
-      );
-    }
+    const el = chartRef.current;
+    if (!el) return;
+    gsap.fromTo(
+      Array.from(el.children),
+      { scaleY: 0, transformOrigin: 'bottom' },
+      {
+        scaleY: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        stagger: 0.1,
+        delay: 0.2,
+      }
+    );
   }, []);
-
   return (
     <div className="w-full h-full flex flex-col items-center justify-center rounded-lg p-6">
       <div
         ref={chartRef}
         className="w-4/5 h-3/5 flex items-end justify-around gap-3"
       >
-        <div className="w-full h-[60%] bg-primary/30 rounded-t-sm" />
-        <div className="w-full h-[80%] bg-primary/50 rounded-t-sm" />
-        <div className="w-full h-[40%] bg-primary/30 rounded-t-sm" />
-        <div className="w-full h-[90%] bg-primary/70 rounded-t-sm" />
-        <div className="w-full h-[70%] bg-primary/50 rounded-t-sm" />
+        {[60, 80, 40, 90, 70].map((h, i) => (
+          <div
+            key={i}
+            className="w-full bg-primary/50 rounded-t-sm"
+            style={{ height: `${h}%` }}
+          />
+        ))}
       </div>
       <p className="text-sm text-foreground/40 mt-4 text-center">
         A bar chart animating in, showing data insights.
@@ -100,32 +102,29 @@ const AiVisual: React.FC = () => (
   <div className="w-full h-full flex items-center justify-center p-6">
     <p className="text-center font-mono">
       <span className="text-primary animate-pulse">[AI]</span> is
-      revolutionizing how we interact with technology.
+      revolutionizing tech.
     </p>
   </div>
 );
 
 const ChatbotVisual: React.FC = () => {
   const chatRef = useRef<HTMLDivElement>(null);
-
   useLayoutEffect(() => {
-    if (chatRef.current) {
-      const bubbles = Array.from(chatRef.current.children);
-      gsap.fromTo(
-        bubbles,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-          stagger: 0.6,
-          delay: 0.2,
-        }
-      );
-    }
+    const el = chatRef.current;
+    if (!el) return;
+    gsap.fromTo(
+      Array.from(el.children),
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+        stagger: 0.6,
+        delay: 0.2,
+      }
+    );
   }, []);
-
   return (
     <div className="w-full h-full bg-card rounded-lg p-6 flex flex-col justify-end">
       <div ref={chatRef} className="flex flex-col gap-3">
@@ -133,21 +132,16 @@ const ChatbotVisual: React.FC = () => {
           Hello! How can I help you?
         </div>
         <div className="p-3 bg-primary text-primary-foreground rounded-lg self-end max-w-xs">
-          I&#39;d like to start a project.
+          I&apos;d like to start a project.
         </div>
         <div className="p-3 w-12 bg-muted rounded-lg self-start flex items-center justify-center gap-1">
-          <span
-            className="w-2 h-2 bg-foreground/40 rounded-full animate-bounce"
-            style={{ animationDelay: '0s' }}
-          />
-          <span
-            className="w-2 h-2 bg-foreground/40 rounded-full animate-bounce"
-            style={{ animationDelay: '0.1s' }}
-          />
-          <span
-            className="w-2 h-2 bg-foreground/40 rounded-full animate-bounce"
-            style={{ animationDelay: '0.2s' }}
-          />
+          {[0, 100, 200].map((delay) => (
+            <span
+              key={delay}
+              className="w-2 h-2 bg-foreground/40 rounded-full animate-bounce"
+              style={{ animationDelay: `${delay}ms` }}
+            />
+          ))}
         </div>
       </div>
     </div>
