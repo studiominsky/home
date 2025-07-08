@@ -10,26 +10,31 @@ gsap.registerPlugin(ScrollTrigger);
 const steps = [
   {
     title: '01. Discovery Call',
+    titleDescription: 'Understanding Your Vision',
     description:
       'We start by understanding your needs and goals in a complimentary discovery call, ensuring we are perfectly aligned.',
   },
   {
     title: '02. Proposal',
+    titleDescription: 'Crafting Your Blueprint',
     description:
       'Based on our call, we craft a tailored proposal outlining the project scope, timeline, and a transparent investment breakdown.',
   },
   {
     title: '03. Development',
+    titleDescription: 'Bringing Ideas to Life',
     description:
       'Our team brings the plan to life, building your solution with precision, quality, and regular updates to keep you in the loop.',
   },
   {
     title: '04. Feedback',
+    titleDescription: 'Refining the Details',
     description:
       'We review progress with you at key milestones, gathering feedback and iterating until the result is exactly what you envisioned.',
   },
   {
     title: '05. Support',
+    titleDescription: 'Ensuring Long-Term Success',
     description:
       'After a successful launch, we provide ongoing support and maintenance packages to ensure your digital product continues to thrive.',
   },
@@ -40,6 +45,9 @@ function Process() {
   const containerRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
+
+  const headerRef = useRef<HTMLHeadingElement>(null);
+  const paragraphRef = useRef<HTMLParagraphElement>(null);
   const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -67,9 +75,59 @@ function Process() {
     }
 
     const totalSteps = steps.length;
-    let lastActiveStep = -1;
+    let lastActiveStep = 0;
 
     const ctx = gsap.context(() => {
+      gsap.set([headerRef.current, paragraphRef.current], {
+        opacity: 0,
+        y: 30,
+      });
+      gsap.set(titles, { opacity: 0, x: -30 });
+      gsap.set(contents, { opacity: 0 });
+
+      const introTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 60%',
+          toggleActions: 'play none none none',
+        },
+      });
+
+      introTl.to([headerRef.current, paragraphRef.current], {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+        stagger: 0.2,
+      });
+
+      introTl.to(
+        titles,
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          stagger: 0.15,
+          onComplete: () => {
+            gsap.set(titles[0], { x: 12 });
+            titles[0].classList.add('text-foreground');
+            titles[0].classList.remove('text-foreground/30');
+          },
+        },
+        '-=0.5'
+      );
+
+      introTl.to(
+        contents[0],
+        {
+          opacity: 1,
+          duration: 0.7,
+          ease: 'power3.out',
+        },
+        '-=0.7'
+      );
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
@@ -83,28 +141,42 @@ function Process() {
             );
 
             if (currentStep !== lastActiveStep) {
-              gsap.to(titles, {
-                color: (i) =>
-                  i === currentStep ? '#000000' : '#a1a1aa',
-                duration: 0.3,
-                overwrite: 'auto',
+              titles.forEach((title, index) => {
+                const isActive = index === currentStep;
+                title.classList.toggle('text-foreground', isActive);
+                title.classList.toggle(
+                  'text-foreground/30',
+                  !isActive
+                );
+                gsap.to(title, {
+                  x: isActive ? 12 : 0,
+                  duration: 0.5,
+                  ease: 'back.out(1.7)',
+                });
               });
 
               if (self.direction === 1) {
-                gsap.to(contents[currentStep], {
-                  autoAlpha: 1,
-                  y: 0,
-                  duration: 0.4,
-                });
+                gsap.fromTo(
+                  contents[currentStep],
+                  { autoAlpha: 0, x: -30 },
+                  {
+                    autoAlpha: 1,
+                    x: 0,
+                    duration: 0.5,
+                    ease: 'power3.out',
+                  }
+                );
               } else {
-                if (lastActiveStep > currentStep) {
+                if (lastActiveStep > -1) {
                   gsap.to(contents[lastActiveStep], {
                     autoAlpha: 0,
+                    x: 0,
                     y: 20,
-                    duration: 0.4,
+                    duration: 0.3,
                   });
                 }
               }
+
               lastActiveStep = currentStep;
             }
           },
@@ -113,9 +185,6 @@ function Process() {
 
       tl.to(track, { height: '100%', ease: 'none' }, 0);
       tl.to(dot, { top: '100%', ease: 'none' }, 0);
-
-      gsap.set(contents, { autoAlpha: 0, y: 20 });
-      gsap.set(titles, { color: '#a1a1aa' });
     }, section);
 
     return () => ctx.revert();
@@ -129,16 +198,22 @@ function Process() {
             02 HOW WE DO IT
           </span>
           <div className="flex justify-between pt-10">
-            <h1 className="font-geometric text-5xl md:text-[75px] w-2/5">
+            <h1
+              ref={headerRef}
+              className="font-geometric text-5xl md:text-[75px] w-2/5"
+            >
               PROCESS
             </h1>
-            <p className="text-lg md:text-xl w-1/3 text-gray-600">
+            <p
+              ref={paragraphRef}
+              className="text-lg md:text-xl w-1/3 text-gray-600"
+            >
               Our process is designed for clarity and collaboration,
               ensuring every project is a partnership that leads to
               exceptional results.
             </p>
           </div>
-          <div className="mt-30">
+          <div className="mt-20">
             <div className="flex py-10 gap-10 md:gap-20">
               <div className="relative w-1/3">
                 <div className="absolute left-3 top-0 w-0.5 bg-gray-200 h-full" />
@@ -149,19 +224,19 @@ function Process() {
                 />
                 <div
                   ref={dotRef}
-                  className="absolute left-3 top-0 w-5 h-5 rounded-full bg-primary  z-99 transform -translate-x-1/2 -translate-y-1/2"
+                  className="absolute left-[12px] top-0 w-5 h-5 rounded-full bg-primary transform -translate-x-1/2 -translate-y-1/2"
                 />
                 <div
                   className="flex flex-col justify-between"
                   style={{ minHeight: '700px' }}
                 >
                   {steps.map((s, i) => (
-                    <div key={s.title} className="relative pl-8">
+                    <div key={s.title} className="relative pl-8 py-2">
                       <h3
                         ref={(el) => {
                           titleRefs.current[i] = el;
                         }}
-                        className="font-geometric text-2xl md:text-3xl"
+                        className="text-foreground/30 font-geometric text-2xl md:text-3xl transition-colors duration-300"
                       >
                         {s.title}
                       </h3>
@@ -169,7 +244,6 @@ function Process() {
                   ))}
                 </div>
               </div>
-
               <div className="w-2/3">
                 <div
                   className="flex flex-col justify-between"
@@ -177,14 +251,13 @@ function Process() {
                 >
                   {steps.map((s, i) => (
                     <div
-                      key={s.title}
+                      key={s.titleDescription}
                       ref={(el) => {
                         contentRefs.current[i] = el;
                       }}
-                      className=""
                     >
-                      <h3 className="text-xl font-semibold mb-2">
-                        {s.title}
+                      <h3 className="text-foreground text-xl font-semibold mb-2">
+                        {s.titleDescription}
                       </h3>
                       <p className="text-lg text-gray-700">
                         {s.description}
