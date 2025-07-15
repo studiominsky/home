@@ -131,7 +131,7 @@ function Process() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
-          start: 'top top',
+          start: 'top 100px',
           end: () => `+=${window.innerHeight * (totalSteps - 1)}`,
           pin: true,
           scrub: 1,
@@ -206,7 +206,7 @@ function Process() {
             </h1>
             <p
               ref={paragraphRef}
-              className="text-lg md:text-xl w-1/3 text-gray-600"
+              className="text-lg md:text-xl w-1/3 text-foreground"
             >
               Our process is designed for clarity and collaboration,
               ensuring every project is a partnership that leads to
@@ -259,7 +259,7 @@ function Process() {
                       <h3 className="text-foreground text-xl font-semibold mb-2">
                         {s.titleDescription}
                       </h3>
-                      <p className="text-lg text-gray-700">
+                      <p className="text-lg text-foreground/40">
                         {s.description}
                       </p>
                     </div>
