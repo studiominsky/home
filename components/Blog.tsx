@@ -1,40 +1,70 @@
 'use client';
 
-import React, { useLayoutEffect, useRef } from 'react';
+import React, {
+  useLayoutEffect,
+  useRef,
+  useState,
+  useEffect,
+} from 'react';
+import Link from 'next/link'; // ← import Link
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Blog() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+type Article = {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
+};
 
+export default function Blog() {
+  const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLHeadingElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  // 1. Fetch the last 3 articles
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        const res = await fetch('/api/posts');
+        const json = await res.json();
+        const posts: Article[] = json.posts || [];
+        posts.sort(
+          (a, b) =>
+            new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+        setArticles(posts.slice(0, 3)); // take top 3
+      } catch (err) {
+        console.error('Failed to load posts', err);
+      }
+    }
+    fetchArticles();
+  }, []);
+
+  // 2. Animate header + each card on scroll
   useLayoutEffect(() => {
     const section = sectionRef.current;
-    const container = containerRef.current;
-
-    const contents = contentRefs.current.filter(
+    const cards = contentRefs.current.filter(
       (el): el is HTMLDivElement => el !== null
     );
 
-    if (!section || !container) {
-      return;
-    }
+    if (!section || !cards.length) return;
 
     const ctx = gsap.context(() => {
       gsap.set([headerRef.current, paragraphRef.current], {
         opacity: 0,
         y: 30,
       });
-      gsap.set(contents, { opacity: 0 });
+      gsap.set(cards, { opacity: 0, y: 30 });
 
-      const introTl = gsap.timeline({
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: 'top 60%',
@@ -42,7 +72,7 @@ function Blog() {
         },
       });
 
-      introTl.to([headerRef.current, paragraphRef.current], {
+      tl.to([headerRef.current, paragraphRef.current], {
         opacity: 1,
         y: 0,
         duration: 0.8,
@@ -50,24 +80,26 @@ function Blog() {
         stagger: 0.2,
       });
 
-      introTl.to(
-        contents[0],
+      tl.to(
+        cards,
         {
           opacity: 1,
+          y: 0,
           duration: 0.7,
           ease: 'power3.out',
+          stagger: 0.2,
         },
-        '-=0.7'
+        '-=0.5'
       );
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [articles]);
 
   return (
     <section ref={sectionRef} className="py-24 bg-background">
       <Container>
-        <div ref={containerRef} className="overflow-hidden">
+        <div className="overflow-hidden">
           <span className="font-mono border-b border-gray-300 py-3 text-sm block">
             02 SOME TEXT HERE
           </span>
@@ -87,11 +119,39 @@ function Blog() {
               exceptional results.
             </p>
           </div>
-          <div className="mt-20 h-[1000px]">Blog posts</div>
+
+          <div className="mt-20 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {articles.map((post, i) => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                passHref
+              >
+                <div
+                  ref={(el) => {
+                    contentRefs.current[i] = el;
+                  }}
+                  className="cursor-pointer p-6 bg-gray-50 dark:bg-gray-800 border rounded-xl shadow transition-transform hover:-translate-y-1"
+                >
+                  <h2 className="text-2xl font-bold mb-2">
+                    {post.title}
+                  </h2>
+                  <p className="text-gray-700 dark:text-gray-300 mb-4">
+                    {post.description}
+                  </p>
+                  <time className="text-sm text-gray-500 dark:text-gray-400">
+                    {new Date(post.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </Container>
     </section>
   );
 }
-
-export default Blog;

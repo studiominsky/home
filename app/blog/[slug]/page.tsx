@@ -6,13 +6,14 @@ export async function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
 }
 
-type BlogPostPageProps = {
-  params: { slug: string };
-};
-
 export default async function BlogPostPage({
-  params: { slug },
-}: BlogPostPageProps) {
+  params,
+}: {
+  params: { slug: string };
+}) {
+  // ← await params before destructuring
+  const { slug } = await params;
+
   const { frontMatter, html } = await getPost(slug);
 
   return (
@@ -31,9 +32,7 @@ export default async function BlogPostPage({
           })}
         </time>
       </header>
-
       <div dangerouslySetInnerHTML={{ __html: html }} />
-
       {frontMatter.headings.length > 0 && (
         <nav className="mt-12">
           <h2 className="font-semibold mb-2">On this page</h2>
