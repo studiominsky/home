@@ -116,7 +116,7 @@ export default function Blog() {
             >
               Our Blog is designed for clarity and collaboration,
               ensuring every project is a partnership that leads to
-              exceptional results.
+              exceptional results. Try deploy.
             </p>
           </div>
 
