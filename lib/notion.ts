@@ -62,7 +62,11 @@ function pageToMeta(page: PageObjectResponse) {
     title: asPlainText(props.Title),
     description: asPlainText(props.Description),
     date:
-      props.Date?.type === 'date' ? props.Date.date?.start ?? '' : '',
+      props.Date?.type === 'date'
+        ? props.Date?.date?.start ?? ''
+        : props.Date?.type === 'created_time'
+        ? props.Date?.created_time ?? ''
+        : '',
     tags:
       props.Tags?.type === 'multi_select'
         ? props.Tags.multi_select.map((t) => t.name)
