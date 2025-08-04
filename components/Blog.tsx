@@ -11,6 +11,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
 import Image from 'next/image';
+import clsx from 'clsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -120,18 +121,21 @@ export default function Blog() {
             </p>
           </div>
 
-          <div className="mt-20 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-20 flex gap-10">
             {articles.map((post, i) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
                 passHref
+                className="w-1/3"
               >
                 <div
                   ref={(el) => {
                     contentRefs.current[i] = el;
                   }}
-                  className="cursor-pointer p-6 transition-transform hover:-translate-y-1"
+                  className={`post-card div${
+                    i + 1
+                  } cursor-pointer p-6 transition-transform hover:-translate-y-1`}
                 >
                   {post.coverImage && (
                     <Image
@@ -159,6 +163,19 @@ export default function Blog() {
               </Link>
             ))}
           </div>
+          <Link
+            href="/blog"
+            className={clsx(
+              'm-auto mt-10 cursor-pointer text-card z-99 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center',
+              'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
+              'text-[var(--ds-background-100)]'
+            )}
+            style={{
+              letterSpacing: 'initial',
+            }}
+          >
+            See all articles
+          </Link>
         </div>
       </Container>
     </section>
