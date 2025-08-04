@@ -10,6 +10,7 @@ import Link from 'next/link'; // ← import Link
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
+import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,6 +20,7 @@ type Article = {
   description: string;
   date: string;
   tags: string[];
+  coverImage?: string;
 };
 
 export default function Blog() {
@@ -29,7 +31,6 @@ export default function Blog() {
 
   const [articles, setArticles] = useState<Article[]>([]);
 
-  // 1. Fetch the last 3 articles
   useEffect(() => {
     async function fetchArticles() {
       try {
@@ -40,7 +41,7 @@ export default function Blog() {
           (a, b) =>
             new Date(b.date).getTime() - new Date(a.date).getTime()
         );
-        setArticles(posts.slice(0, 3)); // take top 3
+        setArticles(posts.slice(0, 4));
       } catch (err) {
         console.error('Failed to load posts', err);
       }
@@ -48,7 +49,6 @@ export default function Blog() {
     fetchArticles();
   }, []);
 
-  // 2. Animate header + each card on scroll
   useLayoutEffect(() => {
     const section = sectionRef.current;
     const cards = contentRefs.current.filter(
@@ -131,8 +131,17 @@ export default function Blog() {
                   ref={(el) => {
                     contentRefs.current[i] = el;
                   }}
-                  className="cursor-pointer p-6 bg-gray-50 dark:bg-gray-800 border rounded-xl shadow transition-transform hover:-translate-y-1"
+                  className="cursor-pointer p-6 transition-transform hover:-translate-y-1"
                 >
+                  {post.coverImage && (
+                    <Image
+                      src={post.coverImage}
+                      alt={post.title}
+                      width={600}
+                      height={300}
+                      className="rounded mb-4 object-cover w-full h-auto"
+                    />
+                  )}
                   <h2 className="text-2xl font-bold mb-2">
                     {post.title}
                   </h2>
