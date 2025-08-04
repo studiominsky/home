@@ -71,7 +71,7 @@ function pageToMeta(page: PageObjectResponse) {
       props.Tags?.type === 'multi_select'
         ? props.Tags.multi_select.map((t) => t.name)
         : [],
-    coverImage: `/blog/${slug}/cover.png`,
+    // coverImage: `/blog/${slug}/cover.png`,
   };
 }
 
