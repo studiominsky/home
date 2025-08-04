@@ -10,7 +10,7 @@ import Link from 'next/link'; // ← import Link
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
-// import Image from 'next/image';
+import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -133,7 +133,7 @@ export default function Blog() {
                   }}
                   className="cursor-pointer p-6 transition-transform hover:-translate-y-1"
                 >
-                  {/* {post.coverImage && (
+                  {post.coverImage && (
                     <Image
                       src={post.coverImage}
                       alt={post.title}
@@ -141,7 +141,7 @@ export default function Blog() {
                       height={300}
                       className="rounded mb-4 object-cover w-full h-auto"
                     />
-                  )} */}
+                  )}
                   <h2 className="text-2xl font-bold mb-2">
                     {post.title}
                   </h2>
