@@ -1,9 +1,9 @@
 import Banner from '@/components/Banner';
 import Header from '@/components/Header';
 import Services from '@/components/Services';
-import Info from '@/components/Info';
 import Process from '@/components/Process';
 import Blog from '@/components/Blog';
+import AnimatedText from '@/components/AnimatedText';
 
 export default function Home() {
   return (
@@ -11,9 +11,17 @@ export default function Home() {
       <Header />
       <Banner />
       <Services />
-      <Info />
+      <AnimatedText>
+        Digital products for today’s world. Available for new projects
+        Studio Minsky builds the digital tools that drive business
+        growth. From websites
+      </AnimatedText>
       <Process />
-      <Info />
+      <AnimatedText>
+        Digital products for today’s world. Available for new projects
+        Studio Minsky builds the digital tools that drive business
+        growth. From websites
+      </AnimatedText>
       <Blog />
     </>
   );
