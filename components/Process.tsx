@@ -191,7 +191,11 @@ function Process() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-24 bg-background">
+    <section
+      id="process"
+      ref={sectionRef}
+      className="py-30 bg-background"
+    >
       <Container>
         <div ref={containerRef} className="overflow-hidden">
           <span className="font-mono border-b border-gray-300 py-3 text-sm block">

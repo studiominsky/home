@@ -193,7 +193,11 @@ const Services: React.FC = () => {
   };
 
   return (
-    <section ref={sectionRef} className="py-50 min-h-screen">
+    <section
+      id="services"
+      ref={sectionRef}
+      className="py- min-h-screen"
+    >
       <Container>
         <span className="font-mono border-b border-border py-3 text-sm w-full block">
           01 WHAT WE OFFER

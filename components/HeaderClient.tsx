@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -62,6 +62,16 @@ const ListItem = React.forwardRef<
 ListItem.displayName = 'ListItem';
 
 export default function HeaderClient({ posts, latest }: Props) {
+  useEffect(() => {
+    if (window.location.hash) {
+      setTimeout(() => {
+        const element = document.querySelector(window.location.hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, []);
   return (
     <header
       className={clsx(
@@ -74,6 +84,22 @@ export default function HeaderClient({ posts, latest }: Props) {
 
           <NavigationMenu>
             <NavigationMenuList>
+              <NavigationMenuItem>
+                <Link
+                  href="/#services"
+                  className={navigationMenuTriggerStyle()}
+                >
+                  Services
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link
+                  href="/#process"
+                  className={navigationMenuTriggerStyle()}
+                >
+                  Process
+                </Link>
+              </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -135,32 +161,6 @@ export default function HeaderClient({ posts, latest }: Props) {
                     </div>
                   </ul>
                 </NavigationMenuContent>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>List</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[300px] gap-3 p-4">
-                    <ListItem href="/services" title="Services">
-                      Browse our services.
-                    </ListItem>
-                    <ListItem href="/about" title="About">
-                      Learn more about us.
-                    </ListItem>
-                    <ListItem href="/contact" title="Contact">
-                      Get in touch.
-                    </ListItem>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <Link
-                  href="/docs"
-                  className={navigationMenuTriggerStyle()}
-                >
-                  Docs
-                </Link>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
