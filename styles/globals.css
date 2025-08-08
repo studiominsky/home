@@ -115,3 +115,16 @@ html {
   z-index: 0;
   border-top: 2px solid var(--color-primary);
 }
+
+.blog-text h2 {
+  margin-bottom: 20px;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1.7;
+}
+
+.blog-text p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 1.7;
+}

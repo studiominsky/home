@@ -6,7 +6,10 @@ import mdPrism from 'markdown-it-prism';
 import type {
   PageObjectResponse,
   RichTextItemResponse,
+  QueryDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints';
+
+import type { BlogPostMeta } from '@/types/blog'; // <-- use the shared type
 
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-tsx';
@@ -15,7 +18,7 @@ import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-typescript';
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN! });
-const BLOG_DATABASE_ID = process.env.NOTION_DATABASE_ID!;
+const BLOG_DATABASE_ID: string = process.env.NOTION_DATABASE_ID!;
 
 const n2m = new NotionToMarkdown({ notionClient: notion });
 const md = new MarkdownIt({
@@ -24,9 +27,17 @@ const md = new MarkdownIt({
   typographer: true,
 }).use(mdPrism, { defaultLanguage: 'plaintext' });
 
+const toSlug = (str: string): string =>
+  str
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+
 function joinRichText(
   r: RichTextItemResponse | RichTextItemResponse[]
-) {
+): string {
   return Array.isArray(r)
     ? r.map((t) => t.plain_text).join('')
     : r.plain_text;
@@ -52,54 +63,73 @@ export function asPlainText(
   }
 }
 
-function pageToMeta(page: PageObjectResponse) {
-  const props = page.properties;
+function pageToMeta(page: PageObjectResponse): BlogPostMeta {
+  const props = page.properties as Record<
+    string,
+    PageObjectResponse['properties'][string]
+  >;
   const rawSlug = asPlainText(props.Slug);
-  const slug = rawSlug || page.id.replace(/-/g, '');
+  const readable = rawSlug ? toSlug(rawSlug) : '';
+  const fallback = page.id.replace(/-/g, '');
+  const slug = readable || fallback;
+
+  const title = asPlainText(props.Title);
+  const description = asPlainText(props.Description);
+
+  let date = '';
+  const dateProp = props.Date;
+  if (dateProp?.type === 'date') {
+    date = dateProp.date?.start ?? '';
+  } else if (dateProp?.type === 'created_time') {
+    date = dateProp.created_time ?? '';
+  }
+
+  const tags =
+    props.Tags?.type === 'multi_select'
+      ? props.Tags.multi_select.map((t) => t.name)
+      : [];
 
   return {
     slug,
-    title: asPlainText(props.Title),
-    description: asPlainText(props.Description),
-    date:
-      props.Date?.type === 'date'
-        ? props.Date?.date?.start ?? ''
-        : props.Date?.type === 'created_time'
-        ? props.Date?.created_time ?? ''
-        : '',
-    tags:
-      props.Tags?.type === 'multi_select'
-        ? props.Tags.multi_select.map((t) => t.name)
-        : [],
+    title,
+    description,
+    date,
+    tags,
     coverImage: `/blog/${slug}/cover.png`,
+    headings: [],
   };
 }
 
-export async function getPosts() {
+export async function getPosts(): Promise<BlogPostMeta[]> {
   const pages: PageObjectResponse[] = [];
   let cursor: string | undefined;
 
   do {
-    const { results, has_more, next_cursor } =
-      await notion.databases.query({
-        database_id: BLOG_DATABASE_ID,
-        sorts: [{ property: 'Date', direction: 'descending' }],
-        start_cursor: cursor,
-        page_size: 100,
-      });
+    const resp: QueryDatabaseResponse = await notion.databases.query({
+      database_id: BLOG_DATABASE_ID,
+      sorts: [{ property: 'Date', direction: 'descending' }],
+      start_cursor: cursor,
+      page_size: 100,
+    });
 
-    pages.push(
-      ...results.filter(
-        (r): r is PageObjectResponse => 'properties' in r
-      )
+    const typed = resp.results.filter(
+      (r): r is PageObjectResponse => 'properties' in r
     );
-    cursor = has_more ? next_cursor ?? undefined : undefined;
+    pages.push(...typed);
+    cursor = resp.has_more
+      ? resp.next_cursor ?? undefined
+      : undefined;
   } while (cursor);
 
-  return Promise.all(pages.map(pageToMeta));
+  return pages.map(pageToMeta);
 }
 
-export async function getPost(slug: string) {
+export type BlogPost = {
+  frontMatter: BlogPostMeta;
+  html: string;
+};
+
+export async function getPost(slug: string): Promise<BlogPost> {
   if (!slug) {
     throw new Error('getPost: you must pass a non-empty slug.');
   }
@@ -113,22 +143,25 @@ export async function getPost(slug: string) {
     },
   });
 
-  if (!results.length) {
+  if (!results.length || !('properties' in results[0])) {
     throw new Error(`No post found for slug “${slug}”.`);
   }
 
   const page = results[0] as PageObjectResponse;
+
   const mdBlocks = await n2m.pageToMarkdown(page.id);
   const { parent: markdown } = n2m.toMarkdownString(mdBlocks);
   const html = md.render(markdown);
 
-  const headings =
+  const headings: string[] =
     markdown
       .match(/^#{1,6}\s+.+$/gm)
-      ?.map((h) => h.replace(/^#{1,6}\s+/, '')) ?? [];
+      ?.map((h) => h.replace(/^#{1,6}\s+/, '').trim()) ?? [];
+
+  const frontMatter: BlogPostMeta = { ...pageToMeta(page), headings };
 
   return {
-    frontMatter: { ...pageToMeta(page), headings },
+    frontMatter,
     html,
   };
 }
