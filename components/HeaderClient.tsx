@@ -94,12 +94,21 @@ export default function HeaderClient({ posts, latest }: Props) {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link
+                  href="/#projects"
+                  className={navigationMenuTriggerStyle()}
+                >
+                  Projects
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link
                   href="/#process"
                   className={navigationMenuTriggerStyle()}
                 >
                   Process
                 </Link>
               </NavigationMenuItem>
+
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
                 <NavigationMenuContent>

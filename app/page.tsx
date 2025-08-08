@@ -6,6 +6,9 @@ import Services from '@/components/Services';
 import Process from '@/components/Process';
 import Blog from '@/components/Blog';
 import AnimatedText from '@/components/AnimatedText';
+import Projects from '@/components/Projects';
+import Contact from '@/components/Contact';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
@@ -18,6 +21,12 @@ export default function Home() {
         Studio Minsky builds the digital tools that drive business
         growth. From websites
       </AnimatedText>
+      <Projects />
+      <AnimatedText>
+        Digital products for today’s world. Available for new projects
+        Studio Minsky builds the digital tools that drive business
+        growth. From websites
+      </AnimatedText>
       <Process />
       <AnimatedText>
         Digital products for today’s world. Available for new projects
@@ -25,6 +34,8 @@ export default function Home() {
         growth. From websites
       </AnimatedText>
       <Blog />
+      <Contact />
+      <Footer />
     </>
   );
 }
