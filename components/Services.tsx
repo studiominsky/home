@@ -3,7 +3,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import Container from './Container'; // Assuming this is a standard container component
+import Container from './Container';
 import ServiceVisual from './ServiceVisuals';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -196,7 +196,7 @@ const Services: React.FC = () => {
     <section
       id="services"
       ref={sectionRef}
-      className="py- min-h-screen"
+      className="py-30 min-h-screen"
     >
       <Container>
         <span className="font-mono border-b border-border py-3 text-sm w-full block">
