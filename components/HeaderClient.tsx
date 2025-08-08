@@ -72,6 +72,7 @@ export default function HeaderClient({ posts, latest }: Props) {
       }, 100);
     }
   }, []);
+
   return (
     <header
       className={clsx(
@@ -82,122 +83,125 @@ export default function HeaderClient({ posts, latest }: Props) {
         <div className="flex h-full w-full items-center justify-between gap-4">
           <Logo className="w-48" />
 
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <Link
-                  href="/#services"
-                  className={navigationMenuTriggerStyle()}
-                >
-                  Services
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link
-                  href="/#projects"
-                  className={navigationMenuTriggerStyle()}
-                >
-                  Projects
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link
-                  href="/#process"
-                  className={navigationMenuTriggerStyle()}
-                >
-                  Process
-                </Link>
-              </NavigationMenuItem>
+          <div className="flex">
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <Link
+                    href="/#services"
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    Services
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link
+                    href="/#projects"
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    Projects
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link
+                    href="/#process"
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    Process
+                  </Link>
+                </NavigationMenuItem>
 
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="flex gap-3 p-6 md:w-[520px] lg:w-[680px] lg:grid-cols-[.9fr,1fr]">
-                    <li className="row-span-3">
-                      {latest ? (
-                        <NavigationMenuLink asChild>
-                          <Link
-                            href={`/blog/${latest.slug}`}
-                            className={clsx(
-                              'group flex h-full w-full flex-col rounded-lg p-3',
-                              'transition-all duration-200 ease-out hover:bg-accent hover:shadow-md hover:scale-[1.02]',
-                              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                            )}
-                          >
-                            <div className="text-sm text-muted-foreground">
-                              Latest:
-                            </div>
-                            <h3 className="mt-1 line-clamp-2 text-md font-bold transition-colors group-hover:text-foreground">
-                              {latest.title}
-                            </h3>
-
-                            <div className="relative mt-3 aspect-[16/10] w-full overflow-hidden rounded-md bg-muted">
-                              {latest.coverImage ? (
-                                <Image
-                                  src={latest.coverImage}
-                                  alt={latest.title}
-                                  fill
-                                  sizes="(min-width: 1024px) 300px, 220px"
-                                  className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
-                                  priority={false}
-                                />
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="flex gap-3 p-6 md:w-[520px] lg:w-[680px] lg:grid-cols-[.9fr,1fr]">
+                      <li className="row-span-3">
+                        {latest ? (
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={`/blog/${latest.slug}`}
+                              className={clsx(
+                                'group flex h-full w-full flex-col rounded-lg p-3',
+                                'transition-all duration-200 ease-out hover:bg-accent hover:shadow-md hover:scale-[1.02]',
+                                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+                              )}
+                            >
+                              <div className="text-sm text-muted-foreground">
+                                Latest:
+                              </div>
+                              <h3 className="mt-1 line-clamp-2 text-md font-bold transition-colors group-hover:text-foreground">
+                                {latest.title}
+                              </h3>
+                              <div className="relative mt-3 aspect-[16/10] w-full overflow-hidden rounded-md bg-muted">
+                                {latest.coverImage ? (
+                                  <Image
+                                    src={latest.coverImage}
+                                    alt={latest.title}
+                                    fill
+                                    sizes="(min-width: 1024px) 300px, 220px"
+                                    className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+                                    priority={false}
+                                  />
+                                ) : null}
+                              </div>
+                              {latest.description ? (
+                                <p className="mt-3 line-clamp-3 text-sm leading-snug text-foreground/60">
+                                  {latest.description}
+                                </p>
                               ) : null}
-                            </div>
+                            </Link>
+                          </NavigationMenuLink>
+                        ) : (
+                          <div className="p-3 text-sm leading-tight text-muted-foreground">
+                            No posts yet.
+                          </div>
+                        )}
+                      </li>
+                      <div className="flex flex-col">
+                        {posts.map((post) => (
+                          <ListItem
+                            key={post.slug}
+                            href={`/blog/${post.slug}`}
+                            title={post.title}
+                            subtitle={post.description}
+                          />
+                        ))}
+                      </div>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
 
-                            {latest.description ? (
-                              <p className="mt-3 line-clamp-3 text-sm leading-snug text-foreground/60">
-                                {latest.description}
-                              </p>
-                            ) : null}
-                          </Link>
-                        </NavigationMenuLink>
-                      ) : (
-                        <div className="p-3 text-sm leading-tight text-muted-foreground">
-                          No posts yet.
-                        </div>
-                      )}
-                    </li>
-
-                    <div className="flex flex-col">
-                      {posts.map((post) => (
-                        <ListItem
-                          key={post.slug}
-                          href={`/blog/${post.slug}`}
-                          title={post.title}
-                          subtitle={post.description}
-                        />
-                      ))}
-                    </div>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>
-                  Settings
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[300px] gap-3 p-4">
-                    <li className="flex items-center justify-between p-2">
-                      <span className="text-sm font-medium">
-                        Theme
-                      </span>
-                      <ThemeToggle />
-                    </li>
-                    <li className="flex items-center justify-between p-2">
-                      <span className="text-sm font-medium">
-                        Color
-                      </span>
-                      <ColorSelector />
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+            <NavigationMenu viewport={true}>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>
+                    Settings
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[300px] gap-3 p-4">
+                      <li className="flex items-center justify-between p-2">
+                        <span className="text-sm font-medium">
+                          Theme
+                        </span>
+                        <ThemeToggle />
+                      </li>
+                      <li className="flex items-center justify-between p-2">
+                        <span className="text-sm font-medium">
+                          Color
+                        </span>
+                        <ColorSelector />
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
 
           <div className="flex items-center gap-2">
-            <NavigationMenu>
+            <NavigationMenu viewport={true}>
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="bg-transparent">
@@ -222,7 +226,7 @@ export default function HeaderClient({ posts, latest }: Props) {
             </NavigationMenu>
 
             <Link
-              href="/contact"
+              href="/#contact"
               className={clsx(
                 'z-99 m-0 flex max-w-[120px] cursor-pointer items-center justify-center rounded-full bg-background-inverted px-5 py-3 text-center font-sans text-[0.875rem] font-medium leading-[1.25rem] opacity-100 text-card',
                 'text-[var(--ds-background-100)]'
