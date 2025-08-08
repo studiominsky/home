@@ -85,8 +85,7 @@ export default function TableOfContents({
       window.removeEventListener('scroll', onScroll);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ids]);
+  }, [ids, active]);
 
   const handleClick = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
@@ -161,7 +160,7 @@ export default function TableOfContents({
                 >
                   {idx + 1}.
                 </span>
-                <span className="text-[0.95rem] leading-5">{h}</span>
+                <span className="text-lg leading-5">{h}</span>
               </a>
             </li>
           );
