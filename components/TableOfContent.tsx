@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 
 type Props = {
@@ -21,43 +21,77 @@ export default function TableOfContents({
   title = 'On this page',
 }: Props) {
   const [active, setActive] = useState<string | null>(null);
-
   const ids = useMemo(
     () => headings.map((h) => slugify(h)),
     [headings]
   );
 
+  const elementsRef = useRef<HTMLElement[]>([]);
+  const rafRef = useRef<number | null>(null);
+  const clickLockRef = useRef<number | null>(null);
+
+  const pickCurrentId = () => {
+    const els = elementsRef.current;
+    if (!els.length) return null;
+
+    const TOP_OFFSET = 100;
+    let bestId: string | null = null;
+    let bestDist = Infinity;
+
+    for (const el of els) {
+      const rect = el.getBoundingClientRect();
+      const dist = Math.abs(rect.top - TOP_OFFSET);
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestId = el.id;
+      }
+    }
+    return bestId;
+  };
+
   useEffect(() => {
     if (!ids.length) return;
 
-    const elements = ids
+    elementsRef.current = ids
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
 
     if (location.hash) {
       const hashId = location.hash.slice(1);
-      if (ids.includes(hashId)) setActive(hashId);
+      if (ids.includes(hashId)) {
+        setActive(hashId);
+        clickLockRef.current = performance.now() + 600;
+      }
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort(
-            (a, b) =>
-              a.boundingClientRect.top - b.boundingClientRect.top
-          );
-        if (visible[0]?.target?.id) setActive(visible[0].target.id);
-      },
-      { rootMargin: '-18% 0px -70% 0px', threshold: [0, 1] }
-    );
+    const onScroll = () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        if (
+          clickLockRef.current &&
+          performance.now() < clickLockRef.current
+        )
+          return;
 
-    elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+        const current = pickCurrentId();
+        if (current && current !== active) setActive(current);
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ids]);
 
   const handleClick = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
+    clickLockRef.current = performance.now() + 700;
+    setActive(id);
 
     const prefersReduced = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
@@ -68,7 +102,14 @@ export default function TableOfContents({
     });
 
     history.replaceState(null, '', `#${id}`);
-    setActive(id);
+    window.setTimeout(() => {
+      if (
+        clickLockRef.current &&
+        performance.now() >= clickLockRef.current
+      ) {
+        clickLockRef.current = null;
+      }
+    }, 1500);
   };
 
   if (!headings?.length) return null;
@@ -103,10 +144,10 @@ export default function TableOfContents({
               >
                 <span
                   className={clsx(
-                    'mt-0.5 h-5 w-1 rounded-full transition-colors',
+                    'mt-1 h-2.5 w-2.5 rounded-full ring-1 transition-all',
                     isActive
-                      ? 'bg-primary'
-                      : 'bg-transparent group-hover:bg-border'
+                      ? 'bg-primary ring-primary/30'
+                      : 'bg-transparent ring-border group-hover:bg-border'
                   )}
                   aria-hidden
                 />

@@ -18,7 +18,7 @@ export default async function BlogPostPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params; // ✅ must await
+  const { slug } = await params;
   if (!slug) notFound();
 
   const { frontMatter, html } = await getPost(slug);
@@ -29,16 +29,10 @@ export default async function BlogPostPage({
 
       <article className="mt-[80px] container mx-auto px-4 py-8">
         <header className="mb-8 flex flex-col lg:flex-row gap-6 items-start">
-          <div className="flex-1">
-            <h1 className="text-4xl font-bold mb-3">
+          <div className="flex-1 mt-auto">
+            <h1 className="text-[75px] font-geometric leading-20 uppercase font-bold mb-3">
               {frontMatter.title}
             </h1>
-
-            {frontMatter.description && (
-              <p className="mb-4 text-base leading-relaxed">
-                {frontMatter.description}
-              </p>
-            )}
 
             <time className="text-sm text-gray-500">
               Published on{' '}
@@ -66,6 +60,17 @@ export default async function BlogPostPage({
             </div>
           )}
         </header>
+
+        {frontMatter.description && (
+          <section
+            aria-label="Summary"
+            className="relative my-10 pl-5 border-l-3 border-primary"
+          >
+            <p className="m-0 text-2xl leading-8 text-foreground/90">
+              {frontMatter.description}
+            </p>
+          </section>
+        )}
 
         <div className="flex gap-20 justify-between w-full">
           <div className="blog-text prose lg:prose-xl w-2/3">
