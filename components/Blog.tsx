@@ -6,7 +6,7 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import Link from 'next/link'; // ← import Link
+import Link from 'next/link';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
@@ -59,12 +59,6 @@ export default function Blog() {
     if (!section || !cards.length) return;
 
     const ctx = gsap.context(() => {
-      gsap.set([headerRef.current, paragraphRef.current], {
-        opacity: 0,
-        y: 30,
-      });
-      gsap.set(cards, { opacity: 0, y: 30 });
-
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -107,13 +101,13 @@ export default function Blog() {
           <div className="flex justify-between pt-10">
             <h1
               ref={headerRef}
-              className="font-geometric text-5xl md:text-[75px] w-2/5"
+              className="font-geometric text-5xl md:text-[75px] w-2/5 opacity-0 translate-y-8"
             >
               BLOG
             </h1>
             <p
               ref={paragraphRef}
-              className="text-lg md:text-xl w-1/3 text-foreground"
+              className="text-lg md:text-xl w-1/3 text-foreground opacity-0 translate-y-8"
             >
               Our Blog is designed for clarity and collaboration,
               ensuring every project is a partnership that leads to
@@ -123,44 +117,52 @@ export default function Blog() {
 
           <div className="mt-20 flex gap-10">
             {articles.map((post, i) => (
-              <Link
+              <div
+                ref={(el) => {
+                  contentRefs.current[i] = el;
+                }}
+                className="w-1/3 opacity-0 translate-y-8"
                 key={post.slug}
-                href={`/blog/${post.slug}`}
-                passHref
-                className="w-1/3"
               >
-                <div
-                  ref={(el) => {
-                    contentRefs.current[i] = el;
-                  }}
-                  className={`post-card div${
-                    i + 1
-                  } cursor-pointer p-6 transition-transform hover:-translate-y-1`}
+                <Link
+                  href={`/blog/${post.slug}`}
+                  passHref
+                  className="block"
                 >
-                  {post.coverImage && (
-                    <Image
-                      src={post.coverImage}
-                      alt={post.title}
-                      width={600}
-                      height={300}
-                      className="rounded mb-4 object-cover w-full h-auto"
-                    />
-                  )}
-                  <h2 className="text-2xl font-bold mb-2">
-                    {post.title}
-                  </h2>
-                  <p className="text-gray-700 dark:text-gray-300 mb-4">
-                    {post.description}
-                  </p>
-                  <time className="text-sm text-gray-500 dark:text-gray-400">
-                    {new Date(post.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </time>
-                </div>
-              </Link>
+                  <div
+                    className={clsx(
+                      `post-card div${i + 1}`,
+                      'cursor-pointer p-6 transition-transform duration-300 hover:-translate-y-2' // A slightly more noticeable hover effect
+                    )}
+                  >
+                    {post.coverImage && (
+                      <Image
+                        src={post.coverImage}
+                        alt={post.title}
+                        width={600}
+                        height={300}
+                        className="rounded mb-4 object-cover w-full h-auto"
+                      />
+                    )}
+                    <h2 className="text-2xl font-bold mb-2">
+                      {post.title}
+                    </h2>
+                    <p className="text-gray-700 dark:text-gray-300 mb-4">
+                      {post.description}
+                    </p>
+                    <time className="text-sm text-gray-500 dark:text-gray-400">
+                      {new Date(post.date).toLocaleDateString(
+                        'en-US',
+                        {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        }
+                      )}
+                    </time>
+                  </div>
+                </Link>
+              </div>
             ))}
           </div>
           <Link
