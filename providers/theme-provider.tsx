@@ -78,6 +78,7 @@ export function ThemeProvider({
     <NextThemesProvider
       attribute="data-theme"
       storageKey="theme"
+      defaultTheme="system"
       {...props}
     >
       <AppThemeProvider>{children}</AppThemeProvider>
