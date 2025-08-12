@@ -130,3 +130,8 @@ html {
   font-size: 18px;
   line-height: 1.7;
 }
+
+.social-icon {
+  width: 30px;
+  height: 20px;
+}
