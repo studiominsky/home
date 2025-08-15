@@ -121,9 +121,15 @@ export default function Contact() {
     return () => ctx.revert();
   }, [step]);
 
-  const animateSwap = (next: 1 | 2 | 3) => {
+  const animateSwap = (
+    next: 1 | 2 | 3,
+    opts?: { force?: boolean }
+  ) => {
     const el = stepWrapRef.current;
     if (!el) return;
+
+    if (sent && !opts?.force && next !== 3) return;
+
     gsap.to(el, {
       opacity: 0,
       y: 10,
@@ -318,7 +324,7 @@ export default function Contact() {
                           onClick={() => toggleService(s)}
                           aria-pressed={active}
                           className={clsx(
-                            'relative overflow-hidden ',
+                            'relative overflow-hidden',
                             'flex items-center justify-between rounded-xl px-4 py-3 border transition-all outline-none',
                             'border-border text-foreground hover:border-primary'
                           )}
@@ -418,7 +424,7 @@ export default function Contact() {
                 <div className="relative mx-auto mb-6 h-24 w-24">
                   <div className="absolute inset-0 flex items-center justify-center rounded-full bg-foreground/10" />
                   <div className="relative z-10 flex h-full w-full items-center justify-center rounded-full bg-green-600 text-card ring-[var(--color-primary)]/30">
-                    <Check className="h-10 w-10 mt-1" />
+                    <Check className="h-10 w-10" />
                   </div>
                 </div>
 
@@ -430,7 +436,15 @@ export default function Contact() {
                 </p>
                 <div className="mt-8">
                   <Button
-                    onClick={() => animateSwap(1)}
+                    onClick={() => {
+                      setName('');
+                      setEmail('');
+                      setCompany('');
+                      setMessage('');
+                      setServices([]);
+                      setSent(false);
+                      animateSwap(1, { force: true });
+                    }}
                     variant="ghost"
                     className="rounded-full px-6 py-5 bg-transparent hover:bg-foreground/10 text-foreground"
                   >
@@ -477,8 +491,8 @@ function StepDot({
       ? 'bg-[var(--color-primary)] text-[var(--color-inverted)] ring-[color:rgba(var(--color-primary-rgb),0.55)]'
       : 'bg-foreground/10 text-foreground/70';
 
-  const Tag: 'button' | 'div' =
-    state === 'done' && onClick ? 'button' : 'div';
+  const canClick = !sent && state === 'done' && onClick;
+  const Tag: 'button' | 'div' = canClick ? 'button' : 'div';
 
   return (
     <div
@@ -486,11 +500,14 @@ function StepDot({
       role="listitem"
     >
       <Tag
-        type={state === 'done' && onClick ? 'button' : undefined}
-        className={`${base} ${style}`}
+        type={canClick ? 'button' : undefined}
+        className={`${base} ${style} ${
+          canClick ? 'cursor-pointer' : 'cursor-default'
+        }`}
         aria-current={state === 'active' ? 'step' : undefined}
         aria-label={`Step ${me}: ${label}`}
-        onClick={state === 'done' ? onClick : undefined}
+        aria-disabled={sent ? true : undefined}
+        onClick={canClick ? onClick : undefined}
       >
         {state === 'done' ? (
           <Check className="h-4 w-4 md:h-5 md:w-5" />
