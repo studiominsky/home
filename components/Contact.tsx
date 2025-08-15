@@ -48,6 +48,10 @@ export default function Contact() {
   const [services, setServices] = useState<string[]>([]);
   const [sent, setSent] = useState(false);
 
+  const isValidEmail = (v: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const basicsValid = name.trim().length >= 2 && isValidEmail(email);
+
   useLayoutEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -63,7 +67,10 @@ export default function Contact() {
 
       gsap.set(
         [headingRef.current, subRef.current, stepperRef.current],
-        { opacity: 0, y: 30 }
+        {
+          opacity: 0,
+          y: 30,
+        }
       );
       gsap.set(stepWrapRef.current, { opacity: 0, y: 30 });
 
@@ -140,6 +147,7 @@ export default function Contact() {
 
   const onNextBasics = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!basicsValid) return;
     animateSwap(2);
   };
 
@@ -150,44 +158,59 @@ export default function Contact() {
   };
 
   return (
-    <section
-      ref={sectionRef}
-      id="contact"
-      className="bg-primary text-black"
-    >
+    <section ref={sectionRef} id="contact" className="py-32 md:py-40">
       <Container>
-        <div className="py-32 md:py-40 text-center">
-          <h2 ref={headingRef} className="font-geometric text-[72px]">
+        <div className="text-center">
+          <h2
+            ref={headingRef}
+            className="font-geometric text-[72px] leading-[0.95] text-foreground"
+          >
             Tell us about your project.
           </h2>
           <p
             ref={subRef}
-            className="mx-auto max-w-3xl text-[20px] md:text-[22px] leading-[1.6] text-black/70"
+            className="mx-auto mt-4 max-w-3xl text-[20px] md:text-[22px] leading-[1.6] text-foreground/70"
           >
             Quick form. Two steps. We’ll reply within 1–2 business
             days.
           </p>
+
           <div
             ref={stepperRef}
             className="mt-10 flex items-center justify-center gap-5 md:gap-6"
+            role="list"
+            aria-label="Form steps"
           >
-            <StepDot current={step} me={1} label="Basics" />
-            <div className="h-[3px] w-16 md:w-20 bg-black/25 rounded-full" />
-            <StepDot current={step} me={2} label="Project" />
-            <div className="h-[3px] w-16 md:w-20 bg-black/25 rounded-full" />
-            <StepDot current={step} me={3} label="Done" />
+            <StepDot
+              current={step}
+              me={1}
+              label="Basics"
+              onClick={() => animateSwap(1)}
+              sent={sent}
+            />
+            <div className="h-[3px] w-16 md:w-20 rounded-full bg-foreground/20" />
+            <StepDot
+              current={step}
+              me={2}
+              label="Project"
+              onClick={() => animateSwap(2)}
+              sent={sent}
+            />
+            <div className="h-[3px] w-16 md:w-20 rounded-full bg-foreground/20" />
+            <StepDot current={step} me={3} label="Done" sent={sent} />
           </div>
+
           <div
             ref={stepWrapRef}
             className="mx-auto mt-12 w-full max-w-4xl text-left"
           >
             {step === 1 && (
-              <form onSubmit={onNextBasics} className="space-y-12">
-                <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
+              <form onSubmit={onNextBasics} className="space-y-10">
+                <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
                   <UnderlinedField
                     label="Your name"
                     htmlFor="name"
-                    icon={<User2 className="h-6 w-6" />}
+                    icon={<User2 className="h-5 w-5" />}
                     ref={(el) => {
                       basicsRefs.current[0] = el;
                     }}
@@ -195,8 +218,9 @@ export default function Contact() {
                     <Input
                       id="name"
                       name="name"
+                      autoComplete="name"
                       placeholder="Jane Doe"
-                      className={inputUnderlineClass}
+                      className={inputCardClass}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
@@ -205,7 +229,7 @@ export default function Contact() {
                   <UnderlinedField
                     label="Email"
                     htmlFor="email"
-                    icon={<Mail className="h-6 w-6" />}
+                    icon={<Mail className="h-5 w-5" />}
                     ref={(el) => {
                       basicsRefs.current[1] = el;
                     }}
@@ -214,19 +238,21 @@ export default function Contact() {
                       id="email"
                       name="email"
                       type="email"
+                      autoComplete="email"
                       inputMode="email"
                       placeholder="you@example.com"
-                      className={inputUnderlineClass}
+                      className={inputCardClass}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
                     />
                   </UnderlinedField>
                 </div>
+
                 <UnderlinedField
                   label="Company (optional)"
                   htmlFor="company"
-                  icon={<Building2 className="h-6 w-6" />}
+                  icon={<Building2 className="h-5 w-5" />}
                   ref={(el) => {
                     basicsRefs.current[2] = el;
                   }}
@@ -235,13 +261,14 @@ export default function Contact() {
                     id="company"
                     name="company"
                     placeholder="Acme Inc."
-                    className={inputUnderlineClass}
+                    className={inputCardClass}
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                   />
                 </UnderlinedField>
+
                 <div
-                  className="flex items-center justify-end"
+                  className="flex flex-col items-end"
                   ref={(el) => {
                     basicsRefs.current[3] = el as HTMLDivElement;
                   }}
@@ -249,24 +276,38 @@ export default function Contact() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="rounded-full bg-black px-20 flex items-center justify-center max-w-[230px] py-6 text-base text-white hover:bg-black/90"
+                    disabled={!basicsValid}
+                    className={clsx(
+                      'cursor-pointer rounded-full px-20 flex items-center justify-center w-[150px] py-4',
+                      'bg-foreground text-card hover:bg-white',
+                      !basicsValid
+                        ? 'opacity-60 cursor-not-allowed'
+                        : 'hover:opacity-90'
+                    )}
                   >
                     <span>Next</span>
                     <ArrowRight className="ml-2 h-6 w-6" />
                   </Button>
+                  {!basicsValid && (
+                    <p className="mt-3 text-sm text-foreground/70">
+                      Enter your name and a valid email to continue.
+                    </p>
+                  )}
                 </div>
               </form>
             )}
+
             {step === 2 && (
-              <form onSubmit={onSubmitAll} className="space-y-12">
+              <form onSubmit={onSubmitAll} className="space-y-10">
                 <div
                   ref={(el) => {
                     projectRefs.current[0] = el;
                   }}
                 >
-                  <Label className="text-sm md:text-base uppercase tracking-[0.14em]">
+                  <Label className="text-sm uppercase tracking-[0.14em] text-foreground">
                     What do you need? (select all that apply)
                   </Label>
+
                   <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {SERVICES.map((s) => {
                       const active = services.includes(s);
@@ -277,21 +318,30 @@ export default function Contact() {
                           onClick={() => toggleService(s)}
                           aria-pressed={active}
                           className={clsx(
-                            'flex items-center justify-between rounded-full px-5 py-3 text-base',
-                            'border-2 transition-all outline-none',
-                            'focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
-                            active
-                              ? 'border-black bg-black/10'
-                              : 'border-black/40 hover:border-black/60'
+                            'relative overflow-hidden',
+                            'flex items-center justify-between rounded-xl px-4 py-3 border transition-all outline-none',
+                            'border-border text-foreground hover:border-primary'
                           )}
                         >
+                          {active && (
+                            <span
+                              aria-hidden
+                              className="pointer-events-none absolute left-1/2 -bottom-1/2 -z-10 h-[180%] w-[200%] -translate-x-1/2 rounded-full"
+                              style={{
+                                background: `rgba(var(--color-primary-rgb), 0.25)`,
+                                borderTop:
+                                  '2px solid var(--color-primary)',
+                              }}
+                            />
+                          )}
+
                           <span className="truncate">{s}</span>
                           <span
                             className={clsx(
-                              'grid size-6 place-items-center rounded-full border transition-all',
+                              'flex items-center justify-center size-6 rounded-full border transition-all',
                               active
-                                ? 'border-black bg-black text-white'
-                                : 'border-black/40 bg-transparent'
+                                ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-[var(--color-inverted)]'
+                                : 'border-border bg-transparent text-foreground'
                             )}
                           >
                             {active ? (
@@ -303,6 +353,7 @@ export default function Contact() {
                     })}
                   </div>
                 </div>
+
                 <UnderlinedField
                   label="Project brief"
                   htmlFor="message"
@@ -315,13 +366,14 @@ export default function Contact() {
                     name="message"
                     rows={6}
                     placeholder="Goals, timeline, references, success criteria…"
-                    className={textareaUnderlineClass}
+                    className={textareaCardClass}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                   />
                 </UnderlinedField>
+
                 <p
-                  className="text-[15px] md:text-base text-black/70"
+                  className="text-[15px] text-foreground/70"
                   ref={(el) => {
                     projectRefs.current[2 + SERVICES.length] = el;
                   }}
@@ -329,6 +381,7 @@ export default function Contact() {
                   The more context you share, the faster we can
                   estimate accurately.
                 </p>
+
                 <div
                   className="flex items-center justify-between gap-3"
                   ref={(el) => {
@@ -339,7 +392,7 @@ export default function Contact() {
                     type="button"
                     variant="ghost"
                     onClick={() => animateSwap(1)}
-                    className="rounded-full text-black hover:bg-black/10 px-6 py-5 text-base"
+                    className="rounded-full px-6 py-5 bg-transparent hover:bg-foreground/20 text-foreground"
                   >
                     <ArrowLeft className="mr-2 h-6 w-6" />
                     Back
@@ -347,13 +400,14 @@ export default function Contact() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="rounded-full bg-black px-10 py-6 text-base md:text-lg text-white hover:bg-black/90"
+                    className="cursor-pointer rounded-full px-10 py-4 bg-foreground text-card hover:opacity-90 hover:bg-0"
                   >
                     Send message
                   </Button>
                 </div>
               </form>
             )}
+
             {step === 3 && (
               <div
                 className="py-16 text-center"
@@ -361,20 +415,24 @@ export default function Contact() {
                   doneRefs.current[0] = el;
                 }}
               >
-                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-600/15 text-green-700">
-                  <Check className="h-10 w-10" />
+                <div className="relative mx-auto mb-6 h-24 w-24">
+                  <div className="absolute inset-0 flex items-center justify-center rounded-full bg-foreground/10" />
+                  <div className="relative z-10 flex h-full w-full items-center justify-center rounded-full bg-green-600 text-card ring-[var(--color-primary)]/30">
+                    <Check className="h-10 w-10 mt-1" />
+                  </div>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-semibold">
+
+                <h3 className="text-2xl md:text-3xl font-semibold text-foreground">
                   {sent ? 'Thank you!' : 'All set!'}
                 </h3>
-                <p className="mt-3 text-[15px] md:text-base text-black/70">
+                <p className="mt-3 text-[15px] md text-foreground/70">
                   We’ll be in touch within 1–2 business days.
                 </p>
                 <div className="mt-8">
                   <Button
                     onClick={() => animateSwap(1)}
                     variant="ghost"
-                    className="rounded-full text-black hover:bg-black/10 px-6 py-5 text-base"
+                    className="rounded-full px-6 py-5 bg-transparent hover:bg-foreground/10 text-foreground"
                   >
                     Send another
                   </Button>
@@ -392,51 +450,71 @@ function StepDot({
   current,
   me,
   label,
+  onClick,
+  sent,
 }: {
   current: 1 | 2 | 3;
   me: 1 | 2 | 3;
   label: string;
+  onClick?: () => void;
+  sent?: boolean;
 }) {
-  const state =
-    current === me ? 'active' : current > me ? 'done' : 'idle';
+  const isFinalChecked = sent && me === 3;
+  const state = isFinalChecked
+    ? 'done'
+    : current === me
+    ? 'active'
+    : current > me
+    ? 'done'
+    : 'idle';
+
+  const base =
+    'grid size-10 md:size-12 place-items-center rounded-full text-[12px] md:text-[13px] font-semibold transition-colors outline-none';
+  const style =
+    state === 'done'
+      ? 'bg-foreground text-card focus-visible:ring-[var(--color-primary)] cursor-pointer'
+      : state === 'active'
+      ? 'bg-[var(--color-primary)] text-[var(--color-inverted)] ring-[color:rgba(var(--color-primary-rgb),0.55)]'
+      : 'bg-foreground/10 text-foreground/70';
+
+  const Tag: 'button' | 'div' =
+    state === 'done' && onClick ? 'button' : 'div';
+
   return (
-    <div className="flex items-center gap-3 text-black">
-      <div
-        className={clsx(
-          'grid size-10 md:size-12 place-items-center rounded-full text-[12px] md:text-[13px] font-semibold transition-colors',
-          state === 'done'
-            ? 'bg-black text-white'
-            : state === 'active'
-            ? 'bg-black/15 text-black'
-            : 'bg-black/10 text-black/70'
-        )}
+    <div
+      className="flex items-center gap-3 text-foreground"
+      role="listitem"
+    >
+      <Tag
+        type={state === 'done' && onClick ? 'button' : undefined}
+        className={`${base} ${style}`}
+        aria-current={state === 'active' ? 'step' : undefined}
+        aria-label={`Step ${me}: ${label}`}
+        onClick={state === 'done' ? onClick : undefined}
       >
         {state === 'done' ? (
           <Check className="h-4 w-4 md:h-5 md:w-5" />
         ) : (
           me
         )}
-      </div>
-      <span className="text-sm md:text-base text-black/70">
-        {label}
-      </span>
+      </Tag>
+      <span className="text-sm md text-foreground/70">{label}</span>
     </div>
   );
 }
 
-const inputUnderlineClass = clsx(
-  'bg-primary text-black placeholder:text-black/50',
-  'border-0 border-b-2 border-b-black/40 rounded-none px-0 h-11',
-  'caret-black selection:bg-black/10',
-  'focus-visible:ring-0 focus:outline-none',
-  'focus:border-b-black transition-[box-shadow,border-color]'
+const inputCardClass = clsx(
+  'w-full rounded-md px-4 py-3',
+  'bg-card text-foreground placeholder:text-foreground/50',
+  'border border-border hover:border-[var(--color-primary)]',
+  'focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-0 focus-visible:ring-offset-card'
 );
-const textareaUnderlineClass = clsx(
-  'bg-primary text-black placeholder:text-black/50',
-  'border-0 border-b-2 border-b-black/40 rounded-none px-0 pt-2',
-  'caret-black selection:bg-black/10',
-  'focus-visible:ring-0 focus:outline-none',
-  'focus:border-b-black transition-[box-shadow,border-color]'
+
+const textareaCardClass = clsx(
+  'w-full rounded-xl px-4 py-3',
+  'bg-card text-foreground placeholder:text-foreground/50',
+  'border border-border hover:border-[var(--color-primary)]',
+  'focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-0 focus-visible:ring-offset-card'
 );
 
 const UnderlinedField = React.forwardRef<
@@ -452,17 +530,17 @@ const UnderlinedField = React.forwardRef<
     <div className="group/field" ref={ref}>
       <Label
         htmlFor={htmlFor}
-        className="mb-3 block text-sm md:text-base uppercase tracking-[0.14em]"
+        className="mb-2 block text-sm md uppercase tracking-[0.14em] text-foreground"
       >
         {label}
       </Label>
       <div className="relative">
         {icon ? (
-          <span className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 text-black/60">
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-foreground/60">
             {icon}
           </span>
         ) : null}
-        <div className={clsx(icon && 'pl-9')}>{children}</div>
+        <div className={clsx(icon && 'pl-10')}>{children}</div>
       </div>
     </div>
   );

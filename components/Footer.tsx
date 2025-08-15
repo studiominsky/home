@@ -18,6 +18,12 @@ export default function Footer() {
               Studio Minsky — building thoughtful, fast, and
               accessible web experiences.
             </p>
+            <Link
+              href="mailto:hello@studiominsky.com"
+              className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              hello@studiominsky.com
+            </Link>
           </div>
 
           <nav className="grid grid-cols-2 gap-3 md:max-md:grid-cols-3 md:grid-cols-2">
