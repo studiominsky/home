@@ -279,7 +279,7 @@ export default function Contact() {
                     disabled={!basicsValid}
                     className={clsx(
                       'cursor-pointer rounded-full px-20 flex items-center justify-center w-[150px] py-4',
-                      'bg-foreground text-card hover:bg-white',
+                      'bg-foreground text-card hover:bg-foreground',
                       !basicsValid
                         ? 'opacity-60 cursor-not-allowed'
                         : 'hover:opacity-90'
@@ -318,7 +318,7 @@ export default function Contact() {
                           onClick={() => toggleService(s)}
                           aria-pressed={active}
                           className={clsx(
-                            'relative overflow-hidden',
+                            'relative overflow-hidden ',
                             'flex items-center justify-between rounded-xl px-4 py-3 border transition-all outline-none',
                             'border-border text-foreground hover:border-primary'
                           )}
