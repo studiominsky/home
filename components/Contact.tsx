@@ -48,6 +48,11 @@ export default function Contact() {
   const [services, setServices] = useState<string[]>([]);
   const [sent, setSent] = useState(false);
 
+  // resend-related UI state
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState('');
+
   const isValidEmail = (v: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   const basicsValid = name.trim().length >= 2 && isValidEmail(email);
@@ -101,10 +106,10 @@ export default function Contact() {
       step === 1
         ? basicsRefs.current
         : step === 2
-        ? projectRefs.current
-        : doneRefs.current;
+          ? projectRefs.current
+          : doneRefs.current;
 
-    const items = els.filter(Boolean);
+    const items = els.filter(Boolean) as HTMLElement[];
     if (!items.length) return;
 
     const ctx = gsap.context(() => {
@@ -128,6 +133,7 @@ export default function Contact() {
     const el = stepWrapRef.current;
     if (!el) return;
 
+    // lock navigation back once sent (unless explicitly forced)
     if (sent && !opts?.force && next !== 3) return;
 
     gsap.to(el, {
@@ -157,10 +163,55 @@ export default function Contact() {
     animateSwap(2);
   };
 
+  // Submit to /api/contact (Resend on the backend)
   const onSubmitAll = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSent(true);
-    animateSwap(3);
+    if (loading) return;
+    setError(null);
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          company,
+          message,
+          services,
+          honeypot,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || (data && data.error)) {
+        setError(
+          data?.error || 'Something went wrong. Please try again.'
+        );
+        setLoading(false);
+        return;
+      }
+      setSent(true);
+      setLoading(false);
+      animateSwap(3);
+    } catch {
+      setError('Network error. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  const resetForm = () => {
+    setName('');
+    setEmail('');
+    setCompany('');
+    setMessage('');
+    setServices([]);
+    setHoneypot('');
+    setError(null);
+    setLoading(false);
+    setSent(false);
+    animateSwap(1, { force: true });
   };
 
   return (
@@ -230,6 +281,7 @@ export default function Contact() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
+                      minLength={2}
                     />
                   </UnderlinedField>
                   <UnderlinedField
@@ -285,7 +337,7 @@ export default function Contact() {
                     disabled={!basicsValid}
                     className={clsx(
                       'cursor-pointer rounded-full px-20 flex items-center justify-center w-[150px] py-4',
-                      'bg-foreground text-card hover:bg-foreground',
+                      'bg-foreground text-card hover:bg-white',
                       !basicsValid
                         ? 'opacity-60 cursor-not-allowed'
                         : 'hover:opacity-90'
@@ -378,15 +430,22 @@ export default function Contact() {
                   />
                 </UnderlinedField>
 
-                <p
-                  className="text-[15px] text-foreground/70"
-                  ref={(el) => {
-                    projectRefs.current[2 + SERVICES.length] = el;
+                {/* honeypot */}
+                <input
+                  type="text"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    left: '-9999px',
+                    height: 0,
+                    width: 0,
+                    opacity: 0,
                   }}
-                >
-                  The more context you share, the faster we can
-                  estimate accurately.
-                </p>
+                />
 
                 <div
                   className="flex items-center justify-between gap-3"
@@ -398,7 +457,7 @@ export default function Contact() {
                     type="button"
                     variant="ghost"
                     onClick={() => animateSwap(1)}
-                    className="rounded-full px-6 py-5 bg-transparent hover:bg-foreground/20 text-foreground"
+                    className="rounded-full px-6 py-5 text-base bg-transparent hover:bg-foreground/20 text-foreground"
                   >
                     <ArrowLeft className="mr-2 h-6 w-6" />
                     Back
@@ -406,11 +465,16 @@ export default function Contact() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="cursor-pointer rounded-full px-10 py-4 bg-foreground text-card hover:opacity-90 hover:bg-0"
+                    disabled={loading}
+                    className="cursor-pointer rounded-full px-10 py-4 text-base md:text-lg bg-foreground text-card hover:opacity-90 hover:bg-0 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Send message
+                    {loading ? 'Sending…' : 'Send message'}
                   </Button>
                 </div>
+
+                {error ? (
+                  <p className="text-sm text-red-500">{error}</p>
+                ) : null}
               </form>
             )}
 
@@ -436,17 +500,9 @@ export default function Contact() {
                 </p>
                 <div className="mt-8">
                   <Button
-                    onClick={() => {
-                      setName('');
-                      setEmail('');
-                      setCompany('');
-                      setMessage('');
-                      setServices([]);
-                      setSent(false);
-                      animateSwap(1, { force: true });
-                    }}
+                    onClick={resetForm}
                     variant="ghost"
-                    className="rounded-full px-6 py-5 bg-transparent hover:bg-foreground/10 text-foreground"
+                    className="rounded-full px-6 py-5 text-base bg-transparent hover:bg-foreground/10 text-foreground"
                   >
                     Send another
                   </Button>
@@ -477,10 +533,10 @@ function StepDot({
   const state = isFinalChecked
     ? 'done'
     : current === me
-    ? 'active'
-    : current > me
-    ? 'done'
-    : 'idle';
+      ? 'active'
+      : current > me
+        ? 'done'
+        : 'idle';
 
   const base =
     'grid size-10 md:size-12 place-items-center rounded-full text-[12px] md:text-[13px] font-semibold transition-colors outline-none';
@@ -488,8 +544,8 @@ function StepDot({
     state === 'done'
       ? 'bg-foreground text-card focus-visible:ring-[var(--color-primary)] cursor-pointer'
       : state === 'active'
-      ? 'bg-[var(--color-primary)] text-[var(--color-inverted)] ring-[color:rgba(var(--color-primary-rgb),0.55)]'
-      : 'bg-foreground/10 text-foreground/70';
+        ? 'bg-[var(--color-primary)] text-[var(--color-inverted)] ring-[color:rgba(var(--color-primary-rgb),0.55)]'
+        : 'bg-foreground/10 text-foreground/70';
 
   const canClick = !sent && state === 'done' && onClick;
   const Tag: 'button' | 'div' = canClick ? 'button' : 'div';
@@ -501,9 +557,7 @@ function StepDot({
     >
       <Tag
         type={canClick ? 'button' : undefined}
-        className={`${base} ${style} ${
-          canClick ? 'cursor-pointer' : 'cursor-default'
-        }`}
+        className={`${base} ${style} ${canClick ? 'cursor-pointer' : 'cursor-default'}`}
         aria-current={state === 'active' ? 'step' : undefined}
         aria-label={`Step ${me}: ${label}`}
         aria-disabled={sent ? true : undefined}
@@ -547,7 +601,7 @@ const UnderlinedField = React.forwardRef<
     <div className="group/field" ref={ref}>
       <Label
         htmlFor={htmlFor}
-        className="mb-2 block text-sm md uppercase tracking-[0.14em] text-foreground"
+        className="mb-2 block text-sm md:text-base uppercase tracking-[0.14em] text-foreground"
       >
         {label}
       </Label>
