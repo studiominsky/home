@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -12,6 +12,13 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import clsx from 'clsx';
 import FullWidth from './FullWidth';
 import Logo from './Logo';
@@ -19,6 +26,11 @@ import { GlobeIcon, MessageCircleIcon } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { ColorSelector } from './ColorSelector';
 import type { BlogPostMeta } from '@/types/blog';
+import dynamic from 'next/dynamic';
+
+const ContactForm = dynamic(() => import('./ContactForm'), {
+  ssr: false,
+});
 
 type Props = {
   posts: BlogPostMeta[];
@@ -62,6 +74,8 @@ const ListItem = React.forwardRef<
 ListItem.displayName = 'ListItem';
 
 export default function HeaderClient({ posts, latest }: Props) {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   useEffect(() => {
     if (window.location.hash) {
       setTimeout(() => {
@@ -227,6 +241,10 @@ export default function HeaderClient({ posts, latest }: Props) {
 
             <Link
               href="/#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsContactOpen(true);
+              }}
               className={clsx(
                 'z-99 m-0 flex max-w-[120px] cursor-pointer items-center justify-center rounded-full bg-background-inverted px-5 py-3 text-center font-sans text-[0.875rem] font-medium leading-[1.25rem] opacity-100 text-card',
                 'text-[var(--ds-background-100)]'
@@ -241,6 +259,31 @@ export default function HeaderClient({ posts, latest }: Props) {
           </div>
         </div>
       </FullWidth>
+
+      <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
+        <DialogContent
+          className={clsx(
+            'p-0 md:p-12 sm:max-w-[760px]',
+            'max-h-[min(90vh, 1000px)] overflow-y-auto'
+          )}
+        >
+          <div className="flex items-center justify-center px-10 pt-10 md:px-0 md:pt-0">
+            <DialogHeader>
+              <DialogTitle className="font-geometric text-center text-[32px] md:text-[42px] leading-none">
+                Tell us about your project.
+              </DialogTitle>
+              <DialogDescription className="pt-2 text-center text-base md:text-lg">
+                Quick form. Two steps. We’ll reply within 1–2 business
+                days.
+              </DialogDescription>
+            </DialogHeader>
+          </div>
+
+          <div className="px-6 pb-6 md:px-0 md:pb-0">
+            <ContactForm />
+          </div>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 }
