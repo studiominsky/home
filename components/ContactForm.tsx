@@ -280,7 +280,6 @@ export default function ContactForm() {
                 <ArrowRight className="ml-2 h-6 w-6" />
               </Button>
 
-              {/* Basics hint directly under the button row */}
               {!basicsValid && (
                 <p className="mt-3 text-sm text-foreground/70">
                   Enter your name and a valid email to continue.
@@ -366,7 +365,6 @@ export default function ContactForm() {
               />
             </UnderlinedField>
 
-            {/* honeypot */}
             <input
               type="text"
               value={honeypot}
@@ -409,7 +407,6 @@ export default function ContactForm() {
                 </Button>
               </div>
 
-              {/* Project hint directly under this button row (same position as basics) */}
               {!projectValid && !loading && (
                 <p className="mt-3 text-sm text-foreground/70">
                   Please enter a message to continue.
