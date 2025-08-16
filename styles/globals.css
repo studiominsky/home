@@ -61,6 +61,7 @@
 html {
   box-sizing: border-box;
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 .font-sans {
@@ -82,7 +83,8 @@ html {
 .bg-grid {
   background-size: 350px 350px;
   background-position: -1px 0;
-  background-image: linear-gradient(
+  background-image:
+    linear-gradient(
       to right,
       var(--color-border) 1px,
       transparent 1px
