@@ -2,9 +2,8 @@
 
 import React, { useLayoutEffect, useRef } from 'react';
 import { Zap, Smartphone, TrendingUp, UserRound } from 'lucide-react';
-import { BarChart, Bar, CartesianGrid, XAxis } from 'recharts';
 import { gsap } from 'gsap';
-import { PieChart, Pie, Sector } from 'recharts';
+import { Pie, PieChart, RadialBar, RadialBarChart } from 'recharts';
 import {
   ChartTooltip,
   ChartTooltipContent,
@@ -15,7 +14,7 @@ import {
 } from '@/components/ui/chart';
 import { ChartAreaGradient } from './Chart';
 import InvoiceTable from './Table';
-import type { PieSectorDataItem } from 'recharts/types/polar/Pie';
+
 interface ServiceVisualProps {
   activeIndex: number;
 }
@@ -193,7 +192,6 @@ export function WebsiteVisual() {
 
         <div className="w-full max-w-3xl mx-auto mt-50">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            {/* Feature 1 */}
             <div className="feature-item flex items-start gap-4">
               <div className="flex-shrink-0 w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center">
                 <Zap className="w-5 h-5" />
@@ -243,11 +241,7 @@ export function WebsiteVisual() {
   );
 }
 
-const ActiveDonut = (props: PieSectorDataItem) => {
-  const or = (props.outerRadius ?? 0) + 10;
-  return <Sector {...props} outerRadius={or} />;
-};
-
+// --- UPDATED DataVizVisual COMPONENT ---
 const DataVizVisual: React.FC = () => {
   const vizRef = useRef<HTMLDivElement>(null);
 
@@ -268,179 +262,296 @@ const DataVizVisual: React.FC = () => {
     );
   }, []);
 
-  const c1 = 'rgba(var(--color-primary-rgb), 1)';
-  const c2 = 'rgba(var(--color-primary-rgb), 0.8)';
-  const c3 = 'rgba(var(--color-primary-rgb), 0.6)';
-  const c4 = 'rgba(var(--color-primary-rgb), 0.45)';
-  const c5 = 'rgba(var(--color-primary-rgb), 0.3)';
-
-  const pieData1 = [
-    { key: 'chrome', label: 'Chrome', visitors: 275, fill: c1 },
-    { key: 'safari', label: 'Safari', visitors: 200, fill: c2 },
-    { key: 'firefox', label: 'Firefox', visitors: 187, fill: c3 },
-    { key: 'edge', label: 'Edge', visitors: 173, fill: c4 },
-    { key: 'other', label: 'Other', visitors: 90, fill: c5 },
+  // Data for Radial Bar Chart
+  const radialChartData = [
+    {
+      browser: 'chrome',
+      visitors: 275,
+      fill: 'rgba(var(--color-primary-rgb), 1)',
+    },
+    {
+      browser: 'safari',
+      visitors: 200,
+      fill: 'rgba(var(--color-primary-rgb), 0.8)',
+    },
+    {
+      browser: 'firefox',
+      visitors: 187,
+      fill: 'rgba(var(--color-primary-rgb), 0.6)',
+    },
+    {
+      browser: 'edge',
+      visitors: 173,
+      fill: 'rgba(var(--color-primary-rgb), 0.4)',
+    },
+    {
+      browser: 'other',
+      visitors: 90,
+      fill: 'rgba(var(--color-primary-rgb), 0.2)',
+    },
   ];
-  const pieCfg1: ChartConfig = {
-    chrome: { label: 'Chrome', color: c1 },
-    safari: { label: 'Safari', color: c2 },
-    firefox: { label: 'Firefox', color: c3 },
-    edge: { label: 'Edge', color: c4 },
-    other: { label: 'Other', color: c5 },
-  };
 
-  const pieData2 = [
-    { key: 'desktop', label: 'Desktop', visitors: 540, fill: c1 },
-    { key: 'mobile', label: 'Mobile', visitors: 360, fill: c3 },
-    { key: 'tablet', label: 'Tablet', visitors: 120, fill: c5 },
-  ];
-  const pieCfg2: ChartConfig = {
-    desktop: { label: 'Desktop', color: c1 },
-    mobile: { label: 'Mobile', color: c3 },
-    tablet: { label: 'Tablet', color: c5 },
-  };
+  const radialChartConfig = {
+    visitors: {
+      label: 'Visitors',
+    },
+    chrome: {
+      label: 'Chrome',
+      color: 'rgba(var(--color-primary-rgb), 1)',
+    },
+    safari: {
+      label: 'Safari',
+      color: 'rgba(var(--color-primary-rgb), 0.8)',
+    },
+    firefox: {
+      label: 'Firefox',
+      color: 'rgba(var(--color-primary-rgb), 0.6)',
+    },
+    edge: {
+      label: 'Edge',
+      color: 'rgba(var(--color-primary-rgb), 0.4)',
+    },
+    other: {
+      label: 'Other',
+      color: 'rgba(var(--color-primary-rgb), 0.2)',
+    },
+  } satisfies ChartConfig;
 
-  const barData = [
-    { month: 'January', desktop: 186, mobile: 80 },
-    { month: 'February', desktop: 305, mobile: 200 },
-    { month: 'March', desktop: 237, mobile: 120 },
-    { month: 'April', desktop: 73, mobile: 190 },
-    { month: 'May', desktop: 209, mobile: 130 },
-    { month: 'June', desktop: 214, mobile: 140 },
+  // Data for Calendar
+  const calendarDays = Array.from({ length: 31 }, (_, i) => i + 1);
+  const selectedDays = [11, 12, 13, 14, 15];
+
+  // Data for employee pie charts
+  const employeeData = [
+    {
+      name: 'Alice Johnson',
+      role: 'Project Manager',
+      data: [
+        {
+          name: 'Completed',
+          value: 80,
+          fill: 'var(--color-primary)',
+        },
+        { name: 'Pending', value: 20, fill: 'var(--color-border)' },
+      ],
+    },
+    {
+      name: 'Bob Williams',
+      role: 'Lead Engineer',
+      data: [
+        {
+          name: 'Completed',
+          value: 65,
+          fill: 'var(--color-primary)',
+        },
+        { name: 'Pending', value: 35, fill: 'var(--color-border)' },
+      ],
+    },
+    {
+      name: 'Charlie Brown',
+      role: 'UX Designer',
+      data: [
+        {
+          name: 'Completed',
+          value: 90,
+          fill: 'var(--color-primary)',
+        },
+        { name: 'Pending', value: 10, fill: 'var(--color-border)' },
+      ],
+    },
   ];
-  const barCfg: ChartConfig = {
-    desktop: { label: 'Desktop', color: c1 },
-    mobile: { label: 'Mobile', color: c3 },
-  };
 
   return (
     <div
-      ref={vizRef}
-      className="data-viz-container w-full h-full rounded-lg p-7 grid grid-cols-3 grid-rows-3 gap-7"
+      className="data-viz-container w-full h-full rounded-lg p-7" // Applies the background gradient style
     >
-      <div className="bg-card border border-border rounded-md p-4 flex flex-col">
-        <ChartContainer
-          config={pieCfg1}
-          className="mx-auto w-full max-w-[260px] h-[260px] aspect-auto"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={pieData1}
-              dataKey="visitors"
-              nameKey="key"
-              innerRadius={60}
-              strokeWidth={5}
-              activeIndex={0}
-              activeShape={ActiveDonut}
-              isAnimationActive
-              animationBegin={100}
-              animationDuration={800}
-              animationEasing="ease-out"
-            />
-          </PieChart>
-        </ChartContainer>
-      </div>
-
-      <div className="bg-card border border-border rounded-md p-4 flex flex-col">
-        <ChartContainer
-          config={pieCfg2}
-          className="mx-auto w-full max-w-[260px] h-[260px] aspect-auto"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={pieData2}
-              dataKey="visitors"
-              nameKey="key"
-              innerRadius={60}
-              strokeWidth={5}
-              activeIndex={0}
-              activeShape={ActiveDonut}
-              isAnimationActive
-              animationBegin={100}
-              animationDuration={800}
-              animationEasing="ease-out"
-            />
-            <Bar
-              dataKey="desktop"
-              fill="var(--color-desktop)"
-              radius={6}
-              isAnimationActive
-              animationBegin={120}
-              animationDuration={700}
-              animationEasing="ease-out"
-            />
-            <Bar
-              dataKey="mobile"
-              fill="var(--color-mobile)"
-              radius={6}
-              isAnimationActive
-              animationBegin={150}
-              animationDuration={700}
-              animationEasing="ease-out"
-            />
-          </PieChart>
-        </ChartContainer>
-      </div>
-
-      <div className="bg-card border border-border rounded-md p-4 flex flex-col justify-center">
-        <h4 className="font-semibold text-foreground/80 text-sm">
-          Query Success
-        </h4>
-        <div className="flex items-baseline gap-2 mt-2">
-          <span className="text-3xl font-bold text-foreground">
-            98.7%
-          </span>
-          <span className="text-positive font-medium text-sm">
-            +0.5%
-          </span>
+      <div
+        ref={vizRef}
+        className="w-full h-full grid grid-cols-3 grid-rows-3 gap-7"
+      >
+        {/* Main Viz: Radial Bar Chart with Gradient */}
+        <div className="gradient-card col-span-2 row-span-2 bg-card border border-border rounded-md p-4 flex flex-col">
+          <div className="text-center z-10">
+            <h4 className="font-semibold text-foreground">
+              Radial Chart - Browser Share
+            </h4>
+            <p className="text-sm text-foreground/60">
+              January - June 2024
+            </p>
+          </div>
+          <div className="flex-grow h-0 pb-4 z-10">
+            <ChartContainer
+              config={radialChartConfig}
+              className="mx-auto aspect-square max-h-[350px] h-full"
+            >
+              <RadialBarChart
+                data={radialChartData}
+                innerRadius={30}
+                outerRadius={140}
+              >
+                <ChartTooltip
+                  cursor={false}
+                  content={
+                    <ChartTooltipContent
+                      hideLabel
+                      nameKey="browser"
+                    />
+                  }
+                />
+                <RadialBar
+                  dataKey="visitors"
+                  background={{
+                    fill: 'rgba(var(--color-primary-rgb), 0.25)',
+                  }}
+                />
+              </RadialBarChart>
+            </ChartContainer>
+          </div>
+          <div className="flex-col gap-2 text-sm text-center z-10">
+            <div className="flex items-center justify-center gap-2 font-medium">
+              Trending up by 5.2% this month
+              <TrendingUp className="h-4 w-4" />
+            </div>
+          </div>
         </div>
-        <p className="text-xs text-foreground/60 mt-1">
-          vs. last 30 days
-        </p>
-      </div>
 
-      {/* BOTTOM: Bar (rows 2–3 full width) */}
-      <div className="col-span-3 row-start-2 row-span-2 bg-card border border-border rounded-md p-4 flex flex-col">
-        <h4 className="font-semibold text-sm text-foreground">
-          Device Traffic
-        </h4>
-        <p className="text-xs text-foreground/60 mb-2">
-          January – June 2024
-        </p>
+        {/* Top-Right Widget: KPI Card */}
+        <div className="col-start-3 bg-card border border-border rounded-md p-4 flex flex-col items-center justify-center text-center">
+          <h4 className="font-semibold text-foreground/80 text-sm">
+            Conversion Rate
+          </h4>
+          <div className="flex items-baseline gap-2 mt-2">
+            <span className="text-4xl font-bold text-foreground">
+              2.57%
+            </span>
+          </div>
+          <div className="flex items-center gap-1 text-positive font-medium text-sm">
+            <TrendingUp className="w-4 h-4" />
+            <span>+10%</span>
+          </div>
+        </div>
 
-        <ChartContainer
-          config={barCfg}
-          className="w-full h-[320px] aspect-auto"
-        >
-          <BarChart data={barData} accessibilityLayer>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(v) => String(v).slice(0, 3)}
-            />
-            <Bar
-              dataKey="desktop"
-              fill="var(--color-desktop)"
-              radius={6}
-            />
-            <Bar
-              dataKey="mobile"
-              fill="var(--color-mobile)"
-              radius={6}
-            />
-          </BarChart>
-        </ChartContainer>
+        <div className="col-start-3 row-start-2 bg-card border border-border rounded-md p-4 flex flex-col">
+          <h4 className="font-semibold text-sm text-foreground text-center">
+            Key Dates
+          </h4>
+
+          <div className="grid grid-cols-7 gap-y-1 text-center text-xs text-foreground/60 mt-2">
+            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+              <div key={index}>{day}</div>
+            ))}
+          </div>
+          <div className="grid grid-cols-7 gap-1 mt-3">
+            <div />
+            <div />
+            <div />
+            {calendarDays.map((day) => (
+              <div
+                key={day}
+                className={`flex items-center justify-center text-xs w-6 h-6 rounded-full ${
+                  selectedDays.includes(day)
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground/80'
+                }`}
+              >
+                {day}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="col-span-3 grid grid-cols-2 gap-7">
+          <div className="bg-card border border-border rounded-md p-4 flex flex-col">
+            <h4 className="font-semibold text-foreground mb-4">
+              Performance Metrics
+            </h4>
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between text-sm mb-1 text-foreground/80">
+                  <span>Usability</span>
+                  <span>92%</span>
+                </div>
+                <div
+                  className="w-full rounded-full h-2.5"
+                  style={{
+                    background: `linear-gradient(to right, var(--color-primary) 92%, rgba(var(--color-primary-rgb), 0.25) 92%)`,
+                  }}
+                />
+              </div>
+              <div>
+                <div className="flex justify-between text-sm mb-1 text-foreground/80">
+                  <span>Speed</span>
+                  <span>88%</span>
+                </div>
+                <div
+                  className="w-full rounded-full h-2.5"
+                  style={{
+                    background: `linear-gradient(to right, var(--color-primary) 88%, rgba(var(--color-primary-rgb), 0.25) 88%)`,
+                  }}
+                />
+              </div>
+              <div>
+                <div className="flex justify-between text-sm mb-1 text-foreground/80">
+                  <span>Accessibility</span>
+                  <span>95%</span>
+                </div>
+                <div
+                  className="w-full rounded-full h-2.5"
+                  style={{
+                    background: `linear-gradient(to right, var(--color-primary) 95%, rgba(var(--color-primary-rgb), 0.25) 95%)`,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-card border border-border rounded-md p-4 flex flex-col">
+            <h4 className="font-semibold text-foreground mb-3">
+              Employee Task Distribution
+            </h4>
+            <div className="space-y-3">
+              {employeeData.map((employee) => (
+                <div
+                  key={employee.name}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-3">
+                    <UserRound className="w-5 h-5 text-foreground/60" />
+                    <div>
+                      <p className="text-sm font-medium leading-none">
+                        {employee.name}
+                      </p>
+                      <p className="text-xs text-foreground/70">
+                        {employee.role}
+                      </p>
+                    </div>
+                  </div>
+                  <ChartContainer config={{}} className="w-10 h-10">
+                    <PieChart>
+                      <ChartTooltip
+                        content={
+                          <ChartTooltipContent
+                            hideLabel
+                            hideIndicator
+                          />
+                        }
+                      />
+                      <Pie
+                        data={employee.data}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={18}
+                        strokeWidth={2}
+                      />
+                    </PieChart>
+                  </ChartContainer>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
