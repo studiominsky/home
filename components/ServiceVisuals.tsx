@@ -1,7 +1,18 @@
 'use client';
 
 import React, { useLayoutEffect, useRef } from 'react';
-import { Zap, Smartphone, TrendingUp, UserRound } from 'lucide-react';
+import {
+  Zap,
+  Smartphone,
+  TrendingUp,
+  UserRound,
+  Sparkles,
+  BrainCircuit,
+  Cpu,
+  Smile,
+  Meh,
+  Frown,
+} from 'lucide-react';
 import { gsap } from 'gsap';
 import { Pie, PieChart, RadialBar, RadialBarChart } from 'recharts';
 import {
@@ -15,6 +26,7 @@ import {
 import { ChartAreaGradient } from './Chart';
 import InvoiceTable from './Table';
 
+// Interface and other components remain unchanged
 interface ServiceVisualProps {
   activeIndex: number;
 }
@@ -241,7 +253,6 @@ export function WebsiteVisual() {
   );
 }
 
-// --- UPDATED DataVizVisual COMPONENT ---
 const DataVizVisual: React.FC = () => {
   const vizRef = useRef<HTMLDivElement>(null);
 
@@ -376,7 +387,7 @@ const DataVizVisual: React.FC = () => {
               Radial Chart - Browser Share
             </h4>
             <p className="text-sm text-foreground/60">
-              January - June 2024
+              January - June 2025
             </p>
           </div>
           <div className="flex-grow h-0 pb-4 z-10">
@@ -431,17 +442,23 @@ const DataVizVisual: React.FC = () => {
           </div>
         </div>
 
+        {/* Middle-Right Widget: Calendar Viz */}
         <div className="col-start-3 row-start-2 bg-card border border-border rounded-md p-4 flex flex-col">
           <h4 className="font-semibold text-sm text-foreground text-center">
             Key Dates
           </h4>
-
+          <div className="text-center font-medium text-xs text-foreground/80 mt-2">
+            August 2025
+          </div>
           <div className="grid grid-cols-7 gap-y-1 text-center text-xs text-foreground/60 mt-2">
             {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
               <div key={index}>{day}</div>
             ))}
           </div>
-          <div className="grid grid-cols-7 gap-1 mt-3">
+          <div className="grid grid-cols-7 gap-1 mt-1">
+            {/* Empty cells for calendar alignment */}
+            <div />
+            <div />
             <div />
             <div />
             <div />
@@ -460,7 +477,9 @@ const DataVizVisual: React.FC = () => {
           </div>
         </div>
 
+        {/* --- BOTTOM SECTION: Split into 2 columns --- */}
         <div className="col-span-3 grid grid-cols-2 gap-7">
+          {/* Horizontal Bar Chart -- UPDATED */}
           <div className="bg-card border border-border rounded-md p-4 flex flex-col">
             <h4 className="font-semibold text-foreground mb-4">
               Performance Metrics
@@ -505,6 +524,7 @@ const DataVizVisual: React.FC = () => {
             </div>
           </div>
 
+          {/* Employee Task Distribution -- NEW */}
           <div className="bg-card border border-border rounded-md p-4 flex flex-col">
             <h4 className="font-semibold text-foreground mb-3">
               Employee Task Distribution
@@ -557,51 +577,252 @@ const DataVizVisual: React.FC = () => {
   );
 };
 
-const AiVisual: React.FC = () => (
-  <div className="w-full h-full flex items-center justify-center p-6">
-    <p className="text-center font-mono">
-      <span className="text-primary animate-pulse">[AI]</span> is
-      revolutionizing tech.
-    </p>
-  </div>
-);
+// --- UPDATED AiVisual COMPONENT ---
+const AiVisual: React.FC = () => {
+  const aiRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const el = aiRef.current;
+    if (!el) return;
+    gsap.fromTo(
+      '.ai-element',
+      { opacity: 0, scale: 0.95 },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+        ease: 'power3.out',
+        stagger: 0.15,
+        delay: 0.2,
+      }
+    );
+  }, []);
 
+  const aspects = [
+    {
+      icon: Zap,
+      title: 'Automation',
+      text: 'Automate repetitive tasks to free up employees for strategic work.',
+    },
+    {
+      icon: BrainCircuit,
+      title: 'Enhanced Decision-Making',
+      text: 'Analyze large datasets to identify patterns and enable more informed decisions.',
+    },
+    {
+      icon: UserRound,
+      title: 'Personalized Experiences',
+      text: 'Offer tailored recommendations and customized support.',
+    },
+  ];
+
+  // Create capitalized variables for the icons to fix JSX error
+  const AspectIcon1 = aspects[0].icon;
+  const AspectIcon2 = aspects[1].icon;
+  const AspectIcon3 = aspects[2].icon;
+
+  return (
+    <div
+      ref={aiRef}
+      className="gradient-card w-full h-full p-7 bg-card border border-border rounded-lg relative flex items-center justify-center overflow-hidden"
+    >
+      {/* Positioned Title */}
+      <div className="ai-element absolute top-7 left-7">
+        <h3 className="text-2xl font-bold font-geometric text-foreground">
+          AI Integration for Business
+        </h3>
+      </div>
+
+      {/* Central Core */}
+      <div className="relative flex items-center justify-center w-64 h-64 z-10">
+        <div className="absolute w-full h-full border-2 border-primary/20 rounded-full animate-spin-slow" />
+        <div className="absolute w-2/3 h-2/3 border-2 border-primary/20 rounded-full animate-spin-slow animation-delay-[-2s]" />
+        <div className="w-16 h-16 bg-primary rounded-full animate-pulse shadow-2xl shadow-primary/50 flex items-center justify-center">
+          <Cpu className="w-8 h-8 text-primary-foreground" />
+        </div>
+      </div>
+
+      {/* Surrounding Aspect Cards */}
+      <div className="ai-element absolute top-[20%] left-[25%] w-56 bg-card/60 backdrop-blur-sm border border-border rounded-lg p-3 shadow-lg">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-7 h-7 bg-primary/10 text-primary rounded-md flex items-center justify-center mt-1">
+            <AspectIcon1 className="w-4 h-4" />
+          </div>
+          <div>
+            <h5 className="font-semibold text-sm text-foreground">
+              {aspects[0].title}
+            </h5>
+            <p className="text-xs text-foreground/60">
+              {aspects[0].text}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="ai-element absolute top-[40%] right-[15%] w-56 bg-card/60 backdrop-blur-sm border border-border rounded-lg p-3 shadow-lg">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-7 h-7 bg-primary/10 text-primary rounded-md flex items-center justify-center mt-1">
+            <AspectIcon2 className="w-4 h-4" />
+          </div>
+          <div>
+            <h5 className="font-semibold text-sm text-foreground">
+              {aspects[1].title}
+            </h5>
+            <p className="text-xs text-foreground/60">
+              {aspects[1].text}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="ai-element absolute bottom-[20%] left-[30%] w-56 bg-card/60 backdrop-blur-sm border border-border rounded-lg p-3 shadow-lg">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 w-7 h-7 bg-primary/10 text-primary rounded-md flex items-center justify-center mt-1">
+            <AspectIcon3 className="w-4 h-4" />
+          </div>
+          <div>
+            <h5 className="font-semibold text-sm text-foreground">
+              {aspects[2].title}
+            </h5>
+            <p className="text-xs text-foreground/60">
+              {aspects[2].text}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* JSON Example */}
+      <div className="ai-element absolute bottom-8 right-8 w-64 bg-card/60 backdrop-blur-sm border border-border rounded-lg p-3 font-mono text-[10px] shadow-lg">
+        <p className="font-sans font-semibold text-xs mb-1 text-foreground">
+          Example: Data Enrichment
+        </p>
+        <p>{'{'}</p>
+        <p className="pl-2">
+          <span className="text-positive">feedback</span>:{' '}
+          <span className="text-foreground/80">
+            The service was amazing!
+          </span>
+          ,
+        </p>
+        <p className="pl-2">
+          <span className="text-positive">sentiment</span>:{' '}
+          <span className="text-foreground/90 font-semibold bg-primary/20 px-1 rounded">
+            Positive
+          </span>
+          ,
+        </p>
+        <p>{'}'}</p>
+      </div>
+    </div>
+  );
+};
+
+// --- UPDATED ChatbotVisual COMPONENT ---
 const ChatbotVisual: React.FC = () => {
   const chatRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     const el = chatRef.current;
     if (!el) return;
     gsap.fromTo(
-      Array.from(el.children),
+      '.chat-message',
       { opacity: 0, y: 20 },
       {
         opacity: 1,
         y: 0,
         duration: 0.5,
         ease: 'power2.out',
-        stagger: 0.6,
+        stagger: 1.2, // Increased stagger for a more conversational feel
         delay: 0.2,
       }
     );
   }, []);
+
+  const conversation = [
+    { type: 'ai', text: 'Hello! How can I assist you today?' },
+    { type: 'user', text: "I'd like to start a project." },
+    {
+      type: 'ai',
+      text: 'Of course! What kind of project are you envisioning?',
+    },
+    { type: 'user', text: 'Web Application' },
+    {
+      type: 'ai',
+      text: 'Great choice! To help us get started, could you tell me a bit about your target audience?',
+      options: [
+        'General Public',
+        'Business (B2B)',
+        'Internal Employees',
+      ],
+    },
+    { type: 'user', text: 'Business (B2B)' },
+    {
+      type: 'ai',
+      text: "Understood. We specialize in B2B applications that boost efficiency. We'll be in touch to discuss the details. Thank you!",
+    },
+    {
+      type: 'ai',
+      text: 'How was your experience with me?',
+      feedback: true,
+    },
+  ];
+
   return (
-    <div className="w-full h-full bg-card rounded-lg p-6 flex flex-col justify-end">
-      <div ref={chatRef} className="flex flex-col gap-3">
-        <div className="p-3 bg-muted rounded-lg self-start max-w-xs">
-          Hello! How can I help you?
+    <div className="w-full h-full bg-card rounded-lg p-4 flex flex-col">
+      {/* Header */}
+      <div className="flex-shrink-0 flex items-center gap-3 p-2">
+        <div className="relative">
+          <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+            <Sparkles className="w-5 h-5 text-primary" />
+          </div>
+          <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-positive rounded-full border-2 border-card" />
         </div>
-        <div className="p-3 bg-primary text-primary-foreground rounded-lg self-end max-w-xs">
-          I&apos;d like to start a project.
+        <div>
+          <h5 className="font-semibold">AI Assistant</h5>
+          <p className="text-xs text-foreground/60">Online</p>
         </div>
-        <div className="p-3 w-12 bg-muted rounded-lg self-start flex items-center justify-center gap-1">
-          {[0, 100, 200].map((delay) => (
-            <span
-              key={delay}
-              className="w-2 h-2 bg-foreground/40 rounded-full animate-bounce"
-              style={{ animationDelay: `${delay}ms` }}
-            />
-          ))}
-        </div>
+      </div>
+
+      {/* Message Area */}
+      <div
+        ref={chatRef}
+        className="flex-grow p-4 flex flex-col gap-4 overflow-y-auto"
+      >
+        {conversation.map((msg, index) => (
+          <div key={index} className="chat-message flex flex-col">
+            {msg.type === 'user' && (
+              <div className="p-3 text-primary-foreground rounded-lg self-end max-w-xs text-sm">
+                {msg.text}
+              </div>
+            )}
+            {msg.type === 'ai' && (
+              <div className="p-3 rounded-lg self-start max-w-xs text-sm">
+                {msg.text}
+              </div>
+            )}
+            {msg.options && (
+              <div className="flex gap-2 justify-start flex-wrap mt-2 self-start">
+                {msg.options.map((option) => (
+                  <div
+                    key={option}
+                    className="text-xs py-1.5 px-3 rounded-lg bg-card hover:bg-muted transition-colors cursor-pointer"
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
+            )}
+            {msg.feedback && (
+              <div className="p-3 rounded-lg self-start text-sm">
+                <div className="flex items-center justify-center gap-3 mb-2">
+                  <Frown className="w-6 h-6 text-foreground/40 hover:text-red-500 transition-colors cursor-pointer" />
+                  <Meh className="w-6 h-6 text-foreground/40 hover:text-yellow-500 transition-colors cursor-pointer" />
+                  <Smile className="w-6 h-6 text-primary fill-primary/20 cursor-pointer" />
+                </div>
+                <p className="text-xs text-foreground/70 pt-2 mt-2 text-center">
+                  AI assistants can collect valuable user feedback
+                  24/7.
+                </p>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
