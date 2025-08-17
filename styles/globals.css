@@ -16,6 +16,12 @@
   --color-primary: #90c360;
   --color-primary-rgb: 144, 195, 96;
   --color-positive: #90c360;
+
+  --chart-1: hsl(var(--primary-color));
+  --chart-2: hsl(var(--primary-color) / 0.1);
+  --chart-3: hsl(var(--primary-color) / 0.2);
+  --chart-4: hsl(var(--primary-color) / 0.4);
+  --chart-5: hsl(var(--primary-color) / 0.1);
 }
 
 @layer base {
@@ -104,7 +110,7 @@ html {
 .web-card::after {
   content: '';
   position: absolute;
-  bottom: -50%;
+  bottom: -55%;
   left: 50%;
   transform: translateX(-50%);
   width: 200%;
@@ -136,4 +142,28 @@ html {
 .social-icon {
   width: 30px;
   height: 20px;
+}
+
+.data-viz-container {
+  position: relative;
+  background-color: transparent; /* Or your desired base background */
+  overflow: hidden; /* To contain the pseudo-element */
+}
+
+.data-viz-container::after {
+  content: '';
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    hsl(var(--primary) / 0.15) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
 }
