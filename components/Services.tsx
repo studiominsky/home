@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import Container from './Container';
-import ServiceVisual from './ServiceVisuals';
+import ServiceVisual from './visuals/ServiceVisuals';
 
 gsap.registerPlugin(ScrollTrigger);
 
