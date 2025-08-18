@@ -1,8 +1,12 @@
 'use client';
 
-import React, { useLayoutEffect, useRef } from 'react';
+import React, {
+  useLayoutEffect,
+  useRef,
+  useEffect,
+  useState,
+} from 'react';
 import { TrendingUp, UserRound } from 'lucide-react';
-import { gsap } from 'gsap';
 import { Pie, PieChart, RadialBar, RadialBarChart } from 'recharts';
 import {
   ChartTooltip,
@@ -13,12 +17,33 @@ import {
   type ChartConfig,
 } from '@/components/ui/chart';
 
+declare global {
+  interface Window {
+    gsap?: GSAP;
+  }
+}
+
 const DataVizVisual: React.FC = () => {
   const vizRef = useRef<HTMLDivElement>(null);
+  const [isGsapReady, setIsGsapReady] = useState(false);
+
+  useEffect(() => {
+    const s = document.createElement('script');
+    s.src =
+      'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
+    s.onload = () => setIsGsapReady(true);
+    document.body.appendChild(s);
+    return () => {
+      document.body.removeChild(s);
+    };
+  }, []);
 
   useLayoutEffect(() => {
+    if (!isGsapReady || !window.gsap || !vizRef.current) return;
+
+    const gsap = window.gsap;
     const el = vizRef.current;
-    if (!el) return;
+
     gsap.fromTo(
       el.children,
       { opacity: 0, y: 30 },
@@ -31,9 +56,8 @@ const DataVizVisual: React.FC = () => {
         delay: 0.2,
       }
     );
-  }, []);
+  }, [isGsapReady]);
 
-  // Data for Radial Bar Chart
   const radialChartData = [
     {
       browser: 'chrome',
@@ -86,11 +110,9 @@ const DataVizVisual: React.FC = () => {
     },
   } satisfies ChartConfig;
 
-  // Data for Calendar
-  const calendarDays = Array.from({ length: 31 }, (_, i) => i + 1);
-  const selectedDays = [11, 12, 13, 14, 15];
+  const calendarDays = Array.from({ length: 30 }, (_, i) => i + 1);
+  const selectedDays = [11, 12, 13];
 
-  // Data for employee pie charts
   const employeeData = [
     {
       name: 'Alice Johnson',
@@ -136,7 +158,6 @@ const DataVizVisual: React.FC = () => {
         ref={vizRef}
         className="w-full h-full grid grid-cols-3 grid-rows-3 gap-7"
       >
-        {/* Main Viz: Radial Bar Chart with Gradient */}
         <div className="gradient-card col-span-2 row-span-2 bg-card border border-border rounded-md p-4 flex flex-col">
           <div className="text-center z-10">
             <h4 className="font-semibold text-foreground">
@@ -182,7 +203,6 @@ const DataVizVisual: React.FC = () => {
           </div>
         </div>
 
-        {/* Top-Right Widget: KPI Card */}
         <div className="col-start-3 bg-card border border-border rounded-md p-4 flex flex-col items-center justify-center text-center">
           <h4 className="font-semibold text-foreground/80 text-sm">
             Conversion Rate
@@ -198,25 +218,16 @@ const DataVizVisual: React.FC = () => {
           </div>
         </div>
 
-        {/* Middle-Right Widget: Calendar Viz */}
         <div className="col-start-3 row-start-2 bg-card border border-border rounded-md p-4 flex flex-col">
           <h4 className="font-semibold text-sm text-foreground text-center">
             Key Dates
           </h4>
-          <div className="text-center font-medium text-xs text-foreground/80 mt-2">
-            August 2025
-          </div>
           <div className="grid grid-cols-7 gap-y-1 text-center text-xs text-foreground/60 mt-2">
-            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
               <div key={index}>{day}</div>
             ))}
           </div>
           <div className="grid grid-cols-7 gap-1 mt-1">
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
             {calendarDays.map((day) => (
               <div
                 key={day}
@@ -228,7 +239,6 @@ const DataVizVisual: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Section */}
         <div className="col-span-3 grid grid-cols-2 gap-7">
           <div className="bg-card border border-border rounded-md p-4 flex flex-col">
             <h4 className="font-semibold text-foreground mb-4">
