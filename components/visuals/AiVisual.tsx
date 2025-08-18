@@ -14,17 +14,15 @@ import {
   BarChart3,
 } from 'lucide-react';
 
-// Declare GSAP on the window object for TypeScript
 declare global {
   interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    gsap: any;
+    gsap?: GSAP;
   }
 }
 
 const AiVisual: React.FC = () => {
   const aiRef = useRef<HTMLDivElement>(null);
-  const cpuContainerRef = useRef<HTMLDivElement>(null); // Ref for the CPU animation container
+  const cpuContainerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const animatedOnce = useRef(false);
 
@@ -42,17 +40,17 @@ const AiVisual: React.FC = () => {
     };
   }, []);
 
-  // Compute connector paths on mount and when the window resizes
   useLayoutEffect(() => {
     const containerEl = aiRef.current;
-    const centerEl = cpuContainerRef.current; // Use the CPU container for positioning
+    const centerEl = cpuContainerRef.current;
     const cards = cardRefs.current.filter(
       Boolean
     ) as HTMLDivElement[];
-
     if (!containerEl || !centerEl || cards.length !== 4) return;
 
-    const compute = () => {
+    let rafId: number | null = null;
+
+    const computeNow = () => {
       const containerRect = containerEl.getBoundingClientRect();
       const centerRect = centerEl.getBoundingClientRect();
       const centerPoint = {
@@ -62,10 +60,8 @@ const AiVisual: React.FC = () => {
       };
 
       const cornerRadius = 15;
-      // Start lines from the edge of the outermost circle (w-40 -> 160px, radius is 80)
-      const cpuCircleRadius = centerRect.width / 2;
+      const cpuCircleRadius = centerRect.width / 2; // start at outer ring edge
 
-      // Create geometric paths for the top two cards
       const newPaths = [cards[0], cards[1]].map((cardEl, index) => {
         const cardRect = cardEl.getBoundingClientRect();
         const cardPoint = {
@@ -75,8 +71,8 @@ const AiVisual: React.FC = () => {
 
         const startX =
           index === 0
-            ? centerPoint.x - cpuCircleRadius
-            : centerPoint.x + cpuCircleRadius;
+            ? centerPoint.x - cpuCircleRadius - 6
+            : centerPoint.x + cpuCircleRadius + 6;
 
         const path = `
           M ${startX} ${centerPoint.y}
@@ -84,24 +80,39 @@ const AiVisual: React.FC = () => {
           Q ${cardPoint.x} ${centerPoint.y} ${cardPoint.x} ${centerPoint.y + cornerRadius}
           L ${cardPoint.x} ${cardPoint.y}
         `;
-        return path;
+        return path.trim();
       });
 
-      if (JSON.stringify(newPaths) !== JSON.stringify(linePaths)) {
-        setLinePaths(newPaths);
-      }
+      const same =
+        newPaths.length === linePaths.length &&
+        newPaths.every((p, i) => p === linePaths[i]);
+
+      if (!same) setLinePaths(newPaths);
     };
 
-    compute();
+    const scheduleCompute = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        computeNow();
+      });
+    };
 
-    const resizeObserver = new ResizeObserver(compute);
-    resizeObserver.observe(containerEl);
-    cards.forEach((card) => resizeObserver.observe(card));
+    scheduleCompute();
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => scheduleCompute());
+    }
+
+    const ro = new ResizeObserver(() => scheduleCompute());
+    ro.observe(containerEl);
+    ro.observe(centerEl);
+    cards.forEach((c) => ro.observe(c));
 
     return () => {
-      resizeObserver.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+      ro.disconnect();
     };
-  }, [isGsapReady]);
+  }, [isGsapReady, linePaths]);
 
   useEffect(() => {
     if (
@@ -154,7 +165,6 @@ const AiVisual: React.FC = () => {
       title: 'What is AI Integration?',
       content: [
         'Automating tasks for more strategic work.',
-        'Improving efficiency with streamlined workflows.',
         'Enhancing decision-making with data insights.',
         'Personalizing customer experiences.',
       ],
@@ -166,7 +176,6 @@ const AiVisual: React.FC = () => {
       content: [
         'Increased efficiency and productivity.',
         'Reduced costs through automation.',
-        'Improved, data-backed decision-making.',
         'Enhanced customer satisfaction and loyalty.',
         'A significant competitive advantage.',
       ],
@@ -257,8 +266,8 @@ const AiVisual: React.FC = () => {
             key={index}
             d={path}
             stroke="var(--color-primary)"
-            strokeOpacity="0.4"
-            strokeWidth="1.5"
+            strokeOpacity="1"
+            strokeWidth="0.5"
             fill="transparent"
             className="connecting-line"
             strokeDasharray="500"
@@ -294,7 +303,7 @@ const AiVisual: React.FC = () => {
               }}
               className="ai-card-element feature-item flex items-start gap-4 p-4 bg-card/60 border border-border rounded-lg backdrop-blur-sm"
             >
-              <div className="flex-shrink-0 w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center">
+              <div className="flex-shrink-0 w-10 h-10 bg-primary/20 text-primary rounded-full flex items-center justify-center">
                 <CardIcon className="w-5 h-5" />
               </div>
               <div>

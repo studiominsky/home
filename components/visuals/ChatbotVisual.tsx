@@ -15,10 +15,10 @@ const ChatbotVisual: React.FC = () => {
       {
         opacity: 1,
         y: 0,
-        duration: 0.5,
-        ease: 'power2.out',
-        stagger: 1.2,
-        delay: 0.2,
+        duration: 0.4,
+        ease: 'power3.out',
+        stagger: 0.5,
+        delay: 0.1,
       }
     );
   }, []);
@@ -29,6 +29,12 @@ const ChatbotVisual: React.FC = () => {
     {
       type: 'ai',
       text: 'Of course! What kind of project are you envisioning?',
+      options: [
+        'Web Application',
+        'Website',
+        'Chatbot',
+        'Data Visualization',
+      ],
     },
     { type: 'user', text: 'Web Application' },
     {
@@ -88,7 +94,7 @@ const ChatbotVisual: React.FC = () => {
                 {msg.options.map((option) => (
                   <div
                     key={option}
-                    className="text-xs py-1.5 px-3 rounded-lg bg-card hover:bg-muted transition-colors cursor-pointer"
+                    className="text-xs py-1 px-3 rounded-2xl bg-primary/20 border border-primary hover:bg-muted transition-colors cursor-pointer"
                   >
                     {option}
                   </div>
@@ -97,7 +103,7 @@ const ChatbotVisual: React.FC = () => {
             )}
             {msg.feedback && (
               <div className="p-3 rounded-lg self-start text-sm">
-                <div className="flex items-center justify-center gap-3 mb-2">
+                <div className="flex items-center justify-start gap-3 mb-2">
                   <Frown className="w-6 h-6 text-foreground/40 hover:text-red-500 transition-colors cursor-pointer" />
                   <Meh className="w-6 h-6 text-foreground/40 hover:text-yellow-500 transition-colors cursor-pointer" />
                   <Smile className="w-6 h-6 text-primary fill-primary/20 cursor-pointer" />

@@ -83,7 +83,7 @@ export function WebsiteVisual() {
           We build lightning-fast, visually stunning, and
           user-friendly websites that convert visitors into customers.
         </p>
-        <button className="hero-cta mt-8 bg-primary text-primary-foreground font-semibold py-3 px-8 rounded-full transition-transform hover:scale-105 active:scale-95">
+        <button className="hero-cta mt-8 bg-primary text-black font-semibold py-3 px-8 rounded-full">
           Get Started
         </button>
 
