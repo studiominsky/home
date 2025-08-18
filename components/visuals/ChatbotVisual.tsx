@@ -75,7 +75,7 @@ const ChatbotVisual: React.FC = () => {
 
       <div
         ref={chatRef}
-        className="flex-grow p-4 flex flex-col gap-4 overflow-y-auto"
+        className="flex-grow p-4 pt-7 flex flex-col gap-5 overflow-y-auto"
       >
         {conversation.map((msg, index) => (
           <div key={index} className="chat-message flex flex-col">
@@ -85,12 +85,12 @@ const ChatbotVisual: React.FC = () => {
               </div>
             )}
             {msg.type === 'ai' && (
-              <div className="p-3 rounded-lg self-start max-w-xs text-sm">
+              <div className="py-3 rounded-lg self-start max-w-xs text-sm">
                 {msg.text}
               </div>
             )}
             {msg.options && (
-              <div className="flex gap-2 justify-start flex-wrap mt-2 self-start">
+              <div className="flex gap-2 justify-start flex-wrap mt-0 self-start">
                 {msg.options.map((option) => (
                   <div
                     key={option}
@@ -102,16 +102,12 @@ const ChatbotVisual: React.FC = () => {
               </div>
             )}
             {msg.feedback && (
-              <div className="p-3 rounded-lg self-start text-sm">
-                <div className="flex items-center justify-start gap-3 mb-2">
-                  <Frown className="w-6 h-6 text-foreground/40 hover:text-red-500 transition-colors cursor-pointer" />
-                  <Meh className="w-6 h-6 text-foreground/40 hover:text-yellow-500 transition-colors cursor-pointer" />
-                  <Smile className="w-6 h-6 text-primary fill-primary/20 cursor-pointer" />
+              <div className="py-3 rounded-lg self-start text-sm mt-[-10px]">
+                <div className="flex items-center justify-start gap-3">
+                  <Frown className="w-6 h-6 text-foreground/40" />
+                  <Meh className="w-6 h-6 text-foreground/40" />
+                  <Smile className="w-6 h-6 text-primary fill-primary/20" />
                 </div>
-                <p className="text-xs text-foreground/70 pt-2 mt-2 text-center">
-                  AI assistants can collect valuable user feedback
-                  24/7.
-                </p>
               </div>
             )}
           </div>
