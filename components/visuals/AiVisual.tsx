@@ -14,105 +14,138 @@ import {
   BarChart3,
 } from 'lucide-react';
 
+// Declare GSAP on the window object for TypeScript
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    gsap: any;
+  }
+}
+
 const AiVisual: React.FC = () => {
   const aiRef = useRef<HTMLDivElement>(null);
-  const centerRef = useRef<HTMLDivElement>(null);
+  const cpuContainerRef = useRef<HTMLDivElement>(null); // Ref for the CPU animation container
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const animatedOnce = useRef(false);
 
   const [isGsapReady, setIsGsapReady] = useState(false);
   const [linePaths, setLinePaths] = useState<string[]>([]);
 
-  // Effect to dynamically load the GSAP animation library from a CDN
   useEffect(() => {
-    const gsapScript = document.createElement('script');
-    gsapScript.src =
+    const s = document.createElement('script');
+    s.src =
       'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
-    gsapScript.onload = () => {
-      // Set state to true once the script is loaded
-      setIsGsapReady(true);
-    };
-    document.body.appendChild(gsapScript);
-
-    // Cleanup function to remove the script when the component unmounts
+    s.onload = () => setIsGsapReady(true);
+    document.body.appendChild(s);
     return () => {
-      document.body.removeChild(gsapScript);
+      document.body.removeChild(s);
     };
   }, []);
 
+  // Compute connector paths on mount and when the window resizes
   useLayoutEffect(() => {
-    // Ensure the component is mounted, GSAP is loaded, and the global gsap object is available
+    const containerEl = aiRef.current;
+    const centerEl = cpuContainerRef.current; // Use the CPU container for positioning
+    const cards = cardRefs.current.filter(
+      Boolean
+    ) as HTMLDivElement[];
+
+    if (!containerEl || !centerEl || cards.length !== 4) return;
+
+    const compute = () => {
+      const containerRect = containerEl.getBoundingClientRect();
+      const centerRect = centerEl.getBoundingClientRect();
+      const centerPoint = {
+        x:
+          centerRect.left + centerRect.width / 2 - containerRect.left,
+        y: centerRect.top + centerRect.height / 2 - containerRect.top,
+      };
+
+      const cornerRadius = 15;
+      // Start lines from the edge of the outermost circle (w-40 -> 160px, radius is 80)
+      const cpuCircleRadius = centerRect.width / 2;
+
+      // Create geometric paths for the top two cards
+      const newPaths = [cards[0], cards[1]].map((cardEl, index) => {
+        const cardRect = cardEl.getBoundingClientRect();
+        const cardPoint = {
+          x: cardRect.left + cardRect.width / 2 - containerRect.left,
+          y: cardRect.top - containerRect.top,
+        };
+
+        const startX =
+          index === 0
+            ? centerPoint.x - cpuCircleRadius
+            : centerPoint.x + cpuCircleRadius;
+
+        const path = `
+          M ${startX} ${centerPoint.y}
+          L ${cardPoint.x + (index === 0 ? cornerRadius : -cornerRadius)} ${centerPoint.y}
+          Q ${cardPoint.x} ${centerPoint.y} ${cardPoint.x} ${centerPoint.y + cornerRadius}
+          L ${cardPoint.x} ${cardPoint.y}
+        `;
+        return path;
+      });
+
+      if (JSON.stringify(newPaths) !== JSON.stringify(linePaths)) {
+        setLinePaths(newPaths);
+      }
+    };
+
+    compute();
+
+    const resizeObserver = new ResizeObserver(compute);
+    resizeObserver.observe(containerEl);
+    cards.forEach((card) => resizeObserver.observe(card));
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [isGsapReady]);
+
+  useEffect(() => {
     if (
-      !aiRef.current ||
       !isGsapReady ||
-      typeof window.gsap === 'undefined'
+      !window.gsap ||
+      animatedOnce.current ||
+      linePaths.length === 0
     )
       return;
 
-    const gsap = window.gsap; // Use the global gsap object
-    const centerEl = centerRef.current;
-    const cardElements = cardRefs.current.filter(
-      Boolean
-    ) as HTMLDivElement[];
-    const containerEl = aiRef.current;
-
-    if (!centerEl || cardElements.length !== 4) return;
-
-    // Calculate line paths dynamically based on element positions
-    const containerRect = containerEl.getBoundingClientRect();
-    const centerRect = centerEl.getBoundingClientRect();
-    const centerPoint = {
-      x: centerRect.left + centerRect.width / 2 - containerRect.left,
-      y: centerRect.top + centerRect.height / 2 - containerRect.top,
-    };
-
-    const newPaths = cardElements.map((cardEl) => {
-      const cardRect = cardEl.getBoundingClientRect();
-      // Connect to the top-center point on the card's edge
-      const cardPoint = {
-        x: cardRect.left + cardRect.width / 2 - containerRect.left,
-        y: cardRect.top - containerRect.top,
-      };
-      // Create a smooth quadratic bezier curve
-      return `M ${centerPoint.x} ${centerPoint.y} Q ${centerPoint.x} ${cardPoint.y} ${cardPoint.x} ${cardPoint.y}`;
-    });
-
-    setLinePaths(newPaths);
-
-    // GSAP Animation Timeline
-    const tl = gsap.timeline({ delay: 0.5 });
+    const gsap = window.gsap;
+    const tl = gsap.timeline({ delay: 0.3 });
 
     tl.fromTo(
       '.ai-center-element',
       { opacity: 0, scale: 0.8 },
       { opacity: 1, scale: 1, duration: 0.7, ease: 'power3.out' }
-    );
+    )
+      .fromTo(
+        '.ai-card-element',
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power3.out',
+          stagger: 0.12,
+        },
+        '-=0.4'
+      )
+      .fromTo(
+        '.connecting-line',
+        { strokeDashoffset: 500 },
+        {
+          strokeDashoffset: 0,
+          duration: 0.8,
+          ease: 'power2.inOut',
+          stagger: 0.12,
+        },
+        '-=0.4'
+      );
 
-    tl.fromTo(
-      '.ai-card-element',
-      { opacity: 0, y: 20 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: 'power3.out',
-        stagger: 0.15,
-      },
-      '-=0.5'
-    );
-
-    // Animate the drawing of the connecting lines after cards appear
-    tl.fromTo(
-      '.connecting-line',
-      { strokeDashoffset: 500 },
-      {
-        strokeDashoffset: 0,
-        duration: 1,
-        ease: 'power2.inOut',
-        stagger: 0.15,
-      },
-      '-=0.5'
-    );
-  }, [isGsapReady, linePaths]); // Rerun when GSAP is ready or paths are calculated
+    animatedOnce.current = true;
+  }, [isGsapReady, linePaths]);
 
   const cards = [
     {
@@ -120,10 +153,10 @@ const AiVisual: React.FC = () => {
       icon: Zap,
       title: 'What is AI Integration?',
       content: [
-        'Automate tasks for strategic work.',
-        'Streamline workflows for efficiency.',
-        'Enhance decisions with data insights.',
-        'Personalize customer experiences.',
+        'Automating tasks for more strategic work.',
+        'Improving efficiency with streamlined workflows.',
+        'Enhancing decision-making with data insights.',
+        'Personalizing customer experiences.',
       ],
     },
     {
@@ -131,10 +164,11 @@ const AiVisual: React.FC = () => {
       icon: TrendingUp,
       title: 'Benefits of AI Integration',
       content: [
-        'Boost productivity and efficiency.',
-        'Reduce costs through automation.',
-        'Make smarter, data-backed decisions.',
-        'Gain a competitive advantage.',
+        'Increased efficiency and productivity.',
+        'Reduced costs through automation.',
+        'Improved, data-backed decision-making.',
+        'Enhanced customer satisfaction and loyalty.',
+        'A significant competitive advantage.',
       ],
     },
     {
@@ -192,7 +226,7 @@ const AiVisual: React.FC = () => {
               <div
                 className="bg-primary h-2 rounded-full"
                 style={{ width: '75%' }}
-              ></div>
+              />
             </div>
           </div>
           <div>
@@ -201,7 +235,7 @@ const AiVisual: React.FC = () => {
               <div
                 className="bg-primary/70 h-2 rounded-full"
                 style={{ width: '40%' }}
-              ></div>
+              />
             </div>
           </div>
           <p className="text-sm pt-1 font-semibold text-foreground">
@@ -215,26 +249,41 @@ const AiVisual: React.FC = () => {
   return (
     <div
       ref={aiRef}
-      className="gradient-card w-full h-full p-7 bg-card border border-border rounded-lg flex flex-col items-center justify-center overflow-hidden relative"
+      className="relative gradient-card w-full h-full p-7 bg-card border border-border rounded-lg flex flex-col items-center justify-center overflow-hidden"
     >
-      <div
-        ref={centerRef}
-        className="relative flex flex-col items-center ai-center-element"
-      >
+      <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
+        {linePaths.map((path, index) => (
+          <path
+            key={index}
+            d={path}
+            stroke="var(--color-primary)"
+            strokeOpacity="0.4"
+            strokeWidth="1.5"
+            fill="transparent"
+            className="connecting-line"
+            strokeDasharray="500"
+          />
+        ))}
+      </svg>
+
+      <div className="relative flex flex-col items-center ai-center-element z-10">
         <h3 className="text-2xl font-bold font-geometric text-foreground mb-4">
           AI Integration for Business
         </h3>
-        <div className="relative flex items-center justify-center w-40 h-40 z-10">
-          <div className="absolute w-full h-full bg-primary/10 rounded-full" />
-          <div className="absolute w-full h-full border-1 border-primary rounded-full animate-spin-slow" />
-          <div className="absolute w-2/3 h-2/3 border-1 border-primary rounded-full animate-spin-slow animation-delay-[-2s]" />
-          <div className="w-16 h-16 bg-primary rounded-full animate-pulse shadow-2xl shadow-primary/50 flex items-center justify-center">
+        <div
+          ref={cpuContainerRef}
+          className="relative flex items-center justify-center w-40 h-40"
+        >
+          <div className="absolute w-full h-full bg-primary/10 rounded-full animate-pulse" />
+          <div className="absolute w-full h-full border border-primary/50 rounded-full animate-spin-slow" />
+          <div className="absolute w-2/3 h-2/3 border border-primary/30 rounded-full animate-spin-slow [animation-delay:-2s]" />
+          <div className="w-16 h-16 bg-primary rounded-full shadow-2xl shadow-primary/50 flex items-center justify-center">
             <Cpu className="w-8 h-8 text-primary-foreground" />
           </div>
         </div>
       </div>
 
-      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8 text-left mt-16">
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8 text-left mt-16 z-10">
         {cards.map((card, index) => {
           const CardIcon = card.icon;
           return (
@@ -243,7 +292,7 @@ const AiVisual: React.FC = () => {
               ref={(el) => {
                 cardRefs.current[index] = el;
               }}
-              className="ai-card-element feature-item flex items-start gap-4 p-4 bg-card/50 border border-border rounded-lg"
+              className="ai-card-element feature-item flex items-start gap-4 p-4 bg-card/60 border border-border rounded-lg backdrop-blur-sm"
             >
               <div className="flex-shrink-0 w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center">
                 <CardIcon className="w-5 h-5" />
@@ -254,7 +303,7 @@ const AiVisual: React.FC = () => {
                 </h4>
                 <div className="text-sm text-foreground/60 mt-2">
                   {Array.isArray(card.content) ? (
-                    <ul className="space-y-2">
+                    <ul className="space-y-2 list-disc pl-4">
                       {card.content.map((item, i) => (
                         <li key={i}>{item}</li>
                       ))}
@@ -268,20 +317,6 @@ const AiVisual: React.FC = () => {
           );
         })}
       </div>
-
-      <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
-        {linePaths.map((path, index) => (
-          <path
-            key={index}
-            d={path}
-            stroke="var(--border)"
-            strokeWidth="1.5"
-            fill="transparent"
-            className="connecting-line"
-            strokeDasharray="500"
-          />
-        ))}
-      </svg>
     </div>
   );
 };
