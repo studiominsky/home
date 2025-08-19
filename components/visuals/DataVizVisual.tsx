@@ -218,7 +218,6 @@ const DataVizVisual: React.FC = () => {
           </div>
         </div>
 
-        {/* Updated Calendar */}
         <div className="col-start-3 row-start-2 bg-card border border-border rounded-md p-4 flex flex-col">
           <h4 className="font-semibold text-sm text-foreground text-center">
             Key Dates
@@ -248,28 +247,29 @@ const DataVizVisual: React.FC = () => {
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                  <span>Usability</span>
-                  <span>92%</span>
+                  <span>Speed</span>
+                  <span>95%</span>
                 </div>
                 <div
                   className="w-full rounded-full h-2.5"
                   style={{
-                    background: `linear-gradient(to right, var(--color-primary) 92%, rgba(var(--color-primary-rgb), 0.25) 92%)`,
+                    background: `linear-gradient(to right, var(--color-positive) 95%, rgba(var(--color-primary-rgb), 0.25) 95%)`,
                   }}
                 />
               </div>
               <div>
                 <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                  <span>Speed</span>
-                  <span>88%</span>
+                  <span>Usability</span>
+                  <span>82%</span>
                 </div>
                 <div
                   className="w-full rounded-full h-2.5"
                   style={{
-                    background: `linear-gradient(to right, var(--color-primary) 88%, rgba(var(--color-primary-rgb), 0.25) 88%)`,
+                    background: `linear-gradient(to right, var(--color-primary) 82%, rgba(var(--color-primary-rgb), 0.25) 82%)`,
                   }}
                 />
               </div>
+
               <div>
                 <div className="flex justify-between text-sm mb-1 text-foreground/80">
                   <span>Accessibility</span>

@@ -233,7 +233,7 @@ const AiVisual: React.FC = () => {
             <span>75% Engagement Growth</span>
             <div className="w-full bg-muted rounded-full h-2 mt-1">
               <div
-                className="bg-primary h-2 rounded-full"
+                className="bg-positive h-2 rounded-full"
                 style={{ width: '75%' }}
               />
             </div>
