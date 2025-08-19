@@ -27,6 +27,8 @@ import { ThemeToggle } from './ThemeToggle';
 import { ColorSelector } from './ColorSelector';
 import type { BlogPostMeta } from '@/types/blog';
 import dynamic from 'next/dynamic';
+import { useLocale } from 'next-intl';
+import { usePathname, useRouter } from '@/i18n/navigation';
 
 const ContactForm = dynamic(() => import('./ContactForm'), {
   ssr: false,
@@ -75,6 +77,19 @@ ListItem.displayName = 'ListItem';
 
 export default function HeaderClient({ posts, latest }: Props) {
   const [isContactOpen, setIsContactOpen] = useState(false);
+
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const locales = [
+    { code: 'en', name: 'English' },
+    { code: 'de', name: 'Deutsch' },
+  ];
+
+  const handleLocaleChange = (nextLocale: string) => {
+    router.replace(pathname, { locale: nextLocale });
+  };
 
   useEffect(() => {
     if (window.location.hash) {
@@ -223,16 +238,24 @@ export default function HeaderClient({ posts, latest }: Props) {
                     <span className="sr-only">Choose language</span>
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
+                    {/* 4. This list is now generated dynamically */}
                     <ul className="w-[150px] gap-1 p-2">
-                      <li className="cursor-pointer rounded-md p-2 text-sm hover:bg-accent">
-                        English
-                      </li>
-                      <li className="cursor-pointer rounded-md p-2 text-sm hover:bg-accent">
-                        Español
-                      </li>
-                      <li className="cursor-pointer rounded-md p-2 text-sm hover:bg-accent">
-                        Français
-                      </li>
+                      {locales.map((lang) => (
+                        <li
+                          key={lang.code}
+                          className={clsx(
+                            'cursor-pointer rounded-md p-2 text-sm hover:bg-accent',
+                            // Adds a style to indicate the currently active language
+                            locale === lang.code &&
+                              'font-bold bg-accent/50'
+                          )}
+                          onClick={() =>
+                            handleLocaleChange(lang.code)
+                          }
+                        >
+                          {lang.name}
+                        </li>
+                      ))}
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>

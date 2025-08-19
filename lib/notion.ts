@@ -54,7 +54,7 @@ export function asPlainText(
       return joinRichText(prop.rich_text);
     case 'formula':
       return prop.formula.type === 'string'
-        ? prop.formula.string ?? ''
+        ? (prop.formula.string ?? '')
         : '';
     case 'url':
       return prop.url ?? '';
@@ -117,7 +117,7 @@ export async function getPosts(): Promise<BlogPostMeta[]> {
     );
     pages.push(...typed);
     cursor = resp.has_more
-      ? resp.next_cursor ?? undefined
+      ? (resp.next_cursor ?? undefined)
       : undefined;
   } while (cursor);
 

@@ -8,6 +8,7 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import { MessageCircleIcon } from 'lucide-react';
 import { useTheme } from '@/providers/theme-provider';
+import { useTranslations } from 'next-intl';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,6 +50,7 @@ const debounce = (func: () => void, delay: number) => {
 
 export default function Banner() {
   const { colorTheme } = useTheme();
+  const t = useTranslations('Home');
 
   const prevColorTheme = useRef<string | null>(null);
   const pulseAnimation = useRef<gsap.core.Tween | null>(null);
@@ -66,7 +68,6 @@ export default function Banner() {
       return;
     }
 
-    // No change -> do nothing
     if (prevColorTheme.current === colorTheme) return;
 
     const selectedColor = THEME_COLORS.find(
@@ -275,8 +276,7 @@ export default function Banner() {
           className="absolute bottom-10 flex w-[70%] flex-col text-foreground"
         >
           <span className="font-geometric text-[100px] leading-[1.25] flex flex-col">
-            <span>Digital products for </span>
-            <span>today’s world.</span>
+            <span> {t('title')} </span>
           </span>
 
           <span className="absolute top-full font-sans mt-2 max-w-2xl text-[21px] leading-[32px] tracking-[-0.03em] text-foreground">
