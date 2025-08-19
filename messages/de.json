@@ -3,5 +3,19 @@
         "title": "Digitale Produkte für die Welt von heute",
         "status": "Digital products for today’s world.",
         "description": "Studio Minsky entwickelt digitale Tools, die das Wachstum Ihres Unternehmens fördern. Von Websites, die Besucher zu Kunden machen, bis hin zu maßgeschneiderter Software, die Ihre Abläufe optimiert – jedes Produkt ist darauf ausgelegt, Ihre Wirkung und Effizienz zu steigern."
+    },
+    "Header": {
+        "services": "Services",
+        "projects": "Projects",
+        "process": "Process",
+        "blog": "Blog",
+        "settings": "Settings",
+        "contact": "Contact",
+        "latest": "Latests",
+        "theme": "Theme",
+        "color": "Color",
+        "language": "Language",
+        "dialogTitle": "Tell us about your project.",
+        "dialogDescription": "Quick form. Two steps. We’ll reply within 1–2 business days."
     }
 }

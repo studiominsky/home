@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import {
   NavigationMenu,
@@ -27,8 +26,9 @@ import { ThemeToggle } from './ThemeToggle';
 import { ColorSelector } from './ColorSelector';
 import type { BlogPostMeta } from '@/types/blog';
 import dynamic from 'next/dynamic';
-import { useLocale } from 'next-intl';
-import { usePathname, useRouter } from '@/i18n/navigation';
+
+import { useTranslations, useLocale } from 'next-intl';
+import { usePathname, Link } from '@/i18n/navigation';
 
 const ContactForm = dynamic(() => import('./ContactForm'), {
   ssr: false,
@@ -78,18 +78,14 @@ ListItem.displayName = 'ListItem';
 export default function HeaderClient({ posts, latest }: Props) {
   const [isContactOpen, setIsContactOpen] = useState(false);
 
+  const t = useTranslations('Header');
   const locale = useLocale();
-  const router = useRouter();
   const pathname = usePathname();
 
   const locales = [
     { code: 'en', name: 'English' },
     { code: 'de', name: 'Deutsch' },
   ];
-
-  const handleLocaleChange = (nextLocale: string) => {
-    router.replace(pathname, { locale: nextLocale });
-  };
 
   useEffect(() => {
     if (window.location.hash) {
@@ -115,12 +111,13 @@ export default function HeaderClient({ posts, latest }: Props) {
           <div className="flex">
             <NavigationMenu>
               <NavigationMenuList>
+                {/* 3. All static text is now translated */}
                 <NavigationMenuItem>
                   <Link
                     href="/#services"
                     className={navigationMenuTriggerStyle()}
                   >
-                    Services
+                    {t('services')}
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
@@ -128,7 +125,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                     href="/#projects"
                     className={navigationMenuTriggerStyle()}
                   >
-                    Projects
+                    {t('projects')}
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
@@ -136,12 +133,14 @@ export default function HeaderClient({ posts, latest }: Props) {
                     href="/#process"
                     className={navigationMenuTriggerStyle()}
                   >
-                    Process
+                    {t('process')}
                   </Link>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>Blog</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>
+                    {t('blog')}
+                  </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="flex gap-3 p-6 md:w-[520px] lg:w-[680px] lg:grid-cols-[.9fr,1fr]">
                       <li className="row-span-3">
@@ -156,7 +155,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                               )}
                             >
                               <div className="text-sm text-muted-foreground">
-                                Latest:
+                                {t('latest')}:
                               </div>
                               <h3 className="mt-1 line-clamp-2 text-md font-bold transition-colors group-hover:text-foreground">
                                 {latest.title}
@@ -182,7 +181,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                           </NavigationMenuLink>
                         ) : (
                           <div className="p-3 text-sm leading-tight text-muted-foreground">
-                            No posts yet.
+                            {t('noPostsYet')}
                           </div>
                         )}
                       </li>
@@ -206,19 +205,19 @@ export default function HeaderClient({ posts, latest }: Props) {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>
-                    Settings
+                    {t('settings')}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[300px] gap-3 p-4">
                       <li className="flex items-center justify-between p-2">
                         <span className="text-sm font-medium">
-                          Theme
+                          {t('theme')}
                         </span>
                         <ThemeToggle />
                       </li>
                       <li className="flex items-center justify-between p-2">
                         <span className="text-sm font-medium">
-                          Color
+                          {t('color')}
                         </span>
                         <ColorSelector />
                       </li>
@@ -235,25 +234,22 @@ export default function HeaderClient({ posts, latest }: Props) {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="bg-transparent">
                     <GlobeIcon className="size-5" />
-                    <span className="sr-only">Choose language</span>
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    {/* 4. This list is now generated dynamically */}
                     <ul className="w-[150px] gap-1 p-2">
                       {locales.map((lang) => (
-                        <li
-                          key={lang.code}
-                          className={clsx(
-                            'cursor-pointer rounded-md p-2 text-sm hover:bg-accent',
-                            // Adds a style to indicate the currently active language
-                            locale === lang.code &&
-                              'font-bold bg-accent/50'
-                          )}
-                          onClick={() =>
-                            handleLocaleChange(lang.code)
-                          }
-                        >
-                          {lang.name}
+                        <li key={lang.code}>
+                          <Link
+                            href={pathname}
+                            locale={lang.code}
+                            className={clsx(
+                              'block cursor-pointer rounded-md p-2 text-sm hover:bg-accent',
+                              locale === lang.code &&
+                                'font-bold bg-accent/50'
+                            )}
+                          >
+                            {lang.name}
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -277,7 +273,7 @@ export default function HeaderClient({ posts, latest }: Props) {
               <span>
                 <MessageCircleIcon className="mr-1 size-4 text-card" />
               </span>
-              Contact
+              {t('contact')}
             </Link>
           </div>
         </div>
@@ -293,11 +289,10 @@ export default function HeaderClient({ posts, latest }: Props) {
           <div className="flex items-center justify-center px-10 pt-10 md:px-0 md:pt-0">
             <DialogHeader>
               <DialogTitle className="font-geometric text-center text-[32px] md:text-[42px] leading-none">
-                Tell us about your project.
+                {t('dialogTitle')}
               </DialogTitle>
               <DialogDescription className="pt-2 text-center text-base md:text-lg">
-                Quick form. Two steps. We’ll reply within 1–2 business
-                days.
+                {t('dialogDescription')}
               </DialogDescription>
             </DialogHeader>
           </div>
