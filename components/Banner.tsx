@@ -60,9 +60,7 @@ export default function Banner() {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLSpanElement>(null);
 
-  // Only animate circles when theme color actually changes (not on first mount / route enter)
   useEffect(() => {
-    // First time we receive a concrete theme value -> store only, no animation
     if (prevColorTheme.current === null) {
       prevColorTheme.current = colorTheme ?? null;
       return;
@@ -77,13 +75,11 @@ export default function Banner() {
     const targets = circlesRef.current;
 
     if (selectedColor && targets.length > 0) {
-      // kill previous pulse if any
       if (pulseAnimation.current) {
         pulseAnimation.current.kill();
         pulseAnimation.current = null;
       }
 
-      // reset circles before pulse
       targets.forEach((el, i) => {
         gsap.set(el, {
           backgroundColor: INITIAL_CIRCLES[i].color,
@@ -102,14 +98,12 @@ export default function Banner() {
       });
     }
 
-    // update previous
     prevColorTheme.current = colorTheme ?? null;
   }, [colorTheme]);
 
   useLayoutEffect(() => {
     const component = mainRef.current!;
     const ctx = gsap.context(() => {
-      // Create timeline first so it's in scope for buildAnimation
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: component,

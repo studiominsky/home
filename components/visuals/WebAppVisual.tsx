@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useLayoutEffect, useRef } from 'react';
-import { UserRound } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ChartAreaGradient } from '../Chart'; // Assuming path
 import InvoiceTable from '../Table'; // Assuming path
@@ -46,15 +46,21 @@ const WebAppVisual: React.FC = () => {
           </div>
           <ChartAreaGradient />
         </div>
-        <div className="col-start-3 bg-card p-4 border border-border rounded-md flex flex-col items-center text-center justify-center">
-          <UserRound className="w-10 h-10 text-foreground mb-3" />
-          <h5 className="font-semibold text-foreground">Jane Doe</h5>
-          <p className="text-sm text-foreground/60">Lead Developer</p>
-          <button className="mt-4 w-full bg-foreground text-background text-sm py-2 rounded-md hover:bg-foreground/90 transition-colors">
-            View Profile
-          </button>
+        <div className="col-start-3 bg-card border border-border rounded-md p-4 flex flex-col items-center justify-center text-center">
+          <h4 className="font-semibold text-foreground/80 text-sm">
+            Conversion Rate
+          </h4>
+          <div className="flex items-baseline gap-2 mt-2">
+            <span className="text-[38px] font-bold text-foreground">
+              2.57%
+            </span>
+          </div>
+          <div className="flex items-center gap-1 text-positive font-medium text-sm">
+            <TrendingUp className="w-4 h-4" />
+            <span>+10%</span>
+          </div>
         </div>
-        <div className="col-start-3 row-start-2 bg-card p-4 border-border rounded-md flex flex-col justify-center">
+        <div className="col-start-3 row-start-2 bg-card p-4 border border-border rounded-md flex flex-col justify-center">
           <h4 className="font-semibold text-foreground">
             Project Status
           </h4>

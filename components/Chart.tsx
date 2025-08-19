@@ -91,8 +91,8 @@ export function ChartAreaGradient() {
           fillOpacity={0.4}
           stroke="var(--color-primary)"
           stackId="a"
-          dot={false} // ← no dots at all
-          activeDot={false} // ← no hover-dots either
+          dot={false} //
+          activeDot={false}
         />
         <Area
           dataKey="sales"
@@ -101,8 +101,8 @@ export function ChartAreaGradient() {
           fillOpacity={0.4}
           stroke="var(--color-primary)"
           stackId="a"
-          dot={false} // ← no dots at all
-          activeDot={false} // ← no hover-dots either
+          dot={false}
+          activeDot={false}
         />
       </AreaChart>
     </ChartContainer>

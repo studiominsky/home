@@ -94,7 +94,7 @@ const ChatbotVisual: React.FC = () => {
                 {msg.options.map((option) => (
                   <div
                     key={option}
-                    className="text-xs py-1 px-3 rounded-2xl bg-primary/20 border border-primary hover:bg-muted transition-colors cursor-pointer"
+                    className="text-xs text-primary py-1 px-3 rounded-2xl bg-primary/20 border border-primary hover:bg-muted transition-colors cursor-pointer"
                   >
                     {option}
                   </div>

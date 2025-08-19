@@ -208,7 +208,7 @@ const DataVizVisual: React.FC = () => {
             Conversion Rate
           </h4>
           <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-4xl font-bold text-foreground">
+            <span className="text-[38px] font-bold text-foreground">
               2.57%
             </span>
           </div>
@@ -218,6 +218,7 @@ const DataVizVisual: React.FC = () => {
           </div>
         </div>
 
+        {/* Updated Calendar */}
         <div className="col-start-3 row-start-2 bg-card border border-border rounded-md p-4 flex flex-col">
           <h4 className="font-semibold text-sm text-foreground text-center">
             Key Dates

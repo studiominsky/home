@@ -286,8 +286,8 @@ const AiVisual: React.FC = () => {
           <div className="absolute w-full h-full bg-primary/10 rounded-full animate-pulse" />
           <div className="absolute w-full h-full border border-primary/50 rounded-full animate-spin-slow" />
           <div className="absolute w-2/3 h-2/3 border border-primary/30 rounded-full animate-spin-slow [animation-delay:-2s]" />
-          <div className="w-16 h-16 bg-primary rounded-full shadow-2xl shadow-primary/50 flex items-center justify-center">
-            <Cpu className="w-8 h-8 text-primary-foreground" />
+          <div className="w-16 h-16 bg-primary/20 rounded-full shadow-2xl shadow-primary/50 flex items-center justify-center">
+            <Cpu className="w-8 h-8 text-primary" />
           </div>
         </div>
       </div>
