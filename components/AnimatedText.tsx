@@ -7,60 +7,97 @@ import Container from './Container';
 
 gsap.registerPlugin(ScrollTrigger);
 
-type AnimatedTextProps = {
-  children: ReactNode;
-  wrapperClassName?: string;
-  textClassName?: string;
+type Stat = {
+  value: string;
+  label: string;
 };
 
-const defaultWrapperClasses = 'bg-primary';
-const defaultTextClasses =
-  'text-black text-center py-50 font-geometric text-[72px]';
+type ContentBlockProps = {
+  children: ReactNode;
+  stats?: Stat[];
+};
 
-export default function AnimatedText({
+export default function ContentBlock({
   children,
-  wrapperClassName = defaultWrapperClasses,
-  textClassName = defaultTextClasses,
-}: AnimatedTextProps) {
+  stats,
+}: ContentBlockProps) {
+  const sectionRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
+  const statRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useLayoutEffect(() => {
-    const el = textRef.current;
-    if (!el) return;
+    const section = sectionRef.current;
+    if (!section) return;
 
     const ctx = gsap.context(() => {
-      gsap.set(el, { opacity: 0, scale: 0.75 });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 80%',
+          once: true,
+        },
+      });
 
-      gsap.fromTo(
-        el,
+      tl.fromTo(
+        textRef.current,
         { opacity: 0, scale: 0.75 },
         {
           opacity: 1,
           scale: 1,
           duration: 0.8,
           ease: 'power2.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 85%',
-            once: true,
-          },
         }
       );
 
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
-    }, textRef);
+      if (stats?.length) {
+        tl.fromTo(
+          statRefs.current,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'back.out(1.7)',
+            stagger: 0.2,
+          },
+          '-=0.5'
+        );
+      }
+    }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [stats]);
 
   return (
-    <div className={wrapperClassName}>
+    <div ref={sectionRef} className="bg-primary py-40">
       <Container>
-        <h4 ref={textRef} className={textClassName}>
+        <h4
+          ref={textRef}
+          className="text-black text-center font-geometric text-5xl md:text-7xl mb-8 leading-23"
+        >
           {children}
         </h4>
+
+        {stats && (
+          <div className="mt-12 flex flex-wrap justify-center items-center gap-8 md:gap-20">
+            {stats.map((stat, i) => (
+              <div
+                key={stat.label}
+                ref={(el) => {
+                  statRefs.current[i] = el;
+                }}
+                className="flex flex-col items-center justify-center size-36 md:size-48 bg-black rounded-full text-white text-center p-4 opacity-0"
+              >
+                <span className="font-geometric text-4xl">
+                  {stat.value}
+                </span>
+                <span className="font-mono text-xs uppercase tracking-wider mt-1 opacity-70">
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </Container>
     </div>
   );

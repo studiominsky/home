@@ -430,7 +430,7 @@ export default function ContactForm() {
             <div className="relative mx-auto mb-6 h-24 w-24">
               <div className="absolute inset-0 flex items-center justify-center rounded-full bg-foreground/10" />
               <div className="relative z-10 flex h-full w-full items-center justify-center rounded-full bg-green-600 text-card">
-                <Check className="h-10 w-10" />
+                <Check className="h-10 w-10 mt-2" />
               </div>
             </div>
 
