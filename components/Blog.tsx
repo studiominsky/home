@@ -170,7 +170,7 @@ export default function Blog() {
             className={clsx(
               'm-auto mt-10 cursor-pointer text-card z-99 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center',
               'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
-              'text-[var(--ds-background-100)]'
+              'text-[var(--ds-background-100)] transition-transform hover:scale-105'
             )}
             style={{
               letterSpacing: 'initial',
