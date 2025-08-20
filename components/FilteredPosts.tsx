@@ -121,7 +121,7 @@ export default function FilteredBlogPosts({ posts }: Props) {
               className={clsx(
                 'px-3 py-1 cursor-pointer rounded-full text-xs font-bold font-mono transition-colors border',
                 !selectedTag
-                  ? 'bg-primary text-black border-primary'
+                  ? 'bg-primary text-background border-primary'
                   : 'bg-primary/20 border-primary text-primary hover:bg-primary/30'
               )}
             >
@@ -134,7 +134,7 @@ export default function FilteredBlogPosts({ posts }: Props) {
                 className={clsx(
                   'px-3 py-1 cursor-pointer rounded-full text-xs font-bold font-mono transition-colors capitalize border',
                   selectedTag === tag
-                    ? 'bg-primary text-black border-primary'
+                    ? 'bg-primary text-background border-primary'
                     : 'bg-primary/20 border-primary text-primary hover:bg-primary/30'
                 )}
               >

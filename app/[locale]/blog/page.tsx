@@ -17,7 +17,7 @@ export default async function BlogListPage() {
       <main className="mt-[120px] container mx-auto px-4 py-8">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-foreground/80 hover:text-primary transition-colors mb-8 group"
+          className="inline-flex items-center gap-2 text-foreground/80 mb-8 group"
         >
           <span className="transition-transform group-hover:-translate-x-1">
             ←

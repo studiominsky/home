@@ -54,7 +54,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={clsx(
             'flex flex-col select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none',
-            'transition-all duration-200 ease-out hover:bg-accent hover:shadow-md hover:scale-[1.02]',
+            'transition-all duration-200 ease-out hover:bg-accent hover:scale-[1.02]',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
             className
           )}
@@ -150,7 +150,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                               href={`/blog/${latest.slug}`}
                               className={clsx(
                                 'group flex h-full w-full flex-col rounded-lg p-3',
-                                'transition-all duration-200 ease-out hover:bg-accent hover:shadow-md hover:scale-[1.02]',
+                                'transition-all duration-200 ease-out hover:bg-accent hover:scale-[1.02]',
                                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
                               )}
                             >
@@ -196,6 +196,21 @@ export default function HeaderClient({ posts, latest }: Props) {
                         ))}
                       </div>
                     </ul>
+                    <div className="mt-auto relative bottom-10 right-5 flex justify-end">
+                      <Link
+                        href="/blog"
+                        className={clsx(
+                          'cursor-pointer text-card z-99 max-w-[230px] bg-background-inverted font-sans px-4 py-2 flex items-center justify-center rounded-full text-center',
+                          'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
+                          'text-[var(--ds-background-100)] transition-transform hover:scale-105'
+                        )}
+                        style={{
+                          letterSpacing: 'initial',
+                        }}
+                      >
+                        See all articles
+                      </Link>
+                    </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
               </NavigationMenuList>

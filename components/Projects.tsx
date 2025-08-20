@@ -188,7 +188,7 @@ export default function Projects() {
             </h1>
             <p
               ref={paragraphRef}
-              className="text-xl w-1/3 text-foreground/80 opacity-0"
+              className="text-xl w-1/3 text-foreground opacity-0"
             >
               Our process is designed for clarity and collaboration,
               ensuring every project is a partnership that leads to

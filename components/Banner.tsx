@@ -273,7 +273,7 @@ export default function Banner() {
       <FullWidth>
         <div
           ref={textFullWidthRef}
-          className="absolute bottom-10 flex w-[70%] flex-col text-foreground"
+          className="absolute bottom-10 flex w-[60%] flex-col text-foreground"
         >
           <span className="font-geometric text-[100px] leading-[1.25] flex flex-col">
             <span> {t('title')} </span>
