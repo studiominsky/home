@@ -1,43 +1,32 @@
-// app/blog/page.tsx
-import Link from 'next/link';
+import FilteredBlogPosts from '@/components/FilteredPosts';
+import Header from '@/components/Header';
 import { getPosts } from '@/lib/notion';
+import type { BlogPostMeta } from '@/types/blog';
+import Link from 'next/link';
 
 export default async function BlogListPage() {
-  const posts = await getPosts();
+  const posts: BlogPostMeta[] = await getPosts();
+
+  posts.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
   return (
-    <div className="container mx-auto px-4 py-8 min-h-screen bg-white dark:bg-gray-900">
-      <header className="text-center mb-12">
-        <h1 className="text-5xl font-extrabold mb-2 text-gray-900 dark:text-gray-100">
-          The Blog
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400">
-          All my thoughts, organized for your reading pleasure.
-        </p>
-      </header>
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <Link
-            key={post.slug}
-            href={`/blog/${post.slug}`}
-            className="block p-6 bg-gray-50 dark:bg-gray-800 border rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 group"
-          >
-            <h2 className="text-2xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400">
-              {post.title}
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              {post.description}
-            </p>
-            <time className="text-sm text-gray-500 dark:text-gray-400">
-              {new Date(post.date).toLocaleDateString('en-EN', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </time>
-          </Link>
-        ))}
-      </div>
-    </div>
+    <>
+      <Header />
+      <main className="mt-[120px] container mx-auto px-4 py-8">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-foreground/80 hover:text-primary transition-colors mb-8 group"
+        >
+          <span className="transition-transform group-hover:-translate-x-1">
+            ←
+          </span>
+          Back to Home
+        </Link>
+
+        <FilteredBlogPosts posts={posts} />
+      </main>
+    </>
   );
 }
