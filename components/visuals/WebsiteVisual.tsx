@@ -63,7 +63,7 @@ export function WebsiteVisual() {
   return (
     <div
       ref={visualRef}
-      className="w-full h-full web-card p-6 rounded-lg min-h-[800px] flex flex-col bg-card border border-border overflow-hidden"
+      className="w-full h-full web-card p-6 min-h-[800px] flex flex-col bg-card overflow-hidden"
     >
       <header className="flex justify-between items-center p-4">
         <div className="nav-item w-5 h-5 rounded-full bg-primary" />
@@ -83,7 +83,7 @@ export function WebsiteVisual() {
           We build lightning-fast, visually stunning, and
           user-friendly websites that convert visitors into customers.
         </p>
-        <button className="hero-cta mt-8 bg-positive text-black font-semibold py-3 px-8 rounded-full">
+        <button className="hero-cta mt-8 bg-positive text-background font-semibold py-3 px-8 rounded-full">
           Get Started
         </button>
 

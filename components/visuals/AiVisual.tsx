@@ -258,7 +258,7 @@ const AiVisual: React.FC = () => {
   return (
     <div
       ref={aiRef}
-      className="relative gradient-card w-full h-full p-7 bg-card border border-border rounded-lg flex flex-col items-center justify-center overflow-hidden"
+      className="relative gradient-card w-full h-full p-7 bg-card flex flex-col items-center justify-center overflow-hidden"
     >
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
         {linePaths.map((path, index) => (
