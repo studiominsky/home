@@ -1,4 +1,5 @@
 import FilteredBlogPosts from '@/components/FilteredPosts';
+import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { getPosts } from '@/lib/notion';
 import type { BlogPostMeta } from '@/types/blog';
@@ -14,7 +15,7 @@ export default async function BlogListPage() {
   return (
     <>
       <Header />
-      <main className="mt-[120px] container mx-auto px-4 py-8">
+      <main className="mt-[120px] pb-50 container mx-auto px-4 py-8">
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-foreground/80 mb-8 group"
@@ -27,6 +28,7 @@ export default async function BlogListPage() {
 
         <FilteredBlogPosts posts={posts} />
       </main>
+      <Footer />
     </>
   );
 }
