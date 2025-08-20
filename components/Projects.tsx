@@ -4,14 +4,15 @@ import React, { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
-import Image from 'next/image';
+import { ThemedImage } from './ThemedImage';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface ProjectDataItem {
   id: number;
   title: string;
-  logo: string;
+  logoLight: string;
+  logoDark: string;
   description: string;
   features: string[];
   techStack: string[];
@@ -27,7 +28,8 @@ const projectData: ProjectDataItem[] = [
   {
     id: 1,
     title: 'Fine Interface',
-    logo: '/logos/FineInterface.svg',
+    logoLight: '/logos/fineinterface-light.svg',
+    logoDark: '/logos/fineinterface-dark.svg',
     description:
       'A robust web application for a leading AI startup, featuring a complex data visualization dashboard and a custom-built NLP engine for processing user queries in real-time.',
     features: [
@@ -48,7 +50,8 @@ const projectData: ProjectDataItem[] = [
   {
     id: 2,
     title: 'Panellio',
-    logo: '/logos/Panellio.svg',
+    logoLight: '/logos/panellio-light.svg',
+    logoDark: '/logos/panellio-dark.svg',
     description:
       'A beautiful and highly performant e-commerce website for a sustainable goods brand. We focused on a seamless mobile-first user experience and advanced SEO.',
     features: [
@@ -63,7 +66,8 @@ const projectData: ProjectDataItem[] = [
   {
     id: 3,
     title: 'Word Inventory',
-    logo: '/logos/starlight-logo.svg',
+    logoLight: '/logos/fineinterface-light.svg',
+    logoDark: '/logos/fineinterface-dark.svg',
     description:
       'A secure and intuitive financial dashboard that allows users to track investments, manage portfolios, and visualize market trends with up-to-the-minute information.',
     features: [
@@ -83,7 +87,8 @@ const projectData: ProjectDataItem[] = [
   {
     id: 4,
     title: 'Sprachenwald',
-    logo: '/logos/starlight-logo.svg',
+    logoLight: '/logos/fineinterface-light.svg',
+    logoDark: '/logos/fineinterface-dark.svg',
     description:
       'A secure and intuitive financial dashboard that allows users to track investments, manage portfolios, and visualize market trends with up-to-the-minute information.',
     features: [
@@ -224,8 +229,9 @@ export default function Projects() {
               {activeProject && (
                 <div ref={contentRef} className="flex flex-col">
                   <div className="flex items-center gap-6 mb-6">
-                    <Image
-                      src={activeProject.logo}
+                    <ThemedImage
+                      srcLight={activeProject.logoLight}
+                      srcDark={activeProject.logoDark}
                       alt={`${activeProject.title} logo`}
                       width={200}
                       height={100}
