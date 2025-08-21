@@ -3,12 +3,13 @@
 import * as React from 'react';
 import { useLayoutEffect, useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
-import ReactMarkdown from 'react-markdown'; // 1. Import ReactMarkdown
+import ReactMarkdown from 'react-markdown';
 import {
   MessageSquare,
   X,
   SendHorizontal,
   Sparkles,
+  RotateCcw, // 1. Import the reset icon
 } from 'lucide-react';
 
 type Msg = {
@@ -17,17 +18,18 @@ type Msg = {
   content: string;
 };
 
+// Store the initial message to easily reset to it
+const initialMessage: Msg = {
+  id: 'greet',
+  role: 'assistant',
+  content:
+    'Hi! I’m the Studio Minsky assistant. Ask me about our websites, web applications, or process.',
+};
+
 export default function Chatbot() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<Msg[]>([
-    {
-      id: 'greet',
-      role: 'assistant',
-      content:
-        'Hi! I’m the Studio Minsky assistant. Ask me about our websites, web applications, or process.',
-    },
-  ]);
+  const [messages, setMessages] = useState<Msg[]>([initialMessage]);
   const [loading, setLoading] = useState(false);
   const [isCollectingEmail, setIsCollectingEmail] = useState(false);
   const [emailInput, setEmailInput] = useState('');
@@ -37,6 +39,15 @@ export default function Chatbot() {
   const fabRef = useRef<HTMLButtonElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const tl = useRef<gsap.core.Timeline | null>(null);
+
+  // 2. Add the resetChat function
+  function resetChat() {
+    setMessages([initialMessage]);
+    setIsCollectingEmail(false);
+    setEmailInput('');
+    setLoading(false);
+    setInput('');
+  }
 
   useLayoutEffect(() => {
     const panel = panelRef.current;
@@ -259,13 +270,23 @@ export default function Chatbot() {
               </p>
             </div>
           </div>
-          <button
-            onClick={() => setOpen(false)}
-            aria-label="Close chat"
-            className="rounded-full cursor-pointer p-2 text-foreground/70 transition-colors hover:bg-muted hover:text-foreground"
-          >
-            <X className="h-5 w-5" />
-          </button>
+          {/* 3. Add the button to the header */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={resetChat}
+              aria-label="Reset chat"
+              className="rounded-full cursor-pointer p-2 text-foreground/70 transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <RotateCcw className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => setOpen(false)}
+              aria-label="Close chat"
+              className="rounded-full cursor-pointer p-2 text-foreground/70 transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
         </div>
         <div
           ref={messagesContainerRef}
@@ -331,14 +352,14 @@ export default function Chatbot() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask a question…"
-                className="flex-1 rounded-lg border border-border bg-card px-4 py-2 text-sm placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                className="flex-1 rounded-lg border border-border bg-card px-4 py-2 text-sm placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary"
                 aria-label="Message"
               />
               <button
                 type="submit"
                 disabled={loading || !input.trim()}
                 aria-label="Send message"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex cursor-pointer h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <SendHorizontal className="h-4 w-4" />
               </button>
