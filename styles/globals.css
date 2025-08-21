@@ -168,11 +168,18 @@ html {
   pointer-events: none;
 }
 
-.chat-message ol,
-ul {
+.ai-chat > ol {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  line-height: 2;
+  line-height: 1.5;
+}
+
+.ai-chat > ul {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  line-height: 1.5;
 }

@@ -17,7 +17,7 @@ type Msg = {
   content: string;
 };
 
-export default function ChatWidget() {
+export default function Chatbot() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Msg[]>([
@@ -282,7 +282,7 @@ export default function ChatWidget() {
                 </div>
               )}
               <div
-                className={`max-w-[85%] gap-2 flex flex-col rounded-2xl px-3.5 py-2.5 text-sm ${m.role === 'user' ? 'rounded-br-lg bg-primary text-primary-foreground' : 'rounded-bl-lg bg-muted'}`}
+                className={`ai-chat max-w-[85%] gap-2 flex flex-col rounded-2xl px-3.5 py-2.5 text-sm ${m.role === 'user' ? 'rounded-br-lg bg-primary text-primary-foreground' : 'rounded-bl-lg bg-muted'}`}
               >
                 <ReactMarkdown>{m.content}</ReactMarkdown>
               </div>
