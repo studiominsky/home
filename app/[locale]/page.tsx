@@ -9,6 +9,7 @@ import AnimatedText from '@/components/AnimatedText';
 import Projects from '@/components/Projects';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import Chatbot from '@/components/Chatbot';
 
 export default function Home() {
   return (
@@ -54,6 +55,7 @@ export default function Home() {
       </AnimatedText>
       <Blog />
       <Contact />
+      <Chatbot />
       <Footer />
     </>
   );
