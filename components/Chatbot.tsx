@@ -262,7 +262,7 @@ export default function Chatbot() {
           <button
             onClick={() => setOpen(false)}
             aria-label="Close chat"
-            className="rounded-full p-2 text-foreground/70 transition-colors hover:bg-muted hover:text-foreground"
+            className="rounded-full cursor-pointer p-2 text-foreground/70 transition-colors hover:bg-muted hover:text-foreground"
           >
             <X className="h-5 w-5" />
           </button>
@@ -282,7 +282,7 @@ export default function Chatbot() {
                 </div>
               )}
               <div
-                className={`ai-chat max-w-[85%] gap-2 flex flex-col rounded-2xl px-3.5 py-2.5 text-sm ${m.role === 'user' ? 'rounded-br-lg bg-primary text-primary-foreground' : 'rounded-bl-lg bg-muted'}`}
+                className={`ai-chat max-w-[85%] gap-2  flex flex-col rounded-2xl px-3.5 py-2.5 text-sm ${m.role === 'user' ? 'rounded-br-lg bg-primary/20 text-primary' : 'rounded-bl-lg bg-muted'}`}
               >
                 <ReactMarkdown>{m.content}</ReactMarkdown>
               </div>
@@ -310,14 +310,14 @@ export default function Chatbot() {
                 onChange={(e) => setEmailInput(e.target.value)}
                 placeholder="Enter your email..."
                 required
-                className="flex-1 rounded-lg border border-border bg-card px-4 py-2 text-sm placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                className="flex-1 rounded-lg border border-border bg-card px-4 py-2 text-sm placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary"
                 aria-label="Email Address"
               />
               <button
                 type="submit"
                 disabled={loading}
                 aria-label="Submit email"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex cursor-pointer h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <SendHorizontal className="h-4 w-4" />
               </button>
