@@ -94,14 +94,21 @@ export default function Chatbot() {
     const fab = fabRef.current;
     if (!fab) return;
 
-    gsap.to(fab, {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      delay: 1,
-      duration: 0.8,
-      ease: 'expo.out',
-    });
+    gsap.fromTo(
+      fab,
+      {
+        opacity: 0,
+        scale: 0,
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        delay: 1,
+        duration: 0.8,
+        ease: 'expo.out',
+        clearProps: 'all',
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -113,14 +120,14 @@ export default function Chatbot() {
   }, [open]);
 
   useEffect(() => {
-    const htmlElement = document.documentElement;
+    const body = document.documentElement;
     if (open) {
-      htmlElement.style.overflow = 'hidden';
+      body.style.overflow = 'hidden';
     } else {
-      htmlElement.style.overflow = 'auto';
+      body.style.overflow = 'auto';
     }
     return () => {
-      htmlElement.style.overflow = 'auto';
+      body.style.overflow = 'auto';
     };
   }, [open]);
 
@@ -258,7 +265,8 @@ export default function Chatbot() {
         aria-expanded={open}
         aria-controls="studio-minsky-chat"
         aria-label={open ? 'Close chat' : 'Open chat'}
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 scale-0 transform cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground opacity-0 shadow-xl transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/40"
+        style={{ opacity: 0 }}
+        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 transform cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xl transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/40"
       >
         <MessageSquare className="chat-icon-open absolute h-6 w-6" />
         <X className="chat-icon-close absolute h-6 w-6" />
