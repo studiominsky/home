@@ -66,8 +66,8 @@ const projectData: ProjectDataItem[] = [
   {
     id: 3,
     title: 'Word Inventory',
-    logoLight: '/logos/fineinterface-light.svg',
-    logoDark: '/logos/fineinterface-dark.svg',
+    logoLight: '/logos/wordinventory-light.svg',
+    logoDark: '/logos/wordinventory-dark.svg',
     description:
       'A secure and intuitive financial dashboard that allows users to track investments, manage portfolios, and visualize market trends with up-to-the-minute information.',
     features: [
