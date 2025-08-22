@@ -9,7 +9,7 @@ import {
   X,
   SendHorizontal,
   Sparkles,
-  RotateCcw, // 1. Import the reset icon
+  RotateCcw,
 } from 'lucide-react';
 
 type Msg = {
@@ -18,7 +18,6 @@ type Msg = {
   content: string;
 };
 
-// Store the initial message to easily reset to it
 const initialMessage: Msg = {
   id: 'greet',
   role: 'assistant',
@@ -40,7 +39,6 @@ export default function Chatbot() {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const tl = useRef<gsap.core.Timeline | null>(null);
 
-  // 2. Add the resetChat function
   function resetChat() {
     setMessages([initialMessage]);
     setIsCollectingEmail(false);
@@ -93,11 +91,37 @@ export default function Chatbot() {
   }, []);
 
   useEffect(() => {
+    const fab = fabRef.current;
+    if (!fab) return;
+
+    gsap.to(fab, {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      delay: 1,
+      duration: 0.8,
+      ease: 'expo.out',
+    });
+  }, []);
+
+  useEffect(() => {
     if (open) {
       tl.current?.timeScale(1).play();
     } else {
       tl.current?.timeScale(1.5).reverse();
     }
+  }, [open]);
+
+  useEffect(() => {
+    const htmlElement = document.documentElement;
+    if (open) {
+      htmlElement.style.overflow = 'hidden';
+    } else {
+      htmlElement.style.overflow = 'auto';
+    }
+    return () => {
+      htmlElement.style.overflow = 'auto';
+    };
   }, [open]);
 
   useEffect(() => {
@@ -234,7 +258,7 @@ export default function Chatbot() {
         aria-expanded={open}
         aria-controls="studio-minsky-chat"
         aria-label={open ? 'Close chat' : 'Open chat'}
-        className="fixed cursor-pointer bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xl transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/40"
+        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 scale-0 transform cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground opacity-0 shadow-xl transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/40"
       >
         <MessageSquare className="chat-icon-open absolute h-6 w-6" />
         <X className="chat-icon-close absolute h-6 w-6" />
@@ -270,19 +294,18 @@ export default function Chatbot() {
               </p>
             </div>
           </div>
-          {/* 3. Add the button to the header */}
           <div className="flex items-center gap-1">
             <button
               onClick={resetChat}
               aria-label="Reset chat"
-              className="rounded-full cursor-pointer p-2 text-foreground/70 transition-colors hover:bg-muted hover:text-foreground"
+              className="cursor-pointer rounded-full p-2 text-foreground/70 transition-colors hover:bg-muted hover:text-foreground"
             >
               <RotateCcw className="h-4 w-4" />
             </button>
             <button
               onClick={() => setOpen(false)}
               aria-label="Close chat"
-              className="rounded-full cursor-pointer p-2 text-foreground/70 transition-colors hover:bg-muted hover:text-foreground"
+              className="cursor-pointer rounded-full p-2 text-foreground/70 transition-colors hover:bg-muted hover:text-foreground"
             >
               <X className="h-5 w-5" />
             </button>
@@ -295,7 +318,9 @@ export default function Chatbot() {
           {messages.map((m) => (
             <div
               key={m.id}
-              className={`chat-message flex items-end gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`chat-message flex items-end gap-2 ${
+                m.role === 'user' ? 'justify-end' : 'justify-start'
+              }`}
             >
               {m.role === 'assistant' && (
                 <div className="mb-1.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-primary/20">
@@ -303,7 +328,11 @@ export default function Chatbot() {
                 </div>
               )}
               <div
-                className={`ai-chat max-w-[85%] gap-2  flex flex-col rounded-2xl px-3.5 py-2.5 text-sm ${m.role === 'user' ? 'rounded-br-lg bg-primary/20 text-primary' : 'rounded-bl-lg bg-muted'}`}
+                className={`ai-chat flex max-w-[85%] flex-col gap-2 rounded-2xl px-3.5 py-2.5 text-sm ${
+                  m.role === 'user'
+                    ? 'rounded-br-lg bg-primary/20 text-primary'
+                    : 'rounded-bl-lg bg-muted'
+                }`}
               >
                 <ReactMarkdown>{m.content}</ReactMarkdown>
               </div>
@@ -338,7 +367,7 @@ export default function Chatbot() {
                 type="submit"
                 disabled={loading}
                 aria-label="Submit email"
-                className="flex cursor-pointer h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <SendHorizontal className="h-4 w-4" />
               </button>
@@ -359,7 +388,7 @@ export default function Chatbot() {
                 type="submit"
                 disabled={loading || !input.trim()}
                 aria-label="Send message"
-                className="flex cursor-pointer h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <SendHorizontal className="h-4 w-4" />
               </button>
