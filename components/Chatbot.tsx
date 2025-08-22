@@ -396,7 +396,7 @@ export default function Chatbot() {
                 type="submit"
                 disabled={loading || !input.trim()}
                 aria-label="Send message"
-                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-primary text-background transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <SendHorizontal className="h-4 w-4" />
               </button>

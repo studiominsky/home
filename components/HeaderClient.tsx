@@ -101,7 +101,7 @@ export default function HeaderClient({ posts, latest }: Props) {
   return (
     <header
       className={clsx(
-        'bg-card border-border border-b fixed top-0 left-0 right-0 z-50 flex h-[70px] items-center'
+        'bg-card border-border border-b fixed top-0 left-0 right-0 z-30 flex h-[70px] items-center'
       )}
     >
       <FullWidth>
@@ -111,7 +111,6 @@ export default function HeaderClient({ posts, latest }: Props) {
           <div className="flex">
             <NavigationMenu>
               <NavigationMenuList>
-                {/* 3. All static text is now translated */}
                 <NavigationMenuItem>
                   <Link
                     href="/#services"
