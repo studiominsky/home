@@ -84,27 +84,6 @@ const projectData: ProjectDataItem[] = [
     },
     caseStudyUrl: '#',
   },
-  {
-    id: 4,
-    title: 'Sprachenwald',
-    logoLight: '/logos/fineinterface-light.svg',
-    logoDark: '/logos/fineinterface-dark.svg',
-    description:
-      'A secure and intuitive financial dashboard that allows users to track investments, manage portfolios, and visualize market trends with up-to-the-minute information.',
-    features: [
-      'Integration with multiple financial data APIs',
-      'Custom portfolio performance charting',
-      'Bank-level security and data encryption',
-      'Automated PDF report generation',
-    ],
-    techStack: ['React', 'Node.js', 'PostgreSQL', 'Chart.js', 'API'],
-    testimonial: {
-      quote:
-        "The dashboard's clarity and reliability have made it an indispensable tool for our clients.",
-      author: 'John Carter, CEO of Starlight Finance',
-    },
-    caseStudyUrl: '#',
-  },
 ];
 
 export default function Projects() {
