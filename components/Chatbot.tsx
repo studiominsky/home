@@ -252,7 +252,7 @@ export default function Chatbot() {
         aria-controls="studio-minsky-chat"
         aria-label={open ? 'Close chat' : 'Open chat'}
         style={{ opacity: 0 }}
-        className="fixed bottom-5 right-5 z-10 flex h-14 w-14 transform cursor-pointer items-center justify-center rounded-full bg-primary text-background shadow-xl transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/40"
+        className="fixed bottom-5 right-5 z-21 flex h-14 w-14 transform cursor-pointer items-center justify-center rounded-full bg-primary text-background shadow-xl transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/40"
       >
         <MessageSquare className="chat-icon-open absolute h-6 w-6" />
         <X className="chat-icon-close absolute h-6 w-6" />
