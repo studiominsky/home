@@ -4,12 +4,6 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -283,31 +277,23 @@ function Process() {
                 </div>
               </div>
             </div>
-            <div className="lg:hidden">
-              <Accordion
-                type="single"
-                collapsible
-                defaultValue="item-0"
-              >
-                {steps.map((step, index) => (
-                  <AccordionItem
-                    value={`item-${index}`}
-                    key={step.title}
-                  >
-                    <AccordionTrigger className="text-2xl font-geometric">
-                      {step.title}
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <h3 className="text-foreground text-lg font-semibold mb-2">
-                        {step.titleDescription}
-                      </h3>
-                      <p className="text-md text-foreground/60">
-                        {step.description}
-                      </p>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+            <div className="lg:hidden space-y-10">
+              {steps.map((step) => (
+                <div
+                  key={step.title}
+                  className="border-b border-border pb-6"
+                >
+                  <h3 className="text-2xl font-geometric text-foreground mb-2">
+                    {step.title}
+                  </h3>
+                  <h4 className="text-lg font-semibold text-foreground/80 mb-2">
+                    {step.titleDescription}
+                  </h4>
+                  <p className="text-md text-foreground/60">
+                    {step.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

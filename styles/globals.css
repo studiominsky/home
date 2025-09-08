@@ -145,6 +145,10 @@ html {
   border-radius: 50%;
   z-index: 0;
   border-top: 2px solid var(--color-primary);
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 }
 
 .blog-text h2 {

@@ -63,11 +63,11 @@ export function WebsiteVisual() {
   return (
     <div
       ref={visualRef}
-      className="w-full h-full web-card p-6 min-h-[800px] flex flex-col bg-card overflow-hidden"
+      className="w-full h-full web-card p-4 sm:p-6 flex flex-col bg-card overflow-hidden"
     >
       <header className="flex justify-between items-center p-4">
         <div className="nav-item w-5 h-5 rounded-full bg-primary" />
-        <nav className="flex gap-6 text-sm text-foreground/80">
+        <nav className="hidden sm:flex gap-6 text-sm text-foreground/80">
           <span className="nav-item">Home</span>
           <span className="nav-item">About</span>
           <span className="nav-item">Services</span>
@@ -75,11 +75,11 @@ export function WebsiteVisual() {
         </nav>
       </header>
 
-      <div className="flex-grow flex flex-col items-center mt-15 text-center px-4">
-        <h1 className="hero-title text-5xl font-bold font-geometric max-w-2xl leading-tight text-foreground">
+      <div className="flex-grow flex flex-col items-center mt-8 sm:mt-16 text-center px-4 pb-10 sm:pb-16">
+        <h1 className="hero-title text-3xl sm:text-5xl font-bold font-geometric max-w-2xl leading-tight text-foreground">
           Your Amazing Website
         </h1>
-        <p className="hero-subtitle text-lg text-foreground/70 mt-4 max-w-xl">
+        <p className="hero-subtitle text-base sm:text-lg text-foreground/70 mt-4 max-w-xl">
           We build lightning-fast, visually stunning, and
           user-friendly websites that convert visitors into customers.
         </p>
@@ -87,7 +87,7 @@ export function WebsiteVisual() {
           Get Started
         </button>
 
-        <div className="w-full max-w-3xl mx-auto mt-50">
+        <div className="w-full max-w-3xl mx-auto mt-16 sm:mt-24 md:mt-32">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
             <div className="feature-item flex items-start gap-4">
               <div className="flex-shrink-0 w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center">

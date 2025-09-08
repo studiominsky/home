@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import type { BlogPostMeta } from '@/types/blog';
 import TableOfContents from '@/components/TableOfContent';
 import PostContent from '@/components/PostContent';
+import Footer from '@/components/Footer';
 
 export async function generateStaticParams(): Promise<
   { slug: string }[]
@@ -88,6 +89,7 @@ export default async function BlogPostPage({
           </aside>
         </div>
       </article>
+      <Footer />
     </>
   );
 }

@@ -110,9 +110,6 @@ const DataVizVisual: React.FC = () => {
     },
   } satisfies ChartConfig;
 
-  const calendarDays = Array.from({ length: 30 }, (_, i) => i + 1);
-  const selectedDays = [11, 12, 13];
-
   const employeeData = [
     {
       name: 'Alice Johnson',
@@ -138,27 +135,15 @@ const DataVizVisual: React.FC = () => {
         { name: 'Pending', value: 35, fill: 'var(--color-border)' },
       ],
     },
-    {
-      name: 'Charlie Brown',
-      role: 'UX Designer',
-      data: [
-        {
-          name: 'Completed',
-          value: 90,
-          fill: 'var(--color-primary)',
-        },
-        { name: 'Pending', value: 10, fill: 'var(--color-border)' },
-      ],
-    },
   ];
 
   return (
-    <div className="data-viz-container w-full h-full rounded-lg p-7">
+    <div className="data-viz-container w-full h-full rounded-lg p-4 md:p-7">
       <div
         ref={vizRef}
-        className="w-full h-full grid grid-cols-3 grid-rows-3 gap-7"
+        className="w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-7"
       >
-        <div className="gradient-card col-span-2 row-span-2 bg-card border border-border rounded-md p-4 flex flex-col">
+        <div className="md:col-span-2 lg:col-span-2 lg:row-span-2 gradient-card bg-card border border-border rounded-md p-4 flex flex-col">
           <div className="text-center z-10">
             <h4 className="font-semibold text-foreground">
               Radial Chart - Browser Share
@@ -167,10 +152,10 @@ const DataVizVisual: React.FC = () => {
               January - June 2025
             </p>
           </div>
-          <div className="flex-grow h-0 pb-4 z-10">
+          <div className="py-4 z-10">
             <ChartContainer
               config={radialChartConfig}
-              className="mx-auto aspect-square max-h-[350px] h-full"
+              className="mx-auto aspect-square max-h-[250px] sm:max-h-[300px] md:max-h-[350px]"
             >
               <RadialBarChart
                 data={radialChartData}
@@ -195,7 +180,7 @@ const DataVizVisual: React.FC = () => {
               </RadialBarChart>
             </ChartContainer>
           </div>
-          <div className="flex-col gap-2 text-sm text-center z-10">
+          <div className="flex-col gap-2 text-sm text-center z-10 mt-auto">
             <div className="flex items-center justify-center gap-2 font-medium">
               Trending up by 5.2% this month
               <TrendingUp className="h-4 w-4" />
@@ -203,133 +188,82 @@ const DataVizVisual: React.FC = () => {
           </div>
         </div>
 
-        <div className="col-start-3 bg-card border border-border rounded-md p-4 flex flex-col items-center justify-center text-center">
-          <h4 className="font-semibold text-foreground/80 text-sm">
-            Conversion Rate
+        <div className="lg:col-start-3 bg-card border border-border rounded-md p-4 flex flex-col">
+          <h4 className="font-semibold text-foreground mb-4">
+            Performance Metrics
           </h4>
-          <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-[38px] font-bold text-foreground">
-              2.57%
-            </span>
-          </div>
-          <div className="flex items-center gap-1 text-positive font-medium text-sm">
-            <TrendingUp className="w-4 h-4" />
-            <span>+10%</span>
-          </div>
-        </div>
-
-        <div className="col-start-3 row-start-2 bg-card border border-border rounded-md p-4 flex flex-col">
-          <h4 className="font-semibold text-sm text-foreground text-center">
-            Key Dates
-          </h4>
-          <div className="grid grid-cols-7 gap-y-1 text-center text-xs text-foreground/60 mt-2">
-            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
-              <div key={index}>{day}</div>
-            ))}
-          </div>
-          <div className="grid grid-cols-7 gap-1 mt-1">
-            {calendarDays.map((day) => (
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between text-sm mb-1 text-foreground/80">
+                <span>Speed</span>
+                <span>95%</span>
+              </div>
               <div
-                key={day}
-                className={`flex items-center justify-center text-xs w-6 h-6 rounded-full ${selectedDays.includes(day) ? 'bg-primary text-background' : 'text-foreground/80'}`}
-              >
-                {day}
+                className="w-full rounded-full h-2.5"
+                style={{
+                  background: `linear-gradient(to right, var(--color-positive) 95%, rgba(var(--color-primary-rgb), 0.25) 95%)`,
+                }}
+              />
+            </div>
+            <div>
+              <div className="flex justify-between text-sm mb-1 text-foreground/80">
+                <span>Usability</span>
+                <span>82%</span>
               </div>
-            ))}
+              <div
+                className="w-full rounded-full h-2.5"
+                style={{
+                  background: `linear-gradient(to right, var(--color-primary) 82%, rgba(var(--color-primary-rgb), 0.25) 82%)`,
+                }}
+              />
+            </div>
           </div>
         </div>
 
-        <div className="col-span-3 grid grid-cols-2 gap-7">
-          <div className="bg-card border border-border rounded-md p-4 flex flex-col">
-            <h4 className="font-semibold text-foreground mb-4">
-              Performance Metrics
-            </h4>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                  <span>Speed</span>
-                  <span>95%</span>
-                </div>
-                <div
-                  className="w-full rounded-full h-2.5"
-                  style={{
-                    background: `linear-gradient(to right, var(--color-positive) 95%, rgba(var(--color-primary-rgb), 0.25) 95%)`,
-                  }}
-                />
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                  <span>Usability</span>
-                  <span>82%</span>
-                </div>
-                <div
-                  className="w-full rounded-full h-2.5"
-                  style={{
-                    background: `linear-gradient(to right, var(--color-primary) 82%, rgba(var(--color-primary-rgb), 0.25) 82%)`,
-                  }}
-                />
-              </div>
-
-              <div>
-                <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                  <span>Accessibility</span>
-                  <span>95%</span>
-                </div>
-                <div
-                  className="w-full rounded-full h-2.5"
-                  style={{
-                    background: `linear-gradient(to right, var(--color-primary) 95%, rgba(var(--color-primary-rgb), 0.25) 95%)`,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-card border border-border rounded-md p-4 flex flex-col">
-            <h4 className="font-semibold text-foreground mb-3">
-              Employee Task Distribution
-            </h4>
-            <div className="space-y-3">
-              {employeeData.map((employee) => (
-                <div
-                  key={employee.name}
-                  className="flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-3">
-                    <UserRound className="w-5 h-5 text-foreground/60" />
-                    <div>
-                      <p className="text-sm font-medium leading-none">
-                        {employee.name}
-                      </p>
-                      <p className="text-xs text-foreground/70">
-                        {employee.role}
-                      </p>
-                    </div>
+        <div className="md:col-span-2 lg:col-start-3 lg:row-start-2 bg-card border border-border rounded-md p-4 flex flex-col">
+          <h4 className="font-semibold text-foreground mb-3">
+            Employee Task Distribution
+          </h4>
+          <div className="space-y-3">
+            {employeeData.map((employee) => (
+              <div
+                key={employee.name}
+                className="flex items-center justify-between"
+              >
+                <div className="flex items-center gap-3">
+                  <UserRound className="w-5 h-5 text-foreground/60" />
+                  <div>
+                    <p className="text-sm font-medium leading-none">
+                      {employee.name}
+                    </p>
+                    <p className="text-xs text-foreground/70">
+                      {employee.role}
+                    </p>
                   </div>
-                  <ChartContainer config={{}} className="w-10 h-10">
-                    <PieChart>
-                      <ChartTooltip
-                        content={
-                          <ChartTooltipContent
-                            hideLabel
-                            hideIndicator
-                          />
-                        }
-                      />
-                      <Pie
-                        data={employee.data}
-                        dataKey="value"
-                        nameKey="name"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={18}
-                        strokeWidth={2}
-                      />
-                    </PieChart>
-                  </ChartContainer>
                 </div>
-              ))}
-            </div>
+                <ChartContainer config={{}} className="w-10 h-10">
+                  <PieChart>
+                    <ChartTooltip
+                      content={
+                        <ChartTooltipContent
+                          hideLabel
+                          hideIndicator
+                        />
+                      }
+                    />
+                    <Pie
+                      data={employee.data}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={18}
+                      strokeWidth={2}
+                    />
+                  </PieChart>
+                </ChartContainer>
+              </div>
+            ))}
           </div>
         </div>
       </div>

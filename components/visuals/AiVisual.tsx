@@ -46,7 +46,13 @@ const AiVisual: React.FC = () => {
     const cards = cardRefs.current.filter(
       Boolean
     ) as HTMLDivElement[];
-    if (!containerEl || !centerEl || cards.length !== 4) return;
+    if (
+      !containerEl ||
+      !centerEl ||
+      cards.length !== 4 ||
+      window.innerWidth < 768
+    )
+      return;
 
     let rafId: number | null = null;
 
@@ -60,7 +66,7 @@ const AiVisual: React.FC = () => {
       };
 
       const cornerRadius = 15;
-      const cpuCircleRadius = centerRect.width / 2; // start at outer ring edge
+      const cpuCircleRadius = centerRect.width / 2;
 
       const newPaths = [cards[0], cards[1]].map((cardEl, index) => {
         const cardRect = cardEl.getBoundingClientRect();
@@ -115,13 +121,7 @@ const AiVisual: React.FC = () => {
   }, [isGsapReady, linePaths]);
 
   useEffect(() => {
-    if (
-      !isGsapReady ||
-      !window.gsap ||
-      animatedOnce.current ||
-      linePaths.length === 0
-    )
-      return;
+    if (!isGsapReady || !window.gsap || animatedOnce.current) return;
 
     const gsap = window.gsap;
     const tl = gsap.timeline({ delay: 0.3 });
@@ -130,20 +130,21 @@ const AiVisual: React.FC = () => {
       '.ai-center-element',
       { opacity: 0, scale: 0.8 },
       { opacity: 1, scale: 1, duration: 0.7, ease: 'power3.out' }
-    )
-      .fromTo(
-        '.ai-card-element',
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: 'power3.out',
-          stagger: 0.12,
-        },
-        '-=0.4'
-      )
-      .fromTo(
+    ).fromTo(
+      '.ai-card-element',
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+        stagger: 0.12,
+      },
+      '-=0.4'
+    );
+
+    if (linePaths.length > 0) {
+      tl.fromTo(
         '.connecting-line',
         { strokeDashoffset: 500 },
         {
@@ -154,6 +155,7 @@ const AiVisual: React.FC = () => {
         },
         '-=0.4'
       );
+    }
 
     animatedOnce.current = true;
   }, [isGsapReady, linePaths]);
@@ -258,9 +260,9 @@ const AiVisual: React.FC = () => {
   return (
     <div
       ref={aiRef}
-      className="relative gradient-card w-full h-full p-7 bg-card flex flex-col items-center justify-center overflow-hidden"
+      className="relative gradient-card w-full h-full p-4 sm:p-7 bg-card flex flex-col items-center justify-center overflow-hidden"
     >
-      <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
+      <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 hidden md:block">
         {linePaths.map((path, index) => (
           <path
             key={index}
@@ -276,23 +278,23 @@ const AiVisual: React.FC = () => {
       </svg>
 
       <div className="relative flex flex-col items-center ai-center-element z-10">
-        <h3 className="text-2xl font-bold font-geometric text-foreground mb-4">
+        <h3 className="text-xl sm:text-2xl font-bold font-geometric text-foreground mb-4 text-center">
           AI Integration for Business
         </h3>
         <div
           ref={cpuContainerRef}
-          className="relative flex items-center justify-center w-40 h-40"
+          className="relative flex items-center justify-center w-24 h-24 sm:w-40 sm:h-40"
         >
           <div className="absolute w-full h-full bg-primary/10 rounded-full animate-pulse" />
           <div className="absolute w-full h-full border border-primary/50 rounded-full animate-spin-slow" />
           <div className="absolute w-2/3 h-2/3 border border-primary/30 rounded-full animate-spin-slow [animation-delay:-2s]" />
-          <div className="w-16 h-16 bg-primary/20 rounded-full shadow-2xl shadow-primary/50 flex items-center justify-center">
-            <Cpu className="w-8 h-8 text-primary" />
+          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/20 rounded-full shadow-2xl shadow-primary/50 flex items-center justify-center">
+            <Cpu className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
           </div>
         </div>
       </div>
 
-      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8 text-left mt-16 z-10">
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 text-left mt-8 sm:mt-16 z-10">
         {cards.map((card, index) => {
           const CardIcon = card.icon;
           return (

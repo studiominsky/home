@@ -3,8 +3,8 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { TrendingUp } from 'lucide-react';
 import { gsap } from 'gsap';
-import { ChartAreaGradient } from '../Chart'; // Assuming path
-import InvoiceTable from '../Table'; // Assuming path
+import { ChartAreaGradient } from '../Chart';
+import InvoiceTable from '../Table';
 
 const WebAppVisual: React.FC = () => {
   const gridRef = useRef<HTMLDivElement>(null);
@@ -27,16 +27,15 @@ const WebAppVisual: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full p-7">
+    <div className="w-full p-4 md:p-7">
       <div
         ref={gridRef}
-        className="w-full h-full grid grid-cols-3 grid-rows-3 gap-7"
-        style={{ borderColor: 'var(--border)' }}
+        className="w-full h-full flex flex-col gap-4 md:grid md:grid-cols-3 md:grid-rows-3 md:gap-7"
       >
-        <div className="col-span-2 row-span-2 bg-card border border-border rounded-md p-4 flex flex-col">
+        <div className="md:col-span-2 md:row-span-2 bg-card border border-border rounded-md p-4 flex flex-col">
           <h4 className="font-semibold text-foreground">Revenue</h4>
           <div className="flex items-center gap-2 mt-3">
-            <span className="text-4xl">$20.5K</span>
+            <span className="text-3xl md:text-4xl">$20.5K</span>
             <span className="flex flex-col">
               <span className="text-positive font-medium text-sm">
                 +15%
@@ -46,12 +45,12 @@ const WebAppVisual: React.FC = () => {
           </div>
           <ChartAreaGradient />
         </div>
-        <div className="col-start-3 bg-card border border-border rounded-md p-4 flex flex-col items-center justify-center text-center">
+        <div className="md:col-start-3 bg-card border border-border rounded-md p-4 flex flex-col items-center justify-center text-center">
           <h4 className="font-semibold text-foreground/80 text-sm">
             Conversion Rate
           </h4>
           <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-[38px] font-bold text-foreground">
+            <span className="text-3xl md:text-[38px] font-bold text-foreground">
               2.57%
             </span>
           </div>
@@ -60,7 +59,7 @@ const WebAppVisual: React.FC = () => {
             <span>+10%</span>
           </div>
         </div>
-        <div className="col-start-3 row-start-2 bg-card p-4 border border-border rounded-md flex flex-col justify-center">
+        <div className="md:col-start-3 md:row-start-2 bg-card p-4 border border-border rounded-md flex flex-col justify-center">
           <h4 className="font-semibold text-foreground">
             Project Status
           </h4>
@@ -91,7 +90,7 @@ const WebAppVisual: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="col-span-3 bg-card p-4 border border-border rounded-md">
+        <div className="md:col-span-3 bg-card p-4 border border-border rounded-md">
           <h4 className="font-semibold mb-4">Customers</h4>
           <InvoiceTable />
         </div>

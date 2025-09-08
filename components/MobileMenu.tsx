@@ -109,7 +109,7 @@ export default function MobileMenu({ onContactClick }: Props) {
   return (
     <div ref={containerRef} className="lg:hidden">
       <button
-        className="relative z-50 flex h-8 w-8 items-center justify-center"
+        className="relative z-50 flex h-8 w-8 items-center justify-center cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle menu"
       >

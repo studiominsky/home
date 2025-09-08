@@ -112,7 +112,7 @@ export default function FilteredBlogPosts({ posts }: Props) {
 
         <aside
           ref={filtersRef}
-          className="w-full lg:w-auto lg:max-w-md p-6 bg-background/50 opacity-0 translate-y-8"
+          className="w-full lg:w-auto lg:max-w-md p-0 lg:p-6 bg-background/50 opacity-0 translate-y-8"
         >
           <h3 className="font-bold text-xl mb-4">All topics</h3>
           <div className="flex flex-wrap gap-2">

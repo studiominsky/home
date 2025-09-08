@@ -337,7 +337,7 @@ const Services: React.FC = () => {
                         </span>
                       ))}
                     </div>
-                    <div className="mt-4 aspect-video border rounded-md overflow-hidden">
+                    <div className="mt-4 border rounded-md border-border">
                       <ServiceVisual activeIndex={index} />
                     </div>
                   </AccordionContent>

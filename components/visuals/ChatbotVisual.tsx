@@ -39,17 +39,7 @@ const ChatbotVisual: React.FC = () => {
     { type: 'user', text: 'Web Application' },
     {
       type: 'ai',
-      text: 'Great choice! To help us get started, could you tell me a bit about your target audience?',
-      options: [
-        'General Public',
-        'Business (B2B)',
-        'Internal Employees',
-      ],
-    },
-    { type: 'user', text: 'Business (B2B)' },
-    {
-      type: 'ai',
-      text: "Understood. We specialize in B2B applications that boost efficiency. We'll be in touch to discuss the details. Thank you!",
+      text: "Understood. We'll be in touch to discuss the details. Thank you!",
     },
     {
       type: 'ai',
@@ -75,22 +65,22 @@ const ChatbotVisual: React.FC = () => {
 
       <div
         ref={chatRef}
-        className="flex-grow p-4 pt-7 flex flex-col gap-5 overflow-y-auto"
+        className="flex-grow p-2 sm:p-4 pt-4 sm:pt-7 flex flex-col gap-5 overflow-y-auto"
       >
         {conversation.map((msg, index) => (
           <div key={index} className="chat-message flex flex-col">
             {msg.type === 'user' && (
-              <div className="p-3 text-primary-foreground rounded-lg self-end max-w-xs text-sm">
+              <div className="p-3 bg-primary text-primary-foreground rounded-lg self-end max-w-[85%] text-sm">
                 {msg.text}
               </div>
             )}
             {msg.type === 'ai' && (
-              <div className="py-3 rounded-lg self-start max-w-xs text-sm">
+              <div className="p-3 bg-muted rounded-lg self-start max-w-[85%] text-sm">
                 {msg.text}
               </div>
             )}
             {msg.options && (
-              <div className="flex gap-2 justify-start flex-wrap mt-0 self-start">
+              <div className="flex gap-2 justify-start flex-wrap mt-2 self-start">
                 {msg.options.map((option) => (
                   <div
                     key={option}
@@ -102,7 +92,7 @@ const ChatbotVisual: React.FC = () => {
               </div>
             )}
             {msg.feedback && (
-              <div className="py-3 rounded-lg self-start text-sm mt-[-10px]">
+              <div className="py-3 rounded-lg self-start text-sm">
                 <div className="flex items-center justify-start gap-3">
                   <Frown className="w-6 h-6 text-foreground/40" />
                   <Meh className="w-6 h-6 text-foreground/40" />
