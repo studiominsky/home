@@ -4,6 +4,12 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,142 +58,148 @@ function Process() {
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useLayoutEffect(() => {
-    const section = sectionRef.current;
-    const container = containerRef.current;
-    const track = lineRef.current;
-    const dot = dotRef.current;
-    const titles = titleRefs.current.filter(
-      (el): el is HTMLHeadingElement => el !== null
-    );
-    const contents = contentRefs.current.filter(
-      (el): el is HTMLDivElement => el !== null
-    );
+    const mm = gsap.matchMedia();
 
-    if (
-      !section ||
-      !container ||
-      !track ||
-      !dot ||
-      titles.length !== steps.length ||
-      contents.length !== steps.length
-    ) {
-      return;
-    }
+    mm.add('(min-width: 1024px)', () => {
+      const section = sectionRef.current;
+      const container = containerRef.current;
+      const track = lineRef.current;
+      const dot = dotRef.current;
+      const titles = titleRefs.current.filter(
+        (el): el is HTMLHeadingElement => el !== null
+      );
+      const contents = contentRefs.current.filter(
+        (el): el is HTMLDivElement => el !== null
+      );
 
-    const totalSteps = steps.length;
-    let lastActiveStep = 0;
+      if (
+        !section ||
+        !container ||
+        !track ||
+        !dot ||
+        titles.length !== steps.length ||
+        contents.length !== steps.length
+      ) {
+        return;
+      }
 
-    const ctx = gsap.context(() => {
-      gsap.set([headerRef.current, paragraphRef.current], {
-        opacity: 0,
-        y: 30,
-      });
-      gsap.set(titles, { opacity: 0, x: -30 });
-      gsap.set(contents, { opacity: 0 });
+      const totalSteps = steps.length;
+      let lastActiveStep = 0;
 
-      const introTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 60%',
-          toggleActions: 'play none none none',
-        },
-      });
+      const ctx = gsap.context(() => {
+        gsap.set([headerRef.current, paragraphRef.current], {
+          opacity: 0,
+          y: 30,
+        });
+        gsap.set(titles, { opacity: 0, x: -30 });
+        gsap.set(contents, { opacity: 0 });
 
-      introTl.to([headerRef.current, paragraphRef.current], {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        stagger: 0.2,
-      });
-
-      introTl.to(
-        titles,
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-          stagger: 0.15,
-          onComplete: () => {
-            gsap.set(titles[0], { x: 12 });
-            titles[0].classList.add('text-foreground');
-            titles[0].classList.remove('text-foreground/30');
+        const introTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 60%',
+            toggleActions: 'play none none none',
           },
-        },
-        '-=0.5'
-      );
+        });
 
-      introTl.to(
-        contents[0],
-        {
+        introTl.to([headerRef.current, paragraphRef.current], {
           opacity: 1,
-          duration: 0.7,
+          y: 0,
+          duration: 0.8,
           ease: 'power3.out',
-        },
-        '-=0.7'
-      );
+          stagger: 0.2,
+        });
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          start: 'top 100px',
-          end: () => `+=${window.innerHeight * (totalSteps - 1)}`,
-          pin: true,
-          scrub: 1,
-          onUpdate: (self) => {
-            const currentStep = Math.round(
-              self.progress * (totalSteps - 1)
-            );
+        introTl.to(
+          titles,
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.7,
+            ease: 'power3.out',
+            stagger: 0.15,
+            onComplete: () => {
+              gsap.set(titles[0], { x: 12 });
+              titles[0].classList.add('text-foreground');
+              titles[0].classList.remove('text-foreground/30');
+            },
+          },
+          '-=0.5'
+        );
 
-            if (currentStep !== lastActiveStep) {
-              titles.forEach((title, index) => {
-                const isActive = index === currentStep;
-                title.classList.toggle('text-foreground', isActive);
-                title.classList.toggle(
-                  'text-foreground/30',
-                  !isActive
-                );
-                gsap.to(title, {
-                  x: isActive ? 12 : 0,
-                  duration: 0.5,
-                  ease: 'back.out(1.7)',
-                });
-              });
+        introTl.to(
+          contents[0],
+          {
+            opacity: 1,
+            duration: 0.7,
+            ease: 'power3.out',
+          },
+          '-=0.7'
+        );
 
-              if (self.direction === 1) {
-                gsap.fromTo(
-                  contents[currentStep],
-                  { autoAlpha: 0, x: -30 },
-                  {
-                    autoAlpha: 1,
-                    x: 0,
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container,
+            start: 'top 100px',
+            end: () => `+=${window.innerHeight * (totalSteps - 1)}`,
+            pin: true,
+            scrub: 1,
+            onUpdate: (self) => {
+              const currentStep = Math.round(
+                self.progress * (totalSteps - 1)
+              );
+
+              if (currentStep !== lastActiveStep) {
+                titles.forEach((title, index) => {
+                  const isActive = index === currentStep;
+                  title.classList.toggle('text-foreground', isActive);
+                  title.classList.toggle(
+                    'text-foreground/30',
+                    !isActive
+                  );
+                  gsap.to(title, {
+                    x: isActive ? 12 : 0,
                     duration: 0.5,
-                    ease: 'power3.out',
-                  }
-                );
-              } else {
-                if (lastActiveStep > -1) {
-                  gsap.to(contents[lastActiveStep], {
-                    autoAlpha: 0,
-                    x: 0,
-                    y: 20,
-                    duration: 0.3,
+                    ease: 'back.out(1.7)',
                   });
+                });
+
+                if (self.direction === 1) {
+                  gsap.fromTo(
+                    contents[currentStep],
+                    { autoAlpha: 0, x: -30 },
+                    {
+                      autoAlpha: 1,
+                      x: 0,
+                      duration: 0.5,
+                      ease: 'power3.out',
+                    }
+                  );
+                } else {
+                  if (lastActiveStep > -1) {
+                    gsap.to(contents[lastActiveStep], {
+                      autoAlpha: 0,
+                      x: 0,
+                      y: 20,
+                      duration: 0.3,
+                    });
+                  }
                 }
+
+                lastActiveStep = currentStep;
               }
-
-              lastActiveStep = currentStep;
-            }
+            },
           },
-        },
-      });
+        });
 
-      tl.to(track, { height: '100%', ease: 'none' }, 0);
-      tl.to(dot, { top: '100%', ease: 'none' }, 0);
-    }, section);
+        tl.to(track, { height: '100%', ease: 'none' }, 0);
+        tl.to(dot, { top: '100%', ease: 'none' }, 0);
+      }, section);
 
-    return () => ctx.revert();
+      return () => ctx.revert();
+    });
+
+    return () => mm.revert();
   }, []);
 
   return (
@@ -218,17 +230,17 @@ function Process() {
             </p>
           </div>
           <div className="mt-12 md:mt-20">
-            <div className="flex flex-col lg:flex-row py-10 gap-10 md:gap-20">
-              <div className="relative w-full lg:w-1/3">
-                <div className="absolute left-3 top-0 w-0.5 bg-gray-200 h-full hidden lg:block" />
+            <div className="hidden lg:flex py-10 gap-10 md:gap-20">
+              <div className="relative w-1/3">
+                <div className="absolute left-3 top-0 w-0.5 bg-gray-200 h-full" />
                 <div
                   ref={lineRef}
-                  className="absolute left-3 top-0 w-0.5 bg-primary origin-top hidden lg:block"
+                  className="absolute left-3 top-0 w-0.5 bg-primary origin-top"
                   style={{ height: 0 }}
                 />
                 <div
                   ref={dotRef}
-                  className="absolute left-[12px] top-0 w-5 h-5 rounded-full bg-primary transform -translate-x-1/2 -translate-y-1/2 hidden lg:block"
+                  className="absolute left-[12px] top-0 w-5 h-5 rounded-full bg-primary transform -translate-x-1/2 -translate-y-1/2"
                 />
                 <div
                   className="flex flex-col justify-between"
@@ -248,7 +260,7 @@ function Process() {
                   ))}
                 </div>
               </div>
-              <div className="w-full lg:w-2/3">
+              <div className="w-2/3">
                 <div
                   className="flex flex-col justify-between"
                   style={{ minHeight: '700px' }}
@@ -270,6 +282,32 @@ function Process() {
                   ))}
                 </div>
               </div>
+            </div>
+            <div className="lg:hidden">
+              <Accordion
+                type="single"
+                collapsible
+                defaultValue="item-0"
+              >
+                {steps.map((step, index) => (
+                  <AccordionItem
+                    value={`item-${index}`}
+                    key={step.title}
+                  >
+                    <AccordionTrigger className="text-2xl font-geometric">
+                      {step.title}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <h3 className="text-foreground text-lg font-semibold mb-2">
+                        {step.titleDescription}
+                      </h3>
+                      <p className="text-md text-foreground/60">
+                        {step.description}
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </div>
         </div>

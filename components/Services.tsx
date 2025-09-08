@@ -5,6 +5,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import Container from './Container';
 import ServiceVisual from './visuals/ServiceVisuals';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -222,15 +228,15 @@ const Services: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex flex-col lg:flex-row pt-12 md:pt-20 gap-10">
-            <div className="w-full lg:w-1/3 flex flex-col">
+          <div className="hidden lg:flex pt-20 gap-10">
+            <div className="w-1/3 flex flex-col">
               {serviceData.map((service, index) => (
                 <div
                   ref={(el) => {
                     serviceListRef.current[index] = el;
                   }}
                   key={service.title}
-                  className="font-geometric pb-8 md:pb-12 cursor-pointer"
+                  className="font-geometric pb-12 cursor-pointer"
                   onClick={() => handleServiceClick(index)}
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={() => handleMouseLeave(index)}
@@ -255,7 +261,7 @@ const Services: React.FC = () => {
                         titleRefs.current[index] = el;
                       }}
                       className={`
-                        text-2xl md:text-3xl lg:text-[32px] uppercase transition-colors duration-300
+                        text-[32px] uppercase transition-colors duration-300
                         ${
                           activeIndex === index ||
                           hoveredIndex === index
@@ -291,7 +297,7 @@ const Services: React.FC = () => {
               ))}
             </div>
 
-            <div className="w-full lg:w-2/3 h-[600px] lg:h-[850px] flex flex-col">
+            <div className="w-2/3 h-[850px] flex flex-col">
               <span className="font-mono text-sm py-2 block min-h-[40px]">
                 {serviceData[activeIndex].additional}
               </span>
@@ -301,6 +307,43 @@ const Services: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="lg:hidden mt-12">
+            <Accordion
+              type="single"
+              collapsible
+              defaultValue="item-0"
+            >
+              {serviceData.map((service, index) => (
+                <AccordionItem
+                  value={`item-${index}`}
+                  key={service.title}
+                >
+                  <AccordionTrigger className="text-2xl font-geometric uppercase">
+                    {service.title}
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p className="font-sans text-md text-foreground/60">
+                      {service.description}
+                    </p>
+                    <div className="flex gap-2 flex-wrap mt-4">
+                      {service.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 bg-primary text-card rounded-full text-[12px] font-bold font-mono"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-4 aspect-video border rounded-md overflow-hidden">
+                      <ServiceVisual activeIndex={index} />
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </div>
       </Container>

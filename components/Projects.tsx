@@ -5,6 +5,12 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
 import { ThemedImage } from './ThemedImage';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -180,8 +186,8 @@ export default function Projects() {
             </p>
           </div>
 
-          <div className="flex flex-col lg:flex-row pt-12 md:pt-20 gap-10">
-            <div className="w-full lg:w-1/3 flex flex-col">
+          <div className="hidden lg:flex pt-20 gap-10">
+            <div className="w-1/3 flex flex-col">
               {projectData.map((project, index) => (
                 <div
                   ref={(el) => {
@@ -192,7 +198,7 @@ export default function Projects() {
                   onClick={() => setActiveIndex(index)}
                 >
                   <h3
-                    className={`text-2xl md:text-3xl lg:text-[32px] uppercase transition-colors duration-300 ${
+                    className={`text-[32px] uppercase transition-colors duration-300 ${
                       activeIndex === index
                         ? 'text-foreground'
                         : 'text-foreground/30 hover:text-foreground/60'
@@ -204,7 +210,7 @@ export default function Projects() {
               ))}
             </div>
 
-            <div className="w-full lg:w-2/3">
+            <div className="w-2/3">
               {activeProject && (
                 <div ref={contentRef} className="flex flex-col">
                   <div className="flex items-center gap-6 mb-6">
@@ -270,6 +276,88 @@ export default function Projects() {
                 </div>
               )}
             </div>
+          </div>
+          <div className="lg:hidden mt-12">
+            <Accordion
+              type="single"
+              collapsible
+              defaultValue="item-0"
+            >
+              {projectData.map((project, index) => (
+                <AccordionItem
+                  value={`item-${index}`}
+                  key={project.id}
+                >
+                  <AccordionTrigger className="text-2xl font-geometric uppercase">
+                    {project.title}
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-6 mb-6">
+                        <ThemedImage
+                          srcLight={project.logoLight}
+                          srcDark={project.logoDark}
+                          alt={`${project.title} logo`}
+                          width={200}
+                          height={100}
+                          className="max-h-12 w-auto object-contain"
+                        />
+                      </div>
+
+                      <p className="text-lg text-foreground/70 leading-relaxed mb-6">
+                        {project.description}
+                      </p>
+
+                      <div className="my-6">
+                        <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
+                          Key Features
+                        </h4>
+                        <ul className="list-disc list-inside space-y-2 text-foreground/80">
+                          {project.features.map((feature) => (
+                            <li key={feature}>{feature}</li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {project.testimonial && (
+                        <blockquote className="my-6 border-l-2 border-primary pl-4 italic text-foreground/90">
+                          <p>
+                            &quot;{project.testimonial.quote}&quot;
+                          </p>
+                          <cite className="mt-2 block not-italic text-sm text-foreground/60">
+                            – {project.testimonial.author}
+                          </cite>
+                        </blockquote>
+                      )}
+
+                      <div className="flex gap-2 flex-wrap my-6">
+                        {project.techStack.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-3 py-1 bg-primary/20 border border-primary text-primary rounded-full text-xs font-bold font-mono"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="flex gap-4 mt-6">
+                        {project.liveUrl && (
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="cursor-pointer text-card z-99 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center text-[0.875rem] leading-[1.25rem] font-medium opacity-100 transition-transform hover:scale-105"
+                          >
+                            View Live Site
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </div>
       </Container>
