@@ -63,19 +63,11 @@ export default function Chatbot() {
     });
 
     tl.current = gsap
-      .timeline({
-        paused: true,
-        defaults: { ease: 'expo.out' },
-      })
+      .timeline({ paused: true, defaults: { ease: 'expo.out' } })
       .to(backdrop, { autoAlpha: 1, duration: 0.4 })
       .to(
         panel,
-        {
-          autoAlpha: 1,
-          scale: 1,
-          y: 0,
-          duration: 0.4,
-        },
+        { autoAlpha: 1, scale: 1, y: 0, duration: 0.4 },
         '-=0.3'
       )
       .to(
@@ -96,10 +88,7 @@ export default function Chatbot() {
 
     gsap.fromTo(
       fab,
-      {
-        opacity: 0,
-        scale: 0,
-      },
+      { opacity: 0, scale: 0 },
       {
         opacity: 1,
         scale: 1,
@@ -121,11 +110,7 @@ export default function Chatbot() {
 
   useEffect(() => {
     const body = document.documentElement;
-    if (open) {
-      body.style.overflow = 'hidden';
-    } else {
-      body.style.overflow = 'auto';
-    }
+    body.style.overflow = open ? 'hidden' : 'auto';
     return () => {
       body.style.overflow = 'auto';
     };
@@ -136,12 +121,12 @@ export default function Chatbot() {
     if (!container) return;
     container.scrollTop = container.scrollHeight;
 
-    const lastMessage = container.querySelector(
+    const last = container.querySelector(
       '.chat-message:last-of-type'
-    );
-    if (lastMessage) {
+    ) as HTMLElement | null;
+    if (last) {
       gsap.fromTo(
-        lastMessage,
+        last,
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }
       );
@@ -168,14 +153,10 @@ export default function Chatbot() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: [...messages, userMsg].map(
-            ({ role, content }) => ({
-              role,
-              content,
-            })
+            ({ role, content }) => ({ role, content })
           ),
         }),
       });
-
       if (!res.ok) throw new Error(await res.text());
 
       const data: { reply: string } = await res.json();
@@ -188,12 +169,14 @@ export default function Chatbot() {
         setIsCollectingEmail(true);
       }
 
-      const botMsg: Msg = {
-        id: crypto.randomUUID(),
-        role: 'assistant',
-        content: botContent,
-      };
-      setMessages((m) => [...m, botMsg]);
+      setMessages((m) => [
+        ...m,
+        {
+          id: crypto.randomUUID(),
+          role: 'assistant',
+          content: botContent,
+        },
+      ]);
     } catch (err) {
       console.error(err);
       setMessages((m) => [
@@ -213,7 +196,6 @@ export default function Chatbot() {
     e.preventDefault();
     const email = emailInput.trim();
     if (!email) return;
-
     setLoading(true);
     setIsCollectingEmail(false);
 
@@ -230,27 +212,31 @@ export default function Chatbot() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: 'AI Assistant',
-          email: email,
+          email,
           message: `Captured from chatbot conversation:\n\n---\n${chatHistory}`,
         }),
       });
 
-      const confirmationMsg: Msg = {
-        id: crypto.randomUUID(),
-        role: 'assistant',
-        content:
-          "Thanks! We've received your email and will be in touch shortly.",
-      };
-      setMessages((m) => [...m, confirmationMsg]);
+      setMessages((m) => [
+        ...m,
+        {
+          id: crypto.randomUUID(),
+          role: 'assistant',
+          content:
+            "Thanks! We've received your email and will be in touch shortly.",
+        },
+      ]);
     } catch (err) {
       console.error(err);
-      const errorMsg: Msg = {
-        id: crypto.randomUUID(),
-        role: 'assistant',
-        content:
-          'Sorry, there was an issue submitting your email. Please use the main contact form.',
-      };
-      setMessages((m) => [...m, errorMsg]);
+      setMessages((m) => [
+        ...m,
+        {
+          id: crypto.randomUUID(),
+          role: 'assistant',
+          content:
+            'Sorry, there was an issue submitting your email. Please use the main contact form.',
+        },
+      ]);
     } finally {
       setLoading(false);
       setEmailInput('');
@@ -266,7 +252,7 @@ export default function Chatbot() {
         aria-controls="studio-minsky-chat"
         aria-label={open ? 'Close chat' : 'Open chat'}
         style={{ opacity: 0 }}
-        className="fixed bottom-5 right-5 z-30 flex h-14 w-14 transform cursor-pointer items-center justify-center rounded-full bg-primary text-background shadow-xl transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/40"
+        className="fixed bottom-5 right-5 z-10 flex h-14 w-14 transform cursor-pointer items-center justify-center rounded-full bg-primary text-background shadow-xl transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/40"
       >
         <MessageSquare className="chat-icon-open absolute h-6 w-6" />
         <X className="chat-icon-close absolute h-6 w-6" />
@@ -275,7 +261,7 @@ export default function Chatbot() {
       <div
         ref={backdropRef}
         onClick={() => setOpen(false)}
-        className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
+        className="fixed inset-0 z-20 bg-black/30 backdrop-blur-sm"
         style={{ visibility: 'hidden' }}
       />
 
@@ -319,6 +305,7 @@ export default function Chatbot() {
             </button>
           </div>
         </div>
+
         <div
           ref={messagesContainerRef}
           className="max-h-[50vh] flex-grow space-y-4 overflow-y-auto p-4"
@@ -326,9 +313,7 @@ export default function Chatbot() {
           {messages.map((m) => (
             <div
               key={m.id}
-              className={`chat-message flex items-end gap-2 ${
-                m.role === 'user' ? 'justify-end' : 'justify-start'
-              }`}
+              className={`chat-message flex items-end gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {m.role === 'assistant' && (
                 <div className="mb-1.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-primary/20">
@@ -375,7 +360,7 @@ export default function Chatbot() {
                 type="submit"
                 disabled={loading}
                 aria-label="Submit email"
-                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <SendHorizontal className="h-4 w-4" />
               </button>
@@ -396,7 +381,7 @@ export default function Chatbot() {
                 type="submit"
                 disabled={loading || !input.trim()}
                 aria-label="Send message"
-                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg bg-primary text-background transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-background transition-opacity enabled:hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <SendHorizontal className="h-4 w-4" />
               </button>

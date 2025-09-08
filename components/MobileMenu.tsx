@@ -36,8 +36,8 @@ export default function MobileMenu({ onContactClick }: Props) {
     const overlay = container.querySelector('.menu-overlay');
     const links = gsap.utils.toArray('.menu-item');
 
-    gsap.set(menu, { yPercent: -100, autoAlpha: 0 });
-    gsap.set(overlay, { autoAlpha: 0 });
+    gsap.set(menu, { yPercent: -100, autoAlpha: 0, display: 'none' });
+    gsap.set(overlay, { autoAlpha: 0, display: 'none' });
 
     timeline.current = gsap
       .timeline({
@@ -53,7 +53,7 @@ export default function MobileMenu({ onContactClick }: Props) {
       })
       .to(
         overlay,
-        { autoAlpha: 1, duration: 0.4, ease: 'power2.out' },
+        { autoAlpha: 1, duration: 0.35, ease: 'power2.out' },
         0
       )
       .to(
@@ -62,7 +62,7 @@ export default function MobileMenu({ onContactClick }: Props) {
           yPercent: 0,
           autoAlpha: 1,
           duration: 0.5,
-          ease: 'power2.out',
+          ease: 'cubic-bezier(0.16,1,0.3,1)',
         },
         0
       )
@@ -75,7 +75,7 @@ export default function MobileMenu({ onContactClick }: Props) {
           stagger: 0.08,
           ease: 'power2.out',
         },
-        '-=0.3'
+        '-=0.25'
       );
   }, []);
 
@@ -97,11 +97,9 @@ export default function MobileMenu({ onContactClick }: Props) {
     const href = e.currentTarget.getAttribute('href');
     if (href && href.startsWith('/#')) {
       e.preventDefault();
-      const targetId = href.substring(2);
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-      }
+      const id = href.substring(2);
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
     setIsOpen(false);
   };
@@ -109,66 +107,80 @@ export default function MobileMenu({ onContactClick }: Props) {
   return (
     <div ref={containerRef} className="lg:hidden">
       <button
-        className="relative z-50 flex h-8 w-8 items-center justify-center cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle menu"
+        className="relative z-30 flex h-8 w-8 cursor-pointer items-center justify-center"
+        onClick={() => setIsOpen((v) => !v)}
+        aria-label={isOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={isOpen}
+        aria-controls="mobile-menu-panel"
       >
         <Menu
           className={clsx(
-            'absolute h-6 w-6 transition-all duration-300 ease-in-out',
+            'absolute h-6 w-6 transition-all duration-300 ease-out',
             isOpen ? 'rotate-45 opacity-0' : 'rotate-0 opacity-100'
           )}
         />
         <X
           className={clsx(
-            'absolute h-6 w-6 transition-all duration-300 ease-in-out',
+            'absolute h-6 w-6 transition-all duration-300 ease-out',
             isOpen ? 'rotate-0 opacity-100' : '-rotate-45 opacity-0'
           )}
         />
       </button>
 
       <div
-        className="menu-overlay fixed inset-0 bg-black/30 backdrop-blur-sm z-30 hidden"
+        className="menu-overlay fixed inset-0 z-40 hidden bg-black/30 backdrop-blur-sm"
         onClick={() => setIsOpen(false)}
       />
 
-      <div className="mobile-menu fixed top-0 left-0 right-0 h-screen sm:h-[70vh] bg-background z-40 hidden flex-col border-b border-border p-6">
-        <div className="flex justify-between items-center mb-10 menu-item">
+      <div
+        id="mobile-menu-panel"
+        className="mobile-menu fixed left-0 right-0 top-0 z-50 hidden h-screen flex-col border-b border-border bg-background p-6 sm:h-[70vh]"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div className="menu-item mb-10 flex items-center justify-between">
           <Logo className="w-40" />
+          <button
+            onClick={() => setIsOpen(false)}
+            aria-label="Close menu"
+            className="rounded-md p-2 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
 
-        <div className="flex flex-col items-start flex-grow space-y-6 mt-20">
+        <div className="mt-12 flex flex-grow flex-col items-start space-y-6">
           <Link
             href="/#services"
-            className="menu-item text-3xl font-geometric"
+            className="menu-item font-geometric text-3xl"
             onClick={handleLinkClick}
           >
             {t('services')}
           </Link>
           <Link
             href="/#projects"
-            className="menu-item text-3xl font-geometric"
+            className="menu-item font-geometric text-3xl"
             onClick={handleLinkClick}
           >
             {t('projects')}
           </Link>
           <Link
             href="/#process"
-            className="menu-item text-3xl font-geometric"
+            className="menu-item font-geometric text-3xl"
             onClick={handleLinkClick}
           >
             {t('process')}
           </Link>
           <Link
             href="/blog"
-            className="menu-item text-3xl font-geometric"
+            className="menu-item font-geometric text-3xl"
             onClick={handleLinkClick}
           >
             {t('blog')}
           </Link>
           <Link
             href="/#contact"
-            className="menu-item text-3xl font-geometric"
+            className="menu-item font-geometric text-3xl"
             onClick={(e) => {
               e.preventDefault();
               setIsOpen(false);
@@ -178,7 +190,8 @@ export default function MobileMenu({ onContactClick }: Props) {
             {t('contact')}
           </Link>
         </div>
-        <div className="space-y-2 menu-item">
+
+        <div className="menu-item space-y-2">
           <div className="flex items-center justify-between p-2">
             <span className="text-sm font-medium">{t('theme')}</span>
             <ThemeToggle />
@@ -201,6 +214,7 @@ export default function MobileMenu({ onContactClick }: Props) {
                     'p-2 text-sm',
                     locale === lang.code && 'font-bold'
                   )}
+                  onClick={() => setIsOpen(false)}
                 >
                   {lang.code.toUpperCase()}
                 </Link>
