@@ -18,6 +18,8 @@ export default function MobileMenu({ onContactClick }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const timeline = useRef<gsap.core.Timeline | null>(null);
+  const scrollYRef = useRef(0);
+  const pendingAnchorId = useRef<string | null>(null);
 
   const t = useTranslations('Header');
   const locale = useLocale();
@@ -46,10 +48,6 @@ export default function MobileMenu({ onContactClick }: Props) {
           gsap.set(menu, { display: 'flex' });
           gsap.set(overlay, { display: 'block' });
         },
-        onReverseComplete: () => {
-          gsap.set(menu, { display: 'none' });
-          gsap.set(overlay, { display: 'none' });
-        },
       })
       .to(
         overlay,
@@ -77,29 +75,50 @@ export default function MobileMenu({ onContactClick }: Props) {
         },
         '-=0.25'
       );
+
+    timeline.current.eventCallback('onReverseComplete', () => {
+      gsap.set(menu, { display: 'none' });
+      gsap.set(overlay, { display: 'none' });
+      if (pendingAnchorId.current) {
+        const el = document.getElementById(pendingAnchorId.current);
+        pendingAnchorId.current = null;
+        if (el)
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
   }, []);
 
   useEffect(() => {
+    const body = document.body;
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      scrollYRef.current = window.scrollY || window.pageYOffset;
+      body.style.position = 'fixed';
+      body.style.top = `-${scrollYRef.current}px`;
+      body.style.left = '0';
+      body.style.right = '0';
+      body.style.width = '100%';
       timeline.current?.play();
     } else {
       timeline.current?.reverse();
+      const y = Math.abs(parseInt(body.style.top || '0', 10));
+      body.style.position = '';
+      body.style.top = '';
+      body.style.left = '';
+      body.style.right = '';
+      body.style.width = '';
+      window.scrollTo(0, y || scrollYRef.current || 0);
     }
-    return () => {
-      document.body.style.overflow = '';
-    };
   }, [isOpen]);
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>
   ) => {
-    const href = e.currentTarget.getAttribute('href');
-    if (href && href.startsWith('/#')) {
+    const href = e.currentTarget.getAttribute('href') || '';
+    if (href.startsWith('/#')) {
       e.preventDefault();
-      const id = href.substring(2);
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      pendingAnchorId.current = href.substring(2);
+      setIsOpen(false);
+      return;
     }
     setIsOpen(false);
   };
@@ -183,6 +202,7 @@ export default function MobileMenu({ onContactClick }: Props) {
             className="menu-item font-geometric text-3xl"
             onClick={(e) => {
               e.preventDefault();
+              pendingAnchorId.current = 'contact';
               setIsOpen(false);
               onContactClick();
             }}
