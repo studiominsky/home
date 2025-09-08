@@ -156,23 +156,23 @@ export default function Projects() {
     <section
       id="projects"
       ref={sectionRef}
-      className="py-30 min-h-screen"
+      className="py-16 md:py-30 min-h-screen"
     >
       <Container>
         <span className="font-mono border-b border-border py-3 text-sm w-full block">
           02 SELECTED WORK
         </span>
         <div className="flex flex-col pt-10">
-          <div className="flex justify-between gap-10">
+          <div className="flex flex-col lg:flex-row justify-between gap-10">
             <h1
               ref={headerRef}
-              className="font-geometric text-[75px] w-2/5 opacity-0"
+              className="font-geometric text-5xl md:text-6xl lg:text-[75px] w-full lg:w-2/5 opacity-0"
             >
               PROJECTS
             </h1>
             <p
               ref={paragraphRef}
-              className="text-xl w-1/3 text-foreground opacity-0"
+              className="text-lg md:text-xl w-full lg:w-1/3 text-foreground opacity-0"
             >
               Our process is designed for clarity and collaboration,
               ensuring every project is a partnership that leads to
@@ -180,8 +180,8 @@ export default function Projects() {
             </p>
           </div>
 
-          <div className="flex pt-20 gap-10">
-            <div className="w-1/3 flex flex-col">
+          <div className="flex flex-col lg:flex-row pt-12 md:pt-20 gap-10">
+            <div className="w-full lg:w-1/3 flex flex-col">
               {projectData.map((project, index) => (
                 <div
                   ref={(el) => {
@@ -192,7 +192,7 @@ export default function Projects() {
                   onClick={() => setActiveIndex(index)}
                 >
                   <h3
-                    className={`text-[32px] uppercase transition-colors duration-300 ${
+                    className={`text-2xl md:text-3xl lg:text-[32px] uppercase transition-colors duration-300 ${
                       activeIndex === index
                         ? 'text-foreground'
                         : 'text-foreground/30 hover:text-foreground/60'
@@ -204,7 +204,7 @@ export default function Projects() {
               ))}
             </div>
 
-            <div className="w-2/3">
+            <div className="w-full lg:w-2/3">
               {activeProject && (
                 <div ref={contentRef} className="flex flex-col">
                   <div className="flex items-center gap-6 mb-6">

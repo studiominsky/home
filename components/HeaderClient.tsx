@@ -18,6 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+
 import clsx from 'clsx';
 import FullWidth from './FullWidth';
 import Logo from './Logo';
@@ -29,6 +30,7 @@ import dynamic from 'next/dynamic';
 
 import { useTranslations, useLocale } from 'next-intl';
 import { usePathname, Link } from '@/i18n/navigation';
+import MobileMenu from './MobileMenu';
 
 const ContactForm = dynamic(() => import('./ContactForm'), {
   ssr: false,
@@ -108,7 +110,7 @@ export default function HeaderClient({ posts, latest }: Props) {
         <div className="flex h-full w-full items-center justify-between gap-4">
           <Logo className="w-48" />
 
-          <div className="flex">
+          <div className="hidden lg:flex">
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
@@ -243,34 +245,36 @@ export default function HeaderClient({ posts, latest }: Props) {
           </div>
 
           <div className="flex items-center gap-2">
-            <NavigationMenu viewport={true}>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-transparent">
-                    <GlobeIcon className="size-5" />
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="w-[150px] gap-1 p-2">
-                      {locales.map((lang) => (
-                        <li key={lang.code}>
-                          <Link
-                            href={pathname}
-                            locale={lang.code}
-                            className={clsx(
-                              'block cursor-pointer rounded-md p-2 text-sm hover:bg-accent',
-                              locale === lang.code &&
-                                'font-bold bg-accent/50'
-                            )}
-                          >
-                            {lang.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+            <div className="hidden lg:flex">
+              <NavigationMenu viewport={true}>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="bg-transparent">
+                      <GlobeIcon className="size-5" />
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="w-[150px] gap-1 p-2">
+                        {locales.map((lang) => (
+                          <li key={lang.code}>
+                            <Link
+                              href={pathname}
+                              locale={lang.code}
+                              className={clsx(
+                                'block cursor-pointer rounded-md p-2 text-sm hover:bg-accent',
+                                locale === lang.code &&
+                                  'font-bold bg-accent/50'
+                              )}
+                            >
+                              {lang.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
 
             <Link
               href="/#contact"
@@ -280,7 +284,7 @@ export default function HeaderClient({ posts, latest }: Props) {
               }}
               className={clsx(
                 'z-99 m-0 flex max-w-[120px] cursor-pointer items-center justify-center rounded-full bg-background-inverted px-5 py-3 text-center font-sans text-[0.875rem] font-medium leading-[1.25rem] opacity-100 text-card',
-                'text-[var(--ds-background-100)]'
+                'text-[var(--ds-background-100)] hidden lg:flex'
               )}
               style={{ letterSpacing: 'initial' }}
             >
@@ -290,6 +294,7 @@ export default function HeaderClient({ posts, latest }: Props) {
               {t('contact')}
             </Link>
           </div>
+          <MobileMenu onContactClick={() => setIsContactOpen(true)} />
         </div>
       </FullWidth>
 

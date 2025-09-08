@@ -194,41 +194,41 @@ function Process() {
     <section
       id="process"
       ref={sectionRef}
-      className="py-30 bg-background"
+      className="py-16 md:py-30 bg-background"
     >
       <Container>
         <div ref={containerRef} className="overflow-hidden">
           <span className="font-mono border-b border-gray-300 py-3 text-sm block">
             02 HOW WE DO IT
           </span>
-          <div className="flex justify-between pt-10">
+          <div className="flex flex-col lg:flex-row justify-between pt-10">
             <h1
               ref={headerRef}
-              className="font-geometric text-5xl md:text-[75px] w-2/5"
+              className="font-geometric text-5xl md:text-6xl lg:text-[75px] w-full lg:w-2/5"
             >
               PROCESS
             </h1>
             <p
               ref={paragraphRef}
-              className="text-lg md:text-xl w-1/3 text-foreground"
+              className="text-lg md:text-xl w-full lg:w-1/3 text-foreground"
             >
               Our process is designed for clarity and collaboration,
               ensuring every project is a partnership that leads to
               exceptional results.
             </p>
           </div>
-          <div className="mt-20">
-            <div className="flex py-10 gap-10 md:gap-20">
-              <div className="relative w-1/3">
-                <div className="absolute left-3 top-0 w-0.5 bg-gray-200 h-full" />
+          <div className="mt-12 md:mt-20">
+            <div className="flex flex-col lg:flex-row py-10 gap-10 md:gap-20">
+              <div className="relative w-full lg:w-1/3">
+                <div className="absolute left-3 top-0 w-0.5 bg-gray-200 h-full hidden lg:block" />
                 <div
                   ref={lineRef}
-                  className="absolute left-3 top-0 w-0.5 bg-primary origin-top"
+                  className="absolute left-3 top-0 w-0.5 bg-primary origin-top hidden lg:block"
                   style={{ height: 0 }}
                 />
                 <div
                   ref={dotRef}
-                  className="absolute left-[12px] top-0 w-5 h-5 rounded-full bg-primary transform -translate-x-1/2 -translate-y-1/2"
+                  className="absolute left-[12px] top-0 w-5 h-5 rounded-full bg-primary transform -translate-x-1/2 -translate-y-1/2 hidden lg:block"
                 />
                 <div
                   className="flex flex-col justify-between"
@@ -248,7 +248,7 @@ function Process() {
                   ))}
                 </div>
               </div>
-              <div className="w-2/3">
+              <div className="w-full lg:w-2/3">
                 <div
                   className="flex flex-col justify-between"
                   style={{ minHeight: '700px' }}

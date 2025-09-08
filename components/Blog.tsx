@@ -92,22 +92,25 @@ export default function Blog() {
   }, [articles]);
 
   return (
-    <section ref={sectionRef} className="py-30 bg-background">
+    <section
+      ref={sectionRef}
+      className="py-16 md:py-30 bg-background"
+    >
       <Container>
         <div className="overflow-hidden">
           <span className="font-mono border-b border-gray-300 py-3 text-sm block">
             02 SOME TEXT HERE
           </span>
-          <div className="flex justify-between pt-10">
+          <div className="flex flex-col lg:flex-row justify-between pt-10">
             <h1
               ref={headerRef}
-              className="font-geometric text-5xl md:text-[75px] w-2/5 opacity-0 translate-y-8"
+              className="font-geometric text-5xl md:text-[75px] w-full lg:w-2/5 opacity-0 translate-y-8"
             >
               BLOG
             </h1>
             <p
               ref={paragraphRef}
-              className="text-lg md:text-xl w-1/3 text-foreground opacity-0 translate-y-8"
+              className="text-lg md:text-xl w-full lg:w-1/3 text-foreground opacity-0 translate-y-8"
             >
               Our Blog is designed for clarity and collaboration,
               ensuring every project is a partnership that leads to
@@ -115,13 +118,13 @@ export default function Blog() {
             </p>
           </div>
 
-          <div className="mt-20 flex gap-10">
+          <div className="mt-12 md:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             {articles.map((post, i) => (
               <div
                 ref={(el) => {
                   contentRefs.current[i] = el;
                 }}
-                className="w-1/3 opacity-0 translate-y-8"
+                className="opacity-0 translate-y-8"
                 key={post.slug}
               >
                 <Link

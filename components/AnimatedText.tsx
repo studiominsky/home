@@ -69,26 +69,26 @@ export default function ContentBlock({
   }, [stats]);
 
   return (
-    <div ref={sectionRef} className="bg-primary py-40">
+    <div ref={sectionRef} className="bg-primary py-20 md:py-40">
       <Container>
         <h4
           ref={textRef}
-          className="text-black text-center font-geometric text-5xl md:text-7xl mb-8 leading-23"
+          className="text-black text-center font-geometric text-4xl sm:text-5xl md:text-7xl mb-8 leading-tight md:leading-23"
         >
           {children}
         </h4>
 
         {stats && (
-          <div className="mt-12 flex flex-wrap justify-center items-center gap-8 md:gap-20">
+          <div className="mt-12 flex flex-wrap justify-center items-center gap-4 sm:gap-8 md:gap-20">
             {stats.map((stat, i) => (
               <div
                 key={stat.label}
                 ref={(el) => {
                   statRefs.current[i] = el;
                 }}
-                className="flex flex-col items-center justify-center size-36 md:size-48 bg-black rounded-full text-white text-center p-4 opacity-0"
+                className="flex flex-col items-center justify-center size-28 sm:size-36 md:size-48 bg-black rounded-full text-white text-center p-4 opacity-0"
               >
-                <span className="font-geometric text-4xl">
+                <span className="font-geometric text-2xl sm:text-3xl md:text-4xl">
                   {stat.value}
                 </span>
                 <span className="font-mono text-xs uppercase tracking-wider mt-1 opacity-70">

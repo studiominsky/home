@@ -15,7 +15,7 @@ export default async function BlogListPage() {
   return (
     <>
       <Header />
-      <main className="mt-[120px] pb-50 container mx-auto px-4 py-8">
+      <main className="mt-[120px] pb-20 sm:pb-32 md:pb-50 container mx-auto px-4 py-8">
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-foreground/80 mb-8 group"

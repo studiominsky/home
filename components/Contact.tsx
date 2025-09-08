@@ -41,15 +41,22 @@ export default function Contact() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="contact" className="py-32 md:py-40">
+    <section
+      ref={sectionRef}
+      id="contact"
+      className="py-16 md:py-32 lg:py-40"
+    >
       <Container>
         <div className="text-center">
-          <h2 ref={headingRef} className="font-geometric text-[72px]">
+          <h2
+            ref={headingRef}
+            className="font-geometric text-4xl sm:text-5xl md:text-6xl lg:text-[72px]"
+          >
             Tell us about your project.
           </h2>
           <p
             ref={subRef}
-            className="mx-auto max-w-3xl text-lg text-foreground/70"
+            className="mx-auto max-w-3xl text-base sm:text-lg text-foreground/70"
           >
             Quick form. Two steps. We’ll reply within 1–2 business
             days.

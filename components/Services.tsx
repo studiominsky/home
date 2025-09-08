@@ -196,21 +196,24 @@ const Services: React.FC = () => {
     <section
       id="services"
       ref={sectionRef}
-      className="py-30 min-h-screen"
+      className="py-16 md:py-30 min-h-screen"
     >
       <Container>
         <span className="font-mono border-b border-border py-3 text-sm w-full block">
           01 WHAT WE OFFER
         </span>
         <div className="flex flex-col pt-10">
-          <div className="flex justify-between gap-10">
+          <div className="flex flex-col lg:flex-row justify-between gap-10">
             <h1
               ref={headerRef}
-              className="font-geometric text-[75px] flex items-center gap-5 w-2/5"
+              className="font-geometric text-5xl md:text-6xl lg:text-[75px] flex items-center gap-5 w-full lg:w-2/5"
             >
               <span>SERVICES</span>
             </h1>
-            <p ref={paragraphRef} className="text-xl w-1/3">
+            <p
+              ref={paragraphRef}
+              className="text-lg md:text-xl w-full lg:w-1/3"
+            >
               Studio Minsky builds the digital tools that drive
               business growth. From websites that turn visitors into
               customers, to custom software that streamlines your
@@ -219,15 +222,15 @@ const Services: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex pt-20 gap-10">
-            <div className="w-1/3 flex flex-col">
+          <div className="flex flex-col lg:flex-row pt-12 md:pt-20 gap-10">
+            <div className="w-full lg:w-1/3 flex flex-col">
               {serviceData.map((service, index) => (
                 <div
                   ref={(el) => {
                     serviceListRef.current[index] = el;
                   }}
                   key={service.title}
-                  className="font-geometric pb-12 cursor-pointer"
+                  className="font-geometric pb-8 md:pb-12 cursor-pointer"
                   onClick={() => handleServiceClick(index)}
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={() => handleMouseLeave(index)}
@@ -252,7 +255,7 @@ const Services: React.FC = () => {
                         titleRefs.current[index] = el;
                       }}
                       className={`
-                        text-[32px] uppercase transition-colors duration-300
+                        text-2xl md:text-3xl lg:text-[32px] uppercase transition-colors duration-300
                         ${
                           activeIndex === index ||
                           hoveredIndex === index
@@ -288,7 +291,7 @@ const Services: React.FC = () => {
               ))}
             </div>
 
-            <div className="w-2/3 h-[850px] flex flex-col">
+            <div className="w-full lg:w-2/3 h-[600px] lg:h-[850px] flex flex-col">
               <span className="font-mono text-sm py-2 block min-h-[40px]">
                 {serviceData[activeIndex].additional}
               </span>

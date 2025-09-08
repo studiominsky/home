@@ -28,9 +28,9 @@ export default async function BlogPostPage({
       <Header />
 
       <article className="mt-[80px] container mx-auto px-4 py-8">
-        <header className="mb-8 flex flex-col lg:flex-row gap-20 items-start">
+        <header className="mb-8 flex flex-col lg:flex-row gap-8 lg:gap-20 items-start">
           <div className="flex-1 mt-auto">
-            <h1 className="text-[75px] font-geometric leading-20 uppercase font-bold mb-3">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-geometric leading-tight lg:leading-20 uppercase font-bold mb-3">
               {frontMatter.title}
             </h1>
 
@@ -66,21 +66,21 @@ export default async function BlogPostPage({
             aria-label="Summary"
             className="relative my-10 pl-5 border-l-3 border-primary"
           >
-            <p className="m-0 text-2xl leading-8 text-foreground/90">
+            <p className="m-0 text-lg sm:text-xl md:text-2xl leading-relaxed text-foreground/90">
               {frontMatter.description}
             </p>
           </section>
         )}
 
-        <div className="flex gap-20 justify-between w-full">
-          <div className="blog-text prose lg:prose-xl w-2/3">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-20 justify-between w-full">
+          <div className="blog-text prose lg:prose-xl w-full lg:w-2/3">
             <PostContent
               html={html}
               headings={frontMatter.headings}
             />
           </div>
 
-          <aside className="hidden lg:block sticky top-[100px] text-end self-start max-h-[70vh] overflow-auto w-1/3">
+          <aside className="hidden lg:block sticky top-[100px] text-end self-start max-h-[70vh] overflow-auto w-full lg:w-1/3">
             <TableOfContents
               headings={frontMatter.headings}
               title="On this page"
