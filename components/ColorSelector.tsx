@@ -3,6 +3,7 @@
 import { CheckIcon } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useTheme } from '@/providers/theme-provider';
+import { useEffect, useState } from 'react';
 
 type ColorTheme = 'orange' | 'green' | 'blue' | 'purple';
 
@@ -15,6 +16,15 @@ const colors = [
 
 export function ColorSelector() {
   const { colorTheme, setColorTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="flex items-center gap-2">

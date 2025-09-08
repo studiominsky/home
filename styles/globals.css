@@ -126,7 +126,9 @@ html {
 
 .web-card {
   position: relative;
-  background-color: var(--color-background);
+  background-color: var(--color-card);
+  overflow: hidden;
+  z-index: 1;
 }
 
 .web-card::after {
