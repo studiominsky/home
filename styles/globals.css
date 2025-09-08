@@ -146,8 +146,8 @@ html {
   z-index: 0;
   border-top: 2px solid var(--color-primary);
 
-  @media (max-width: 767px) {
-    display: none;
+  @media (max-width: 560px) {
+    bottom: -50%;
   }
 }
 

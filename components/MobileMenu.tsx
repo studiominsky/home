@@ -143,7 +143,7 @@ export default function MobileMenu({ onContactClick }: Props) {
           <button
             onClick={() => setIsOpen(false)}
             aria-label="Close menu"
-            className="rounded-md p-2 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
+            className="rounded-md cursor-pointer p-2 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
           >
             <X className="h-5 w-5" />
           </button>

@@ -87,7 +87,8 @@ export function WebsiteVisual() {
           Get Started
         </button>
 
-        <div className="w-full max-w-3xl mx-auto mt-16 sm:mt-24 md:mt-32">
+        <div className="w-full max-w-3xl mx-auto mt-[7.5rem] sm:mt-24 md:mt-52">
+          {' '}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
             <div className="feature-item flex items-start gap-4">
               <div className="flex-shrink-0 w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center">
@@ -97,7 +98,7 @@ export function WebsiteVisual() {
                 <h4 className="font-semibold text-foreground">
                   Lightning Fast
                 </h4>
-                <p className="text-sm text-foreground/60 mt-1">
+                <p className="text-sm  text-foreground/60 mt-1">
                   Optimized for performance to ensure the best user
                   experience.
                 </p>
