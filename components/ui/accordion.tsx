@@ -33,9 +33,37 @@ function AccordionTrigger({
   children,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+
+  const handleTriggerClick = () => {
+    if (triggerRef.current?.getAttribute('data-state') === 'closed') {
+      setTimeout(() => {
+        const header = document.querySelector('header');
+        if (triggerRef.current && header) {
+          const headerHeight = header.offsetHeight;
+          const triggerRect =
+            triggerRef.current.getBoundingClientRect();
+
+          const desiredTopPosition = headerHeight + 16;
+
+          const scrollAmount = triggerRect.top - desiredTopPosition;
+
+          if (Math.abs(scrollAmount) > 1) {
+            window.scrollBy({
+              top: scrollAmount,
+              behavior: 'smooth',
+            });
+          }
+        }
+      }, 300);
+    }
+  };
+
   return (
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
+        ref={triggerRef}
+        onClick={handleTriggerClick}
         data-slot="accordion-trigger"
         className={cn(
           'focus-visible:border-border cursor-pointer focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-8 text-left text-sm font-medium transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180',
