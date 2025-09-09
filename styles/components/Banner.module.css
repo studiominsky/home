@@ -10,3 +10,9 @@
   pointer-events: none;
   will-change: transform;
 }
+
+@media (min-width: 1024px) {
+  .FullWidth {
+    height: 100vh;
+  }
+}
