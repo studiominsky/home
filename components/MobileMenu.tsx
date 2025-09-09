@@ -17,106 +17,132 @@ type Props = {
 export default function MobileMenu({ onContactClick }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const timeline = useRef<gsap.core.Timeline | null>(null);
-  const scrollYRef = useRef(0);
-  const pendingAnchorId = useRef<string | null>(null);
-
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+  const scrollToIdRef = useRef<string | null>(null);
+  const scrollPosRef = useRef<number>(0);
   const t = useTranslations('Header');
   const locale = useLocale();
   const pathname = usePathname();
 
-  const locales = [
-    { code: 'en', name: 'English' },
-    { code: 'de', name: 'Deutsch' },
-  ];
-
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const menu = container.querySelector('.mobile-menu');
-    const overlay = container.querySelector('.menu-overlay');
-    const links = gsap.utils.toArray('.menu-item');
-
-    gsap.set(menu, { yPercent: -100, autoAlpha: 0, display: 'none' });
-    gsap.set(overlay, { autoAlpha: 0, display: 'none' });
-
-    timeline.current = gsap
-      .timeline({
-        paused: true,
-        onStart: () => {
-          gsap.set(menu, { display: 'flex' });
-          gsap.set(overlay, { display: 'block' });
-        },
-      })
-      .to(
-        overlay,
-        { autoAlpha: 1, duration: 0.35, ease: 'power2.out' },
-        0
-      )
-      .to(
-        menu,
-        {
-          yPercent: 0,
-          autoAlpha: 1,
-          duration: 0.5,
-          ease: 'cubic-bezier(0.16,1,0.3,1)',
-        },
-        0
-      )
-      .from(
-        links,
-        {
-          opacity: 0,
-          y: 20,
-          duration: 0.4,
-          stagger: 0.08,
-          ease: 'power2.out',
-        },
-        '-=0.25'
+    const ctx = gsap.context(() => {
+      const menu = document.querySelector(
+        '.mobile-menu'
+      ) as HTMLElement | null;
+      const overlay = document.querySelector(
+        '.menu-overlay'
+      ) as HTMLElement | null;
+      const links = gsap.utils.toArray<HTMLElement>(
+        '.mobile-menu a.menu-item'
       );
+      if (!menu || !overlay) return;
 
-    timeline.current.eventCallback('onReverseComplete', () => {
-      gsap.set(menu, { display: 'none' });
-      gsap.set(overlay, { display: 'none' });
-      if (pendingAnchorId.current) {
-        const el = document.getElementById(pendingAnchorId.current);
-        pendingAnchorId.current = null;
-        if (el)
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  }, []);
+      gsap.set(menu, {
+        yPercent: -100,
+        autoAlpha: 0,
+        display: 'none',
+      });
+      gsap.set(overlay, { autoAlpha: 0, display: 'none' });
+      gsap.set(links, { clearProps: 'all' });
+
+      const tl = gsap
+        .timeline({
+          paused: true,
+          onStart: () => {
+            gsap.set(menu, { display: 'flex' });
+            gsap.set(overlay, { display: 'block' });
+          },
+          onReverseComplete: () => {
+            gsap.set(menu, { display: 'none', yPercent: -100 });
+            gsap.set(overlay, { display: 'none' });
+            gsap.set(links, { clearProps: 'all' });
+            document.body.style.overflow = '';
+            window.scrollTo(0, scrollPosRef.current);
+            if (scrollToIdRef.current) {
+              const el = document.getElementById(
+                scrollToIdRef.current
+              );
+              if (el)
+                el.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                });
+              scrollToIdRef.current = null;
+            }
+          },
+        })
+        .to(
+          overlay,
+          { autoAlpha: 1, duration: 0.35, ease: 'power2.out' },
+          0
+        )
+        .to(
+          menu,
+          {
+            yPercent: 0,
+            autoAlpha: 1,
+            duration: 0.5,
+            ease: 'cubic-bezier(0.16,1,0.3,1)',
+          },
+          0
+        )
+        .set(
+          links,
+          {
+            opacity: 0,
+            y: 16,
+            filter: 'blur(6px)',
+            pointerEvents: 'none',
+          },
+          0
+        )
+        .to(
+          links,
+          {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            pointerEvents: 'auto',
+            duration: 0.6,
+            ease: 'power3.out',
+            stagger: { each: 0.08, from: 'start' },
+          },
+          '+=0.25'
+        );
+
+      tlRef.current = tl;
+    }, containerRef);
+
+    setIsOpen(false);
+
+    return () => {
+      tlRef.current?.kill();
+      tlRef.current = null;
+      ctx.revert();
+    };
+  }, [pathname]);
 
   useEffect(() => {
-    const body = document.body;
     if (isOpen) {
-      scrollYRef.current = window.scrollY || window.pageYOffset;
-      body.style.position = 'fixed';
-      body.style.top = `-${scrollYRef.current}px`;
-      body.style.left = '0';
-      body.style.right = '0';
-      body.style.width = '100%';
-      timeline.current?.play();
+      scrollPosRef.current = window.scrollY || 0;
+      document.body.style.overflow = 'hidden';
+      tlRef.current?.play(0);
     } else {
-      timeline.current?.reverse();
-      const y = Math.abs(parseInt(body.style.top || '0', 10));
-      body.style.position = '';
-      body.style.top = '';
-      body.style.left = '';
-      body.style.right = '';
-      body.style.width = '';
-      window.scrollTo(0, y || scrollYRef.current || 0);
+      tlRef.current?.reverse();
     }
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>
   ) => {
     const href = e.currentTarget.getAttribute('href') || '';
-    if (href.startsWith('/#')) {
+    if (href.startsWith('/#') && pathname === '/') {
       e.preventDefault();
-      pendingAnchorId.current = href.substring(2);
+      const id = href.slice(2);
+      scrollToIdRef.current = id;
       setIsOpen(false);
       return;
     }
@@ -153,7 +179,7 @@ export default function MobileMenu({ onContactClick }: Props) {
 
       <div
         id="mobile-menu-panel"
-        className="mobile-menu fixed left-0 right-0 top-0 z-50 hidden h-screen flex-col border-b border-border bg-background p-6 sm:h-[70vh]"
+        className="mobile-menu fixed left-0 right-0 top-0 z-50 hidden h-dvh flex-col overflow-y-auto border-b border-border bg-background p-6 sm:h-[70vh]"
         role="dialog"
         aria-modal="true"
       >
@@ -167,7 +193,6 @@ export default function MobileMenu({ onContactClick }: Props) {
             <X className="h-5 w-5" />
           </button>
         </div>
-
         <div className="mt-12 flex flex-grow flex-col items-start space-y-6">
           <Link
             href="/#services"
@@ -202,7 +227,6 @@ export default function MobileMenu({ onContactClick }: Props) {
             className="menu-item font-geometric text-3xl"
             onClick={(e) => {
               e.preventDefault();
-              pendingAnchorId.current = 'contact';
               setIsOpen(false);
               onContactClick();
             }}
@@ -210,8 +234,7 @@ export default function MobileMenu({ onContactClick }: Props) {
             {t('contact')}
           </Link>
         </div>
-
-        <div className="menu-item space-y-2">
+        <div className="menu-item mt-auto space-y-2">
           <div className="flex items-center justify-between p-2">
             <span className="text-sm font-medium">{t('theme')}</span>
             <ThemeToggle />
@@ -225,7 +248,10 @@ export default function MobileMenu({ onContactClick }: Props) {
               <GlobeIcon className="size-5" />
             </span>
             <div className="flex gap-2">
-              {locales.map((lang) => (
+              {[
+                { code: 'en', name: 'English' },
+                { code: 'de', name: 'Deutsch' },
+              ].map((lang) => (
                 <Link
                   href={pathname}
                   locale={lang.code}

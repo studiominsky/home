@@ -70,7 +70,7 @@ const ChatbotVisual: React.FC = () => {
         {conversation.map((msg, index) => (
           <div key={index} className="chat-message flex flex-col">
             {msg.type === 'user' && (
-              <div className="p-3 bg-primary text-primary-foreground rounded-lg self-end max-w-[85%] text-sm">
+              <div className="p-3 bg-primary/20 text-primary rounded-2xl self-end max-w-[85%] text-sm">
                 {msg.text}
               </div>
             )}
@@ -84,7 +84,7 @@ const ChatbotVisual: React.FC = () => {
                 {msg.options.map((option) => (
                   <div
                     key={option}
-                    className="text-xs text-primary font-bold py-1 px-3 rounded-2xl bg-primary/20 border border-primary font-mono hover:bg-muted transition-colors cursor-pointer"
+                    className="text-xs text-black font-bold py-1 px-3 rounded-2xl bg-primary border border-primary font-mono hover:bg-muted transition-colors cursor-pointer"
                   >
                     {option}
                   </div>
