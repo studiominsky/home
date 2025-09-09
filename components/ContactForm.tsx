@@ -269,10 +269,10 @@ export default function ContactForm() {
                 size="lg"
                 disabled={!basicsValid}
                 className={clsx(
-                  'cursor-pointer rounded-full px-20 flex items-center justify-center w-[150px] py-4',
+                  'flex cursor-pointer items-center justify-center rounded-full px-8 py-4 sm:px-12',
                   'bg-foreground text-card hover:bg-foreground',
                   !basicsValid
-                    ? 'opacity-60 cursor-not-allowed'
+                    ? 'cursor-not-allowed opacity-60'
                     : 'hover:opacity-90'
                 )}
               >
@@ -387,12 +387,12 @@ export default function ContactForm() {
                 projectRefs.current[3 + SERVICES.length] = el;
               }}
             >
-              <div className="flex items-center justify-between gap-3 w-full">
+              <div className="flex w-full flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <Button
                   type="button"
                   variant="ghost"
                   onClick={() => animateSwap(1)}
-                  className="rounded-full px-6 py-5 text-base bg-transparent hover:bg-foreground/20 text-foreground"
+                  className="rounded-full bg-transparent px-6 py-5 text-base text-foreground hover:bg-foreground/20"
                 >
                   <ArrowLeft className="mr-2 h-6 w-6" />
                   Back
@@ -401,7 +401,7 @@ export default function ContactForm() {
                   type="submit"
                   size="lg"
                   disabled={loading || !projectValid}
-                  className="cursor-pointer rounded-full px-10 py-4 text-sm bg-foreground text-card hover:opacity-90 hover:bg-0 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="cursor-pointer rounded-full bg-foreground px-10 py-4 text-sm text-card hover:bg-0 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {loading ? 'Sending…' : 'Send message'}
                 </Button>
@@ -427,14 +427,14 @@ export default function ContactForm() {
               doneRefs.current[0] = el;
             }}
           >
-            <div className="relative mx-auto mb-6 h-24 w-24">
+            <div className="relative mx-auto mb-6 size-20 md:size-24">
               <div className="absolute inset-0 flex items-center justify-center rounded-full bg-foreground/10" />
               <div className="relative z-10 flex h-full w-full items-center justify-center rounded-full bg-green-600 text-card">
-                <Check className="h-10 w-10 mt-2" />
+                <Check className="mt-2 h-10 w-10" />
               </div>
             </div>
 
-            <h3 className="text-2xl md:text-3xl font-semibold text-foreground">
+            <h3 className="text-2xl font-semibold text-foreground md:text-3xl">
               {sent ? 'Thank you!' : 'All set!'}
             </h3>
             <p className="mt-3 text-[15px] text-foreground/70">
@@ -444,7 +444,7 @@ export default function ContactForm() {
               <Button
                 onClick={resetForm}
                 variant="ghost"
-                className="rounded-full cursor-pointer px-6 py-5 text-base bg-transparent hover:bg-foreground/10 text-foreground"
+                className="cursor-pointer rounded-full bg-transparent px-6 py-5 text-base text-foreground hover:bg-foreground/10"
               >
                 Send another
               </Button>
@@ -509,7 +509,9 @@ function StepDot({
           me
         )}
       </Tag>
-      <span className="text-sm md text-foreground/70">{label}</span>
+      <span className="hidden text-sm text-foreground/70 sm:inline md:text-base">
+        {label}
+      </span>
     </div>
   );
 }
@@ -541,7 +543,7 @@ const UnderlinedField = React.forwardRef<
     <div className="group/field" ref={ref}>
       <Label
         htmlFor={htmlFor}
-        className="mb-2 block text-sm md:text-base uppercase tracking-[0.14em] text-foreground"
+        className="mb-2 block text-sm uppercase tracking-[0.14em] text-foreground md:text-base"
       >
         {label}
       </Label>

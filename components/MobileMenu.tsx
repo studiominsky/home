@@ -73,7 +73,7 @@ export default function MobileMenu({ onContactClick }: Props) {
         })
         .to(
           overlay,
-          { autoAlpha: 1, duration: 0.35, ease: 'power2.out' },
+          { autoAlpha: 1, duration: 0.3, ease: 'power2.out' },
           0
         )
         .to(
@@ -81,8 +81,8 @@ export default function MobileMenu({ onContactClick }: Props) {
           {
             yPercent: 0,
             autoAlpha: 1,
-            duration: 0.5,
-            ease: 'cubic-bezier(0.16,1,0.3,1)',
+            duration: 0.4,
+            ease: 'expo.out',
           },
           0
         )
@@ -91,7 +91,7 @@ export default function MobileMenu({ onContactClick }: Props) {
           {
             opacity: 0,
             y: 16,
-            filter: 'blur(6px)',
+            filter: 'blur(4px)',
             pointerEvents: 'none',
           },
           0
@@ -103,11 +103,11 @@ export default function MobileMenu({ onContactClick }: Props) {
             y: 0,
             filter: 'blur(0px)',
             pointerEvents: 'auto',
-            duration: 0.6,
-            ease: 'power3.out',
-            stagger: { each: 0.08, from: 'start' },
+            duration: 0.5,
+            ease: 'expo.out',
+            stagger: 0.05,
           },
-          '+=0.25'
+          0.15
         );
 
       tlRef.current = tl;
