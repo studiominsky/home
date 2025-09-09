@@ -139,27 +139,6 @@ export default function Footer() {
                 All rights reserved.
               </span>
             </div>
-
-            <div className="flex items-center gap-4">
-              <Link
-                href="/imprint"
-                className="hover:text-foreground transition-colors"
-              >
-                Imprint
-              </Link>
-              <Link
-                href="/cookies"
-                className="hover:text-foreground transition-colors"
-              >
-                Cookies
-              </Link>
-              <Link
-                href="/accessibility"
-                className="hover:text-foreground transition-colors"
-              >
-                Accessibility
-              </Link>
-            </div>
           </div>
         </FullWidth>
       </div>
