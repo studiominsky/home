@@ -128,6 +128,7 @@ html {
   position: relative;
   background-color: var(--color-card);
   overflow: hidden;
+  isolation: isolate;
   z-index: 1;
 }
 
@@ -136,7 +137,7 @@ html {
   position: absolute;
   bottom: -55%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateZ(0);
   width: 200%;
   height: 100%;
   background: radial-gradient(
@@ -146,9 +147,23 @@ html {
   );
   border-radius: 50%;
   z-index: 0;
-  border-top: 2px solid var(--color-primary);
+  pointer-events: none;
+  opacity: 0;
+  border-top: 2px solid transparent;
+  will-change: opacity, transform, border-color;
+  backface-visibility: hidden;
+  transition:
+    opacity 0.24s ease 0.04s,
+    border-top-color 0.24s ease 0.04s;
+}
 
-  @media (max-width: 560px) {
+.web-card[data-mounted]::after {
+  opacity: 1;
+  border-top-color: var(--color-primary);
+}
+
+@media (max-width: 560px) {
+  .web-card::after {
     bottom: -50%;
   }
 }

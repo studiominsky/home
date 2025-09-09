@@ -11,6 +11,10 @@ export function WebsiteVisual() {
     const el = visualRef.current;
     if (!el) return;
 
+    requestAnimationFrame(() =>
+      el.setAttribute('data-mounted', 'true')
+    );
+
     const tl = gsap.timeline({ delay: 0.2 });
     tl.fromTo(
       '.nav-item',
