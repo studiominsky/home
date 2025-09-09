@@ -69,9 +69,9 @@ function DialogContent({
         data-slot="dialog-content"
         className={cn(
           'fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2',
-          'w-[min(100vw-1rem,40rem)] sm:w-[min(100vw-2rem,40rem)]',
+          'w-[92vw] sm:w-[min(92vw,42rem)] md:w-[min(88vw,56rem)] lg:w-[min(82vw,72rem)]',
           'max-h-[calc(100dvh-1rem)] sm:max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain',
-          'grid gap-4 rounded-md sm:rounded-lg border border-border bg-background p-4 sm:p-6 shadow-lg',
+          'grid gap-4 rounded-lg border border-border bg-background p-4 sm:p-6 shadow-lg',
           'data-[state=open]:animate-in data-[state=closed]:animate-out',
           'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
           'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
