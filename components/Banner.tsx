@@ -146,6 +146,65 @@ export default function Banner() {
           { x: 0.4 * Cw, y: 1.0 * Ch, size: 0.12 * Cw },
         ];
 
+        // MOBILE
+        if (window.innerWidth < 768) {
+          ScrollTrigger.getAll().forEach((st) => st.kill(true));
+
+          let extraIdx = 0;
+          circlesRef.current.forEach((el, i) => {
+            const def = INITIAL_CIRCLES[i];
+            let finalX: number, finalY: number, finalSize: number;
+
+            if (def.mapsTo > -1) {
+              const shape = FINAL_SHAPES[def.mapsTo];
+              finalX = offsetX + (shape.x + shape.width / 2) * scale;
+              finalY = offsetY + (shape.y + shape.height / 2) * scale;
+              finalSize = shape.width * scale;
+            } else {
+              const e = extras[extraIdx++];
+              finalX = e.x;
+              finalY = e.y;
+              finalSize = e.size;
+            }
+
+            gsap.set(el, {
+              x: finalX,
+              y: finalY,
+              width: finalSize,
+              height: finalSize,
+              backgroundColor: def.color,
+              borderRadius: '50%',
+              xPercent: -50,
+              yPercent: -50,
+              opacity: 1,
+              scale: 1,
+            });
+          });
+
+          if (textFullWidthRef.current) {
+            const finalTopPadding = 150;
+            const textBlockHeight =
+              textFullWidthRef.current.offsetHeight;
+            const initialBottomOffset = 10;
+            const yTravelDistance =
+              Ch -
+              textBlockHeight -
+              initialBottomOffset -
+              finalTopPadding;
+
+            gsap.set(textFullWidthRef.current, {
+              y: -yTravelDistance,
+              opacity: 1,
+            });
+          }
+
+          gsap.set(childElements, { opacity: 1, x: 0, y: 0 });
+
+          ScrollTrigger.refresh();
+          return;
+        }
+
+        // DESKTOP
         let extraIdx = 0;
         circlesRef.current.forEach((el, i) => {
           const def = INITIAL_CIRCLES[i];
@@ -273,9 +332,9 @@ export default function Banner() {
       <FullWidth>
         <div
           ref={textFullWidthRef}
-          className="absolute bottom-10 flex w-[80%] lg:w-[60%] flex-col text-foreground"
+          className="absolute bottom-10 flex w-[80%] lg:w-[70%] xl:w-[60%] flex-col text-foreground"
         >
-          <span className="font-geometric text-5xl sm:text-6xl md:text-7xl lg:text-[100px] leading-tight lg:leading-[1.25] flex flex-col">
+          <span className="font-geometric text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-[100px] leading-tight lg:leading-[1.25] flex flex-col">
             <span> {t('title')} </span>
           </span>
 

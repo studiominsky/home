@@ -177,7 +177,7 @@ export default function ContactForm() {
           onClick={() => animateSwap(1)}
           sent={sent}
         />
-        <div className="h-[3px] w-16 md:w-20 rounded-full bg-foreground/20" />
+        <div className="h-[3px] w-4 md:w-20 rounded-full bg-foreground/20" />
         <StepDot
           current={step}
           me={2}
@@ -185,7 +185,7 @@ export default function ContactForm() {
           onClick={() => animateSwap(2)}
           sent={sent}
         />
-        <div className="h-[3px] w-16 md:w-20 rounded-full bg-foreground/20" />
+        <div className="h-[3px] w-4 md:w-20 rounded-full bg-foreground/20" />
         <StepDot current={step} me={3} label="Done" sent={sent} />
       </div>
 
