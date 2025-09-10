@@ -40,11 +40,11 @@ const THEME_COLORS = [
   { name: 'purple', hex: '#B55DE4' },
 ];
 
-const debounce = (func: () => void, delay: number) => {
-  let timeout: ReturnType<typeof setTimeout>;
+const debounce = (fn: () => void, ms: number) => {
+  let t: ReturnType<typeof setTimeout>;
   return () => {
-    clearTimeout(timeout);
-    timeout = setTimeout(func, delay);
+    clearTimeout(t);
+    t = setTimeout(fn, ms);
   };
 };
 
@@ -67,7 +67,6 @@ export default function Banner() {
       prevColorTheme.current = colorTheme ?? null;
       return;
     }
-
     if (prevColorTheme.current === colorTheme) return;
 
     const selectedColor = THEME_COLORS.find(
@@ -76,10 +75,8 @@ export default function Banner() {
     const targets = circlesRef.current;
 
     if (selectedColor && targets.length > 0) {
-      if (pulseAnimation.current) {
-        pulseAnimation.current.kill();
-        pulseAnimation.current = null;
-      }
+      pulseAnimation.current?.kill();
+      pulseAnimation.current = null;
 
       targets.forEach((el, i) => {
         gsap.set(el, {
@@ -98,14 +95,87 @@ export default function Banner() {
         repeat: 1,
       });
     }
-
     prevColorTheme.current = colorTheme ?? null;
   }, [colorTheme]);
 
   useLayoutEffect(() => {
     const component = mainRef.current!;
-    const ctx = gsap.context(() => {
-      const scrollTl = gsap.timeline({
+    if (!component) return;
+
+    const childEls = [
+      availabilityRef.current,
+      descriptionRef.current,
+      buttonsRef.current,
+    ];
+
+    const applyFinalLayout = () => {
+      const { width: Cw, height: Ch } =
+        component.getBoundingClientRect();
+      const scale = (Cw * 0.4875) / VB_WIDTH;
+      const finalShapeWidth = VB_WIDTH * scale;
+      const finalShapeHeight = VB_HEIGHT * scale;
+      const PADDING = 45;
+      const offsetX = Cw - finalShapeWidth - PADDING;
+      const offsetY = Ch - finalShapeHeight - PADDING;
+
+      const extras = [
+        { x: -0.05 * Cw, y: 0.7 * Ch, size: 0.16 * Cw },
+        { x: 0.3 * Cw, y: 0.0 * Ch, size: 0.12 * Cw },
+        { x: 0.4 * Cw, y: 1.0 * Ch, size: 0.12 * Cw },
+      ];
+
+      let extraIdx = 0;
+      circlesRef.current.forEach((el, i) => {
+        const def = INITIAL_CIRCLES[i];
+        let finalX: number, finalY: number, finalSize: number;
+
+        if (def.mapsTo > -1) {
+          const shape = FINAL_SHAPES[def.mapsTo];
+          finalX = offsetX + (shape.x + shape.width / 2) * scale;
+          finalY = offsetY + (shape.y + shape.height / 2) * scale;
+          finalSize = shape.width * scale;
+        } else {
+          const e = extras[extraIdx++];
+          finalX = e.x;
+          finalY = e.y;
+          finalSize = e.size;
+        }
+
+        gsap.set(el, {
+          x: finalX,
+          y: finalY,
+          width: finalSize,
+          height: finalSize,
+          backgroundColor: def.color,
+          borderRadius: '50%',
+          xPercent: -50,
+          yPercent: -50,
+          opacity: 1,
+          scale: 1,
+        });
+      });
+
+      if (textFullWidthRef.current) {
+        const finalTopPadding = 150;
+        const textBlockHeight = textFullWidthRef.current.offsetHeight;
+        const initialBottomOffset = 10;
+        const yTravelDistance =
+          Ch -
+          textBlockHeight -
+          initialBottomOffset -
+          finalTopPadding;
+
+        gsap.set(textFullWidthRef.current, {
+          y: -yTravelDistance,
+          opacity: 1,
+        });
+      }
+
+      gsap.set(childEls, { opacity: 1, x: 0, y: 0 });
+    };
+
+    const buildDesktopAnimation = () => {
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: component,
           start: 'top top',
@@ -116,199 +186,150 @@ export default function Banner() {
         },
       });
 
-      const buildAnimation = () => {
-        const childElements = [
-          availabilityRef.current,
-          descriptionRef.current,
-          buttonsRef.current,
-        ];
+      const { width: Cw, height: Ch } =
+        component.getBoundingClientRect();
+      const scale = (Cw * 0.4875) / VB_WIDTH;
+      const finalShapeWidth = VB_WIDTH * scale;
+      const finalShapeHeight = VB_HEIGHT * scale;
+      const PADDING = 45;
+      const offsetX = Cw - finalShapeWidth - PADDING;
+      const offsetY = Ch - finalShapeHeight - PADDING;
 
-        gsap.killTweensOf([
-          circlesRef.current,
+      const extras = [
+        { x: -0.05 * Cw, y: 0.7 * Ch, size: 0.16 * Cw },
+        { x: 0.3 * Cw, y: 0.0 * Ch, size: 0.12 * Cw },
+        { x: 0.4 * Cw, y: 1.0 * Ch, size: 0.12 * Cw },
+      ];
+
+      gsap.set(
+        [
           textFullWidthRef.current,
-          ...childElements,
-        ]);
-
-        scrollTl.clear();
-
-        const { width: Cw, height: Ch } =
-          component.getBoundingClientRect();
-        const scale = (Cw * 0.4875) / VB_WIDTH;
-        const finalShapeWidth = VB_WIDTH * scale;
-        const finalShapeHeight = VB_HEIGHT * scale;
-        const PADDING = 45;
-        const offsetX = Cw - finalShapeWidth - PADDING;
-        const offsetY = Ch - finalShapeHeight - PADDING;
-
-        const extras = [
-          { x: -0.05 * Cw, y: 0.7 * Ch, size: 0.16 * Cw },
-          { x: 0.3 * Cw, y: 0.0 * Ch, size: 0.12 * Cw },
-          { x: 0.4 * Cw, y: 1.0 * Ch, size: 0.12 * Cw },
-        ];
-
-        // MOBILE
-        if (window.innerWidth < 768) {
-          ScrollTrigger.getAll().forEach((st) => st.kill(true));
-
-          let extraIdx = 0;
-          circlesRef.current.forEach((el, i) => {
-            const def = INITIAL_CIRCLES[i];
-            let finalX: number, finalY: number, finalSize: number;
-
-            if (def.mapsTo > -1) {
-              const shape = FINAL_SHAPES[def.mapsTo];
-              finalX = offsetX + (shape.x + shape.width / 2) * scale;
-              finalY = offsetY + (shape.y + shape.height / 2) * scale;
-              finalSize = shape.width * scale;
-            } else {
-              const e = extras[extraIdx++];
-              finalX = e.x;
-              finalY = e.y;
-              finalSize = e.size;
-            }
-
-            gsap.set(el, {
-              x: finalX,
-              y: finalY,
-              width: finalSize,
-              height: finalSize,
-              backgroundColor: def.color,
-              borderRadius: '50%',
-              xPercent: -50,
-              yPercent: -50,
-              opacity: 1,
-              scale: 1,
-            });
-          });
-
-          if (textFullWidthRef.current) {
-            const finalTopPadding = 150;
-            const textBlockHeight =
-              textFullWidthRef.current.offsetHeight;
-            const initialBottomOffset = 10;
-            const yTravelDistance =
-              Ch -
-              textBlockHeight -
-              initialBottomOffset -
-              finalTopPadding;
-
-            gsap.set(textFullWidthRef.current, {
-              y: -yTravelDistance,
-              opacity: 1,
-            });
-          }
-
-          gsap.set(childElements, { opacity: 1, x: 0, y: 0 });
-
-          ScrollTrigger.refresh();
-          return;
+          ...childEls,
+          ...circlesRef.current,
+        ],
+        {
+          clearProps: 'all',
         }
+      );
 
-        // DESKTOP
-        let extraIdx = 0;
-        circlesRef.current.forEach((el, i) => {
-          const def = INITIAL_CIRCLES[i];
-          const initX = (def.xPct / 100) * Cw;
-          const initY = (def.yPct / 100) * Ch;
-          const initSize = (def.sizeVw / 100) * Cw;
+      let extraIdx = 0;
+      circlesRef.current.forEach((el, i) => {
+        const def = INITIAL_CIRCLES[i];
+        const initX = (def.xPct / 100) * Cw;
+        const initY = (def.yPct / 100) * Ch;
+        const initSize = (def.sizeVw / 100) * Cw;
 
-          gsap.set(el, {
-            width: initSize,
-            height: initSize,
-            x: initX,
-            y: initY,
-            backgroundColor: def.color,
-            borderRadius: '50%',
-            xPercent: -50,
-            yPercent: -50,
-            opacity: 0,
-            scale: 0,
-          });
-
-          gsap.to(el, {
-            opacity: 1,
-            scale: 1,
-            duration: 0.8,
-            ease: 'power3.out',
-            delay: 0.2 + i * 0.1,
-          });
-
-          let finalX: number, finalY: number, finalSize: number;
-          if (def.mapsTo > -1) {
-            const shape = FINAL_SHAPES[def.mapsTo];
-            finalX = offsetX + (shape.x + shape.width / 2) * scale;
-            finalY = offsetY + (shape.y + shape.height / 2) * scale;
-            finalSize = shape.width * scale;
-          } else {
-            const e = extras[extraIdx++];
-            finalX = e.x;
-            finalY = e.y;
-            finalSize = e.size;
-          }
-
-          scrollTl.to(
-            el,
-            {
-              x: finalX,
-              y: finalY,
-              width: finalSize,
-              height: finalSize,
-              ease: 'power3.inOut',
-              xPercent: -50,
-              yPercent: -50,
-            },
-            0
-          );
+        gsap.set(el, {
+          width: initSize,
+          height: initSize,
+          x: initX,
+          y: initY,
+          backgroundColor: def.color,
+          borderRadius: '50%',
+          xPercent: -50,
+          yPercent: -50,
+          opacity: 0,
+          scale: 0,
         });
 
-        if (textFullWidthRef.current) {
-          const finalTopPadding = 250;
-          const textBlockHeight =
-            textFullWidthRef.current.offsetHeight;
-          const initialBottomOffset = 10;
-          const yTravelDistance =
-            Ch -
-            textBlockHeight -
-            initialBottomOffset -
-            finalTopPadding;
+        gsap.to(el, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          delay: 0.2 + i * 0.1,
+        });
 
-          gsap.set(textFullWidthRef.current, { y: 0, opacity: 1 });
-          scrollTl.to(
-            textFullWidthRef.current,
-            { y: -yTravelDistance, ease: 'power3.inOut' },
-            0
-          );
+        let finalX: number, finalY: number, finalSize: number;
+        if (def.mapsTo > -1) {
+          const shape = FINAL_SHAPES[def.mapsTo];
+          finalX = offsetX + (shape.x + shape.width / 2) * scale;
+          finalY = offsetY + (shape.y + shape.height / 2) * scale;
+          finalSize = shape.width * scale;
+        } else {
+          const e = extras[extraIdx++];
+          finalX = e.x;
+          finalY = e.y;
+          finalSize = e.size;
         }
 
-        if (childElements.every(Boolean)) {
-          scrollTl.fromTo(
-            childElements,
-            { opacity: 0, x: -50 },
-            {
-              opacity: 1,
-              x: 0,
-              ease: 'power3.out',
-              stagger: 0.2,
-            },
-            0.2
-          );
-        }
+        tl.to(
+          el,
+          {
+            x: finalX,
+            y: finalY,
+            width: finalSize,
+            height: finalSize,
+            ease: 'power3.inOut',
+            xPercent: -50,
+            yPercent: -50,
+          },
+          0
+        );
+      });
 
-        ScrollTrigger.refresh();
-      };
+      if (textFullWidthRef.current) {
+        const finalTopPadding = 250;
+        const textBlockHeight = textFullWidthRef.current.offsetHeight;
+        const initialBottomOffset = 10;
+        const yTravelDistance =
+          Ch -
+          textBlockHeight -
+          initialBottomOffset -
+          finalTopPadding;
 
-      buildAnimation();
+        gsap.set(textFullWidthRef.current, { y: 0, opacity: 1 });
+        tl.to(
+          textFullWidthRef.current,
+          { y: -yTravelDistance, ease: 'power3.inOut' },
+          0
+        );
+      }
 
-      const debouncedBuild = debounce(buildAnimation, 250);
-      window.addEventListener('resize', debouncedBuild);
+      if (childEls.every(Boolean)) {
+        tl.fromTo(
+          childEls,
+          { opacity: 0, x: -50 },
+          { opacity: 1, x: 0, ease: 'power3.out', stagger: 0.2 },
+          0.2
+        );
+      }
+
+      // Properly typed resize handler wrapper
+      const onResize = () => ScrollTrigger.refresh();
+      window.addEventListener('resize', onResize, { passive: true });
 
       return () => {
-        window.removeEventListener('resize', debouncedBuild);
-        scrollTl.kill();
+        window.removeEventListener('resize', onResize);
+        tl.scrollTrigger?.kill();
+        tl.kill();
       };
-    }, mainRef);
+    };
 
-    return () => ctx.revert();
+    // Debounced re-apply of final layout on mobile resize
+    const dd = debounce(() => {
+      if (!window.matchMedia('(min-width: 768px)').matches) {
+        applyFinalLayout();
+      }
+    }, 200);
+
+    // ✅ Use gsap.matchMedia so we can .revert() later
+    const mm = gsap.matchMedia();
+
+    mm.add('(min-width: 768px)', () => {
+      const cleanup = buildDesktopAnimation();
+      return () => cleanup?.();
+    });
+
+    mm.add('(max-width: 767px)', () => {
+      applyFinalLayout();
+      window.addEventListener('resize', dd, { passive: true });
+      return () => window.removeEventListener('resize', dd);
+    });
+
+    return () => {
+      mm.revert(); // ✅ valid on gsap.matchMedia()
+    };
   }, []);
 
   return (
@@ -335,7 +356,7 @@ export default function Banner() {
           className="absolute bottom-10 flex w-[80%] lg:w-[70%] xl:w-[60%] flex-col text-foreground"
         >
           <span className="font-geometric text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-[100px] leading-tight lg:leading-[1.25] flex flex-col">
-            <span> {t('title')} </span>
+            <span>{t('title')}</span>
           </span>
 
           <span className="absolute top-full font-sans mt-2 max-w-2xl text-[21px] leading-[32px] tracking-[-0.03em] text-foreground">
