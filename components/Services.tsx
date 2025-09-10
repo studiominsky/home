@@ -5,6 +5,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import Container from './Container';
 import ServiceVisual from './visuals/ServiceVisuals';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -303,7 +309,38 @@ const Services: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:hidden mt-12"></div>
+          <div className="lg:hidden mt-12">
+            <Accordion type="multiple">
+              {serviceData.map((service, index) => (
+                <AccordionItem
+                  value={`item-${index}`}
+                  key={service.title}
+                >
+                  <AccordionTrigger className="text-2xl font-geometric uppercase">
+                    {service.title}
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p className="font-sans text-md text-foreground/60">
+                      {service.description}
+                    </p>
+                    <div className="flex gap-2 flex-wrap mt-4">
+                      {service.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 bg-primary text-card rounded-full text-[12px] font-bold font-mono"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-4 border h-full rounded-md border-border">
+                      <ServiceVisual activeIndex={index} />
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </Container>
     </section>
