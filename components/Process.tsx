@@ -19,35 +19,35 @@ const steps = [
     title: '01. Discovery Call',
     titleDescription: 'Understanding Your Vision',
     description:
-      'We start by understanding your needs and goals in a complimentary discovery call, ensuring we are perfectly aligned.',
+      'A complimentary call to align on your vision and goals.',
     icon: Phone,
   },
   {
     title: '02. Proposal',
     titleDescription: 'Crafting Your Blueprint',
     description:
-      'Based on our call, we craft a tailored proposal outlining the project scope, timeline, and a transparent investment breakdown.',
+      'A tailored proposal with scope, timeline, and transparent investment.',
     icon: FileText,
   },
   {
     title: '03. Development',
     titleDescription: 'Bringing Ideas to Life',
     description:
-      'Our team brings the plan to life, building your solution with precision, quality, and regular updates to keep you in the loop.',
+      'We build your solution with precision and provide regular updates.',
     icon: Code,
   },
   {
     title: '04. Feedback',
     titleDescription: 'Refining the Details',
     description:
-      'We review progress with you at key milestones, gathering feedback and iterating until the result is exactly what you envisioned.',
+      'We gather feedback at key milestones and iterate with you.',
     icon: MessageSquare,
   },
   {
     title: '05. Support',
     titleDescription: 'Ensuring Long-Term Success',
     description:
-      'After a successful launch, we provide ongoing support and maintenance packages to ensure your digital product continues to thrive.',
+      'Ongoing support and maintenance packages for long-term success.',
     icon: LifeBuoy,
   },
 ];
@@ -186,7 +186,7 @@ function Process() {
                     gsap.to(contents[lastActiveStep], {
                       autoAlpha: 0,
                       x: 0,
-                      y: 20,
+                      y: 0,
                       duration: 0.3,
                     });
                   }
@@ -199,7 +199,7 @@ function Process() {
         });
 
         tl.to(track, { height: '100%', ease: 'none' }, 0);
-        tl.to(dot, { top: '100%', ease: 'none' }, 0);
+        tl.to(dot, { top: 'calc(100% - 10px)', ease: 'none' }, 0);
       }, section);
 
       return () => ctx.revert();
@@ -212,7 +212,7 @@ function Process() {
     <section
       id="process"
       ref={sectionRef}
-      className="py-16 md:py-30 bg-background"
+      className="py-16 lg:py-20 xl:py-30 bg-background"
     >
       <Container>
         <div ref={containerRef} className="overflow-hidden">
@@ -222,7 +222,7 @@ function Process() {
           <div className="flex flex-col lg:flex-row justify-between pt-10">
             <h1
               ref={headerRef}
-              className="font-geometric text-5xl md:text-6xl lg:text-[75px] w-full lg:w-2/5"
+              className="font-geometric text-5xl md:text-6xl lg:text-6xl xl:text-[75px] w-full lg:w-2/5"
             >
               PROCESS
             </h1>
@@ -235,8 +235,8 @@ function Process() {
               exceptional results.
             </p>
           </div>
-          <div className="mt-12 md:mt-20">
-            <div className="hidden lg:flex py-10 gap-10 md:gap-20">
+          <div className="mt-12 lg:mt-16 xl:mt-20">
+            <div className="hidden lg:flex gap-10 md:gap-20">
               <div className="relative w-1/3">
                 <div className="absolute left-3 top-0 w-0.5 bg-gray-200 h-full" />
                 <div
@@ -248,17 +248,14 @@ function Process() {
                   ref={dotRef}
                   className="absolute left-[12px] top-0 w-5 h-5 rounded-full bg-primary transform -translate-x-1/2 -translate-y-1/2"
                 />
-                <div
-                  className="flex flex-col justify-between"
-                  style={{ minHeight: '700px' }}
-                >
+                <div className="flex flex-col justify-between xl:min-h-[400px] 2xl:min-h-[700px]">
                   {steps.map((s, i) => (
                     <div key={s.title} className="relative pl-8 py-2">
                       <h3
                         ref={(el) => {
                           titleRefs.current[i] = el;
                         }}
-                        className="text-foreground/30 font-geometric text-2xl md:text-3xl transition-colors duration-300"
+                        className="text-foreground/30 font-geometric text-2xl lg:text-2xl xl:text-3xl transition-colors duration-300"
                       >
                         {s.title}
                       </h3>
@@ -267,10 +264,7 @@ function Process() {
                 </div>
               </div>
               <div className="w-2/3">
-                <div
-                  className="flex flex-col justify-between"
-                  style={{ minHeight: '700px' }}
-                >
+                <div className="flex flex-col justify-between xl:min-h-[400px] 2xl:min-h-[700px]">
                   {steps.map((s, i) => {
                     const Icon = s.icon;
                     return (
