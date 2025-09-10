@@ -234,7 +234,10 @@ export default function MobileMenu({ onContactClick }: Props) {
             {t('contact')}
           </Link>
         </div>
-        <div className="menu-item mt-auto space-y-2">
+        <div
+          className="menu-item mt-auto space-y-2"
+          onClick={() => setIsOpen(false)}
+        >
           <div className="flex items-center justify-between p-2">
             <span className="text-sm font-medium">{t('theme')}</span>
             <ThemeToggle />

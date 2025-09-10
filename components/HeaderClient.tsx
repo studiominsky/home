@@ -26,15 +26,11 @@ import { GlobeIcon, MessageCircleIcon } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { ColorSelector } from './ColorSelector';
 import type { BlogPostMeta } from '@/types/blog';
-import dynamic from 'next/dynamic';
+import ContactForm from './ContactForm';
 
 import { useTranslations, useLocale } from 'next-intl';
 import { usePathname, Link } from '@/i18n/navigation';
 import MobileMenu from './MobileMenu';
-
-const ContactForm = dynamic(() => import('./ContactForm'), {
-  ssr: false,
-});
 
 type Props = {
   posts: BlogPostMeta[];

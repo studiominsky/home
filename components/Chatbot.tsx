@@ -92,7 +92,6 @@ export default function Chatbot() {
       {
         opacity: 1,
         scale: 1,
-        delay: 1,
         duration: 0.8,
         ease: 'expo.out',
         clearProps: 'all',

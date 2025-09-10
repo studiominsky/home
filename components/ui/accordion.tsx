@@ -49,7 +49,7 @@ const AccordionTrigger = React.forwardRef<
     const triggerElement = event.currentTarget;
 
     if (triggerElement.getAttribute('data-state') === 'closed') {
-      const animationDuration = 100;
+      const animationDuration = 0;
 
       setTimeout(() => {
         const header = document.querySelector('header');
@@ -59,10 +59,10 @@ const AccordionTrigger = React.forwardRef<
             triggerElement.getBoundingClientRect().top +
             window.scrollY;
 
-          const scrollPosition = triggerTop - headerHeight - 16;
+          const scrollPosition = triggerTop - headerHeight;
 
           gsap.to(window, {
-            duration: 0.5,
+            duration: 0.3,
             scrollTo: scrollPosition,
             ease: 'power2.inOut',
           });
