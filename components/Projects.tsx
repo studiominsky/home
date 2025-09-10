@@ -278,11 +278,7 @@ export default function Projects() {
             </div>
           </div>
           <div className="lg:hidden mt-12">
-            <Accordion
-              type="single"
-              collapsible
-              defaultValue="item-0"
-            >
+            <Accordion type="multiple">
               {projectData.map((project, index) => (
                 <AccordionItem
                   value={`item-${index}`}
@@ -347,7 +343,7 @@ export default function Projects() {
                             href={project.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="cursor-pointer text-card z-99 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center text-[0.875rem] leading-[1.25rem] font-medium opacity-100 transition-transform hover:scale-105"
+                            className="cursor-pointer text-card z-20 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center text-[0.875rem] leading-[1.25rem] font-medium opacity-100 transition-transform hover:scale-105"
                           >
                             View Live Site
                           </a>

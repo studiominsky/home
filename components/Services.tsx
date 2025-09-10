@@ -310,11 +310,7 @@ const Services: React.FC = () => {
           </div>
 
           <div className="lg:hidden mt-12">
-            <Accordion
-              type="single"
-              collapsible
-              defaultValue="item-0"
-            >
+            <Accordion type="multiple">
               {serviceData.map((service, index) => (
                 <AccordionItem
                   value={`item-${index}`}
@@ -337,7 +333,7 @@ const Services: React.FC = () => {
                         </span>
                       ))}
                     </div>
-                    <div className="mt-4 border rounded-md border-border">
+                    <div className="mt-4 border h-full rounded-md border-border">
                       <ServiceVisual activeIndex={index} />
                     </div>
                   </AccordionContent>
