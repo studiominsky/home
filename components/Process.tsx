@@ -78,19 +78,41 @@ function Process() {
         (el): el is HTMLDivElement => el !== null
       );
 
+      if (!section || !container || !track || !dot) return;
       if (
-        !section ||
-        !container ||
-        !track ||
-        !dot ||
         titles.length !== steps.length ||
         contents.length !== steps.length
-      ) {
+      )
         return;
-      }
 
       const totalSteps = steps.length;
       let lastActiveStep = 0;
+
+      const revealAllStatic = () => {
+        gsap.set([headerRef.current, paragraphRef.current], {
+          opacity: 1,
+          y: 0,
+          clearProps: 'all',
+        });
+        titles.forEach((t, i) => {
+          t.classList.add('text-foreground');
+          t.classList.remove('text-foreground/30');
+          gsap.set(t, {
+            opacity: 1,
+            x: i === 0 ? 12 : 0,
+            clearProps: 'transform',
+          });
+        });
+        contents.forEach((c) =>
+          gsap.set(c, { autoAlpha: 1, x: 0, y: 0, clearProps: 'all' })
+        );
+        gsap.set(track, { height: '100%' });
+        gsap.set(dot, { top: 'calc(100% - 10px)' });
+      };
+
+      let introTl: gsap.core.Timeline | null = null;
+      let pinTL: gsap.core.Timeline | null = null;
+      let stepST: ScrollTrigger | null = null;
 
       const ctx = gsap.context(() => {
         gsap.set([headerRef.current, paragraphRef.current], {
@@ -100,7 +122,7 @@ function Process() {
         gsap.set(titles, { opacity: 0, x: -30 });
         gsap.set(contents, { opacity: 0 });
 
-        const introTl = gsap.timeline({
+        introTl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
             start: 'top 60%',
@@ -135,77 +157,96 @@ function Process() {
 
         introTl.to(
           contents[0],
-          {
-            opacity: 1,
-            duration: 0.7,
-            ease: 'power3.out',
-          },
+          { opacity: 1, duration: 0.7, ease: 'power3.out' },
           '-=0.7'
         );
 
-        const tl = gsap.timeline({
+        pinTL = gsap.timeline({
           scrollTrigger: {
             trigger: container,
             start: 'top 100px',
             end: () => `+=${window.innerHeight * (totalSteps - 1)}`,
             pin: true,
             scrub: 1,
-            onUpdate: (self) => {
-              const currentStep = Math.round(
-                self.progress * (totalSteps - 1)
-              );
-
-              if (currentStep !== lastActiveStep) {
-                titles.forEach((title, index) => {
-                  const isActive = index === currentStep;
-                  title.classList.toggle('text-foreground', isActive);
-                  title.classList.toggle(
-                    'text-foreground/30',
-                    !isActive
-                  );
-                  gsap.to(title, {
-                    x: isActive ? 12 : 0,
-                    duration: 0.5,
-                    ease: 'back.out(1.7)',
-                  });
-                });
-
-                if (self.direction === 1) {
-                  gsap.fromTo(
-                    contents[currentStep],
-                    { autoAlpha: 0, x: -30 },
-                    {
-                      autoAlpha: 1,
-                      x: 0,
-                      duration: 0.5,
-                      ease: 'power3.out',
-                    }
-                  );
-                } else {
-                  if (lastActiveStep > -1) {
-                    gsap.to(contents[lastActiveStep], {
-                      autoAlpha: 0,
-                      x: 0,
-                      y: 0,
-                      duration: 0.3,
-                    });
-                  }
-                }
-
-                lastActiveStep = currentStep;
-              }
-            },
           },
         });
 
-        tl.to(track, { height: '100%', ease: 'none' }, 0);
-        tl.to(dot, { top: 'calc(100% - 10px)', ease: 'none' }, 0);
+        pinTL.to(track, { height: '100%', ease: 'none' }, 0);
+        pinTL.to(dot, { top: 'calc(100% - 10px)', ease: 'none' }, 0);
+
+        stepST = ScrollTrigger.create({
+          trigger: container,
+          start: 'top 100px',
+          end: () => `+=${window.innerHeight * (totalSteps - 1)}`,
+          scrub: 1,
+          onUpdate: (self) => {
+            const currentStep = Math.round(
+              self.progress * (totalSteps - 1)
+            );
+            if (currentStep === lastActiveStep) return;
+
+            titles.forEach((title, index) => {
+              const isActive = index === currentStep;
+              title.classList.toggle('text-foreground', isActive);
+              title.classList.toggle('text-foreground/30', !isActive);
+              gsap.to(title, {
+                x: isActive ? 12 : 0,
+                duration: 0.5,
+                ease: 'back.out(1.7)',
+              });
+            });
+
+            if (self.direction === 1) {
+              gsap.fromTo(
+                contents[currentStep],
+                { autoAlpha: 0, x: -30 },
+                {
+                  autoAlpha: 1,
+                  x: 0,
+                  duration: 0.5,
+                  ease: 'power3.out',
+                }
+              );
+            } else if (lastActiveStep > -1) {
+              gsap.to(contents[lastActiveStep], {
+                autoAlpha: 0,
+                x: 0,
+                y: 0,
+                duration: 0.3,
+              });
+            }
+
+            lastActiveStep = currentStep;
+          },
+        });
+
+        const disableOnResize = () => {
+          stepST?.kill(true);
+          pinTL?.scrollTrigger?.kill(true);
+          introTl?.scrollTrigger?.kill(true);
+          ctx.revert();
+          revealAllStatic();
+        };
+
+        window.addEventListener('resize', disableOnResize, {
+          passive: true,
+          once: true,
+        });
+        window.addEventListener(
+          'orientationchange',
+          disableOnResize,
+          { passive: true, once: true }
+        );
       }, section);
 
-      return () => ctx.revert();
+      return () => {
+        ctx.revert();
+      };
     });
 
-    return () => mm.revert();
+    return () => {
+      mm.revert();
+    };
   }, []);
 
   return (
@@ -235,6 +276,7 @@ function Process() {
               exceptional results.
             </p>
           </div>
+
           <div className="mt-12 lg:mt-16 xl:mt-20">
             <div className="hidden lg:flex gap-10 md:gap-20">
               <div className="relative w-1/3">
@@ -263,6 +305,7 @@ function Process() {
                   ))}
                 </div>
               </div>
+
               <div className="w-2/3">
                 <div className="flex flex-col justify-between xl:min-h-[400px] 2xl:min-h-[700px]">
                   {steps.map((s, i) => {
@@ -292,6 +335,7 @@ function Process() {
                 </div>
               </div>
             </div>
+
             <div className="lg:hidden space-y-10">
               {steps.map((step) => {
                 const Icon = step.icon;
