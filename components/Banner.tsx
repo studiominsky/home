@@ -148,8 +148,6 @@ export default function Banner() {
 
         // MOBILE
         if (window.innerWidth < 768) {
-          ScrollTrigger.getAll().forEach((st) => st.kill(true));
-
           let extraIdx = 0;
           circlesRef.current.forEach((el, i) => {
             const def = INITIAL_CIRCLES[i];
