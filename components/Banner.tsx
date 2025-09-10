@@ -373,7 +373,7 @@ export default function Banner() {
               </Link>
 
               <Link
-                href="/contact"
+                href="/#services"
                 className={clsx(
                   'cursor-pointer hidden sm:flex max-w-[120px] z-99 mt-5 bg-transparent text-foreground border font-medium font-sans px-8 py-3  items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
