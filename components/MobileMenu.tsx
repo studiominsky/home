@@ -57,7 +57,7 @@ export default function MobileMenu({ onContactClick }: Props) {
             gsap.set(overlay, { display: 'none' });
             gsap.set(links, { clearProps: 'all' });
             document.body.style.overflow = '';
-            window.scrollTo(0, scrollPosRef.current);
+
             if (scrollToIdRef.current) {
               const el = document.getElementById(
                 scrollToIdRef.current
@@ -68,6 +68,8 @@ export default function MobileMenu({ onContactClick }: Props) {
                   block: 'start',
                 });
               scrollToIdRef.current = null;
+            } else {
+              window.scrollTo(0, scrollPosRef.current);
             }
           },
         })
