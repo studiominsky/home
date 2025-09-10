@@ -103,7 +103,7 @@ export default function HeaderClient({ posts, latest }: Props) {
   return (
     <header
       className={clsx(
-        'bg-card border-border border-b fixed top-0 left-0 right-0 z-30 flex h-[70px] items-center'
+        'bg-background border-border border-b fixed top-0 left-0 right-0 z-30 flex h-[70px] items-center'
       )}
     >
       <FullWidth>

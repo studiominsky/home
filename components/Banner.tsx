@@ -40,11 +40,11 @@ const THEME_COLORS = [
   { name: 'purple', hex: '#B55DE4' },
 ];
 
-const debounce = (fn: () => void, ms: number) => {
-  let t: ReturnType<typeof setTimeout>;
+const debounce = (fn: () => void, delay: number) => {
+  let t: ReturnType<typeof setTimeout> | null = null;
   return () => {
-    clearTimeout(t);
-    t = setTimeout(fn, ms);
+    if (t) clearTimeout(t);
+    t = setTimeout(fn, delay);
   };
 };
 
@@ -75,16 +75,16 @@ export default function Banner() {
     const targets = circlesRef.current;
 
     if (selectedColor && targets.length > 0) {
-      pulseAnimation.current?.kill();
-      pulseAnimation.current = null;
-
+      if (pulseAnimation.current) {
+        pulseAnimation.current.kill();
+        pulseAnimation.current = null;
+      }
       targets.forEach((el, i) => {
         gsap.set(el, {
           backgroundColor: INITIAL_CIRCLES[i].color,
           scale: 1,
         });
       });
-
       pulseAnimation.current = gsap.to(targets, {
         backgroundColor: selectedColor.hex,
         scale: 1.25,
@@ -99,7 +99,7 @@ export default function Banner() {
   }, [colorTheme]);
 
   useLayoutEffect(() => {
-    const component = mainRef.current!;
+    const component = mainRef.current;
     if (!component) return;
 
     const childEls = [
@@ -108,9 +108,20 @@ export default function Banner() {
       buttonsRef.current,
     ];
 
-    const applyFinalLayout = () => {
-      const { width: Cw, height: Ch } =
-        component.getBoundingClientRect();
+    const cleanupRef = { current: null as null | (() => void) };
+
+    const init = () => {
+      gsap.killTweensOf([
+        ...circlesRef.current,
+        textFullWidthRef.current,
+        ...childEls,
+      ]);
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+
+      const rect = component.getBoundingClientRect();
+      const Cw = rect.width;
+      const Ch = rect.height;
+
       const scale = (Cw * 0.4875) / VB_WIDTH;
       const finalShapeWidth = VB_WIDTH * scale;
       const finalShapeHeight = VB_HEIGHT * scale;
@@ -124,57 +135,62 @@ export default function Banner() {
         { x: 0.4 * Cw, y: 1.0 * Ch, size: 0.12 * Cw },
       ];
 
-      let extraIdx = 0;
-      circlesRef.current.forEach((el, i) => {
-        const def = INITIAL_CIRCLES[i];
-        let finalX: number, finalY: number, finalSize: number;
+      const isDesktop = window.matchMedia(
+        '(min-width: 768px)'
+      ).matches;
 
-        if (def.mapsTo > -1) {
-          const shape = FINAL_SHAPES[def.mapsTo];
-          finalX = offsetX + (shape.x + shape.width / 2) * scale;
-          finalY = offsetY + (shape.y + shape.height / 2) * scale;
-          finalSize = shape.width * scale;
-        } else {
-          const e = extras[extraIdx++];
-          finalX = e.x;
-          finalY = e.y;
-          finalSize = e.size;
+      if (!isDesktop) {
+        let extraIdx = 0;
+        circlesRef.current.forEach((el, i) => {
+          const def = INITIAL_CIRCLES[i];
+          let finalX: number, finalY: number, finalSize: number;
+          if (def.mapsTo > -1) {
+            const shape = FINAL_SHAPES[def.mapsTo];
+            finalX = offsetX + (shape.x + shape.width / 2) * scale;
+            finalY = offsetY + (shape.y + shape.height / 2) * scale;
+            finalSize = shape.width * scale;
+          } else {
+            const e = extras[extraIdx++];
+            finalX = e.x;
+            finalY = e.y;
+            finalSize = e.size;
+          }
+          gsap.set(el, {
+            x: finalX,
+            y: finalY,
+            width: finalSize,
+            height: finalSize,
+            backgroundColor: def.color,
+            borderRadius: '50%',
+            xPercent: -50,
+            yPercent: -50,
+            opacity: 1,
+            scale: 1,
+          });
+        });
+
+        if (textFullWidthRef.current) {
+          const finalTopPadding = 150;
+          const textBlockHeight =
+            textFullWidthRef.current.offsetHeight;
+          const initialBottomOffset = 10;
+          const yTravelDistance =
+            Ch -
+            textBlockHeight -
+            initialBottomOffset -
+            finalTopPadding;
+
+          gsap.set(textFullWidthRef.current, {
+            y: -yTravelDistance,
+            opacity: 1,
+          });
         }
 
-        gsap.set(el, {
-          x: finalX,
-          y: finalY,
-          width: finalSize,
-          height: finalSize,
-          backgroundColor: def.color,
-          borderRadius: '50%',
-          xPercent: -50,
-          yPercent: -50,
-          opacity: 1,
-          scale: 1,
-        });
-      });
+        gsap.set(childEls, { opacity: 1, x: 0, y: 0 });
 
-      if (textFullWidthRef.current) {
-        const finalTopPadding = 150;
-        const textBlockHeight = textFullWidthRef.current.offsetHeight;
-        const initialBottomOffset = 10;
-        const yTravelDistance =
-          Ch -
-          textBlockHeight -
-          initialBottomOffset -
-          finalTopPadding;
-
-        gsap.set(textFullWidthRef.current, {
-          y: -yTravelDistance,
-          opacity: 1,
-        });
+        return () => {};
       }
 
-      gsap.set(childEls, { opacity: 1, x: 0, y: 0 });
-    };
-
-    const buildDesktopAnimation = () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: component,
@@ -185,32 +201,6 @@ export default function Banner() {
           pinSpacing: true,
         },
       });
-
-      const { width: Cw, height: Ch } =
-        component.getBoundingClientRect();
-      const scale = (Cw * 0.4875) / VB_WIDTH;
-      const finalShapeWidth = VB_WIDTH * scale;
-      const finalShapeHeight = VB_HEIGHT * scale;
-      const PADDING = 45;
-      const offsetX = Cw - finalShapeWidth - PADDING;
-      const offsetY = Ch - finalShapeHeight - PADDING;
-
-      const extras = [
-        { x: -0.05 * Cw, y: 0.7 * Ch, size: 0.16 * Cw },
-        { x: 0.3 * Cw, y: 0.0 * Ch, size: 0.12 * Cw },
-        { x: 0.4 * Cw, y: 1.0 * Ch, size: 0.12 * Cw },
-      ];
-
-      gsap.set(
-        [
-          textFullWidthRef.current,
-          ...childEls,
-          ...circlesRef.current,
-        ],
-        {
-          clearProps: 'all',
-        }
-      );
 
       let extraIdx = 0;
       circlesRef.current.forEach((el, i) => {
@@ -295,40 +285,28 @@ export default function Banner() {
         );
       }
 
-      // Properly typed resize handler wrapper
-      const onResize = () => ScrollTrigger.refresh();
-      window.addEventListener('resize', onResize, { passive: true });
-
       return () => {
-        window.removeEventListener('resize', onResize);
         tl.scrollTrigger?.kill();
         tl.kill();
       };
     };
 
-    // Debounced re-apply of final layout on mobile resize
-    const dd = debounce(() => {
-      if (!window.matchMedia('(min-width: 768px)').matches) {
-        applyFinalLayout();
-      }
-    }, 200);
+    let cleanup = init();
+    cleanupRef.current = cleanup;
 
-    // ✅ Use gsap.matchMedia so we can .revert() later
-    const mm = gsap.matchMedia();
+    const debouncedRebuild = debounce(() => {
+      cleanupRef.current?.();
+      cleanup = init();
+      cleanupRef.current = cleanup;
+      ScrollTrigger.refresh();
+    }, 150);
 
-    mm.add('(min-width: 768px)', () => {
-      const cleanup = buildDesktopAnimation();
-      return () => cleanup?.();
-    });
-
-    mm.add('(max-width: 767px)', () => {
-      applyFinalLayout();
-      window.addEventListener('resize', dd, { passive: true });
-      return () => window.removeEventListener('resize', dd);
-    });
+    const onResize = () => debouncedRebuild();
+    window.addEventListener('resize', onResize, { passive: true });
 
     return () => {
-      mm.revert(); // ✅ valid on gsap.matchMedia()
+      window.removeEventListener('resize', onResize);
+      cleanupRef.current?.();
     };
   }, []);
 
@@ -365,8 +343,8 @@ export default function Banner() {
               className="relative flex items-center gap-2 mb-3 opacity-0"
             >
               <span className="relative flex size-3">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-positive opacity-75"></span>
-                <span className="relative inline-flex size-3 rounded-full bg-positive"></span>
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-positive opacity-75" />
+                <span className="relative inline-flex size-3 rounded-full bg-positive" />
               </span>
               <span className="font-mono text-sm">
                 Available for new projects
@@ -382,24 +360,22 @@ export default function Banner() {
 
             <span ref={buttonsRef} className="flex gap-4 opacity-0">
               <Link
-                href="/contact"
+                href="/#contact"
                 className={clsx(
-                  'cursor-pointer text-card z-99 max-w-[120px] mt-5 bg-background-inverted font-sans px-8 py-1 flex items-center justify-center rounded-full text-center',
+                  'cursor-pointer text-card z-99 max-w-[120px] mt-5 bg-background-inverted font-sans px-8 py-3 flex items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
                   'text-[var(--ds-background-100)]'
                 )}
                 style={{ letterSpacing: 'initial' }}
               >
-                <span>
-                  <MessageCircleIcon className="mr-1 size-4 text-card" />
-                </span>
+                <MessageCircleIcon className="mr-1 size-4 text-card" />
                 Contact
               </Link>
 
               <Link
                 href="/contact"
                 className={clsx(
-                  'cursor-pointer max-w-[120px] z-99 mt-5 bg-transparent text-foreground border font-medium font-sans px-8 py-3 flex items-center justify-center rounded-full text-center',
+                  'cursor-pointer hidden sm:flex max-w-[120px] z-99 mt-5 bg-transparent text-foreground border font-medium font-sans px-8 py-3  items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
                   'text-[var(--ds-background-100)]'
                 )}
