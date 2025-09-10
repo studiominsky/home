@@ -314,7 +314,7 @@ export default function Banner() {
   return (
     <section
       ref={mainRef}
-      className="relative h-screen min-h-screen w-full overflow-hidden border-b border-border"
+      className="relative h-screen min-h-screen w-full border-b border-border"
     >
       <div className="bg-grid absolute inset-0 pointer-events-none overflow-hidden" />
       <div className="absolute inset-0">

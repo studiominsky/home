@@ -301,7 +301,7 @@ const Services: React.FC = () => {
               <span className="font-mono text-sm py-2 block min-h-[40px]">
                 {serviceData[activeIndex].additional}
               </span>
-              <div className="flex-grow backdrop-blur-sm overflow-hidden border border-border rounded-md">
+              <div className="flex-grow backdrop-blur-sm border border-border rounded-md">
                 <div ref={browserContentRef} className="h-full">
                   <ServiceVisual activeIndex={activeIndex} />
                 </div>
