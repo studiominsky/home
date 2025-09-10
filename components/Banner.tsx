@@ -62,7 +62,6 @@ export default function Banner() {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLSpanElement>(null);
 
-  // Theme pulse
   useEffect(() => {
     if (prevColorTheme.current === null) {
       prevColorTheme.current = colorTheme ?? null;
@@ -109,14 +108,15 @@ export default function Banner() {
       buttonsRef.current,
     ];
 
-    let currentCleanup: (() => void) | null = null;
+    const cleanupRef = { current: null as null | (() => void) };
 
-    const build = () => {
+    const init = () => {
       gsap.killTweensOf([
         ...circlesRef.current,
         textFullWidthRef.current,
         ...childEls,
       ]);
+      ScrollTrigger.getAll().forEach((st) => st.kill());
 
       const rect = component.getBoundingClientRect();
       const Cw = rect.width;
@@ -140,7 +140,6 @@ export default function Banner() {
       ).matches;
 
       if (!isDesktop) {
-        // Mobile: final state only
         let extraIdx = 0;
         circlesRef.current.forEach((el, i) => {
           const def = INITIAL_CIRCLES[i];
@@ -194,7 +193,6 @@ export default function Banner() {
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          id: 'banner-scroll',
           trigger: component,
           start: 'top top',
           end: '+=120%',
@@ -288,30 +286,27 @@ export default function Banner() {
       }
 
       return () => {
-        if (tl.scrollTrigger) tl.scrollTrigger.kill();
+        tl.scrollTrigger?.kill();
         tl.kill();
       };
     };
 
-    currentCleanup = build();
+    let cleanup = init();
+    cleanupRef.current = cleanup;
 
-    const onResize = debounce(() => {
-      if (currentCleanup) {
-        currentCleanup();
-        currentCleanup = null;
-      }
-      currentCleanup = build();
+    const debouncedRebuild = debounce(() => {
+      cleanupRef.current?.();
+      cleanup = init();
+      cleanupRef.current = cleanup;
       ScrollTrigger.refresh();
     }, 150);
 
+    const onResize = () => debouncedRebuild();
     window.addEventListener('resize', onResize, { passive: true });
 
     return () => {
       window.removeEventListener('resize', onResize);
-      if (currentCleanup) {
-        currentCleanup();
-        currentCleanup = null;
-      }
+      cleanupRef.current?.();
     };
   }, []);
 
@@ -365,9 +360,9 @@ export default function Banner() {
 
             <span ref={buttonsRef} className="flex gap-4 opacity-0">
               <Link
-                href="/contact"
+                href="/#contact"
                 className={clsx(
-                  'cursor-pointer text-card z-99 max-w-[120px] mt-5 bg-background-inverted font-sans px-8 py-1 flex items-center justify-center rounded-full text-center',
+                  'cursor-pointer text-card z-99 max-w-[120px] mt-5 bg-background-inverted font-sans px-8 py-3 flex items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
                   'text-[var(--ds-background-100)]'
                 )}
@@ -378,9 +373,9 @@ export default function Banner() {
               </Link>
 
               <Link
-                href="/contact"
+                href="/#services"
                 className={clsx(
-                  'cursor-pointer max-w-[120px] z-99 mt-5 bg-transparent text-foreground border font-medium font-sans px-8 py-3 flex items-center justify-center rounded-full text-center',
+                  'cursor-pointer hidden sm:flex max-w-[120px] z-99 mt-5 bg-transparent text-foreground border font-medium font-sans px-8 py-3  items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
                   'text-[var(--ds-background-100)]'
                 )}
