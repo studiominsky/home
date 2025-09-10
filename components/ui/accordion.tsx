@@ -62,7 +62,7 @@ const AccordionTrigger = React.forwardRef<
           const scrollPosition = triggerTop - headerHeight - 16;
 
           gsap.to(window, {
-            duration: 0.25,
+            duration: 0.5,
             scrollTo: scrollPosition,
             ease: 'power2.inOut',
           });
