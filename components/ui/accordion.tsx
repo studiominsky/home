@@ -1,10 +1,14 @@
 'use client';
 
-import * as React from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { ChevronDownIcon } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
 import { cn } from '@/lib/utils';
+import React from 'react';
+
+gsap.registerPlugin(ScrollToPlugin);
 
 const Accordion = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Root>,
@@ -45,40 +49,25 @@ const AccordionTrigger = React.forwardRef<
     const triggerElement = event.currentTarget;
 
     if (triggerElement.getAttribute('data-state') === 'closed') {
-      const item = triggerElement.closest(
-        '[data-slot="accordion-item"]'
-      );
-      if (!item) return;
+      const animationDuration = 100;
 
-      const content = item.querySelector(
-        '[data-slot="accordion-content"]'
-      ) as HTMLElement | null;
-      if (!content) return;
+      setTimeout(() => {
+        const header = document.querySelector('header');
+        if (header) {
+          const headerHeight = header.offsetHeight;
+          const triggerTop =
+            triggerElement.getBoundingClientRect().top +
+            window.scrollY;
 
-      const scrollAfterAnimation = () => {
-        requestAnimationFrame(() => {
-          const header = document.querySelector('header');
-          if (header) {
-            const headerHeight = header.offsetHeight;
-            const triggerRect =
-              triggerElement.getBoundingClientRect();
-            const desiredTopPosition = headerHeight + 16;
-            const scrollAmount = triggerRect.top - desiredTopPosition;
+          const scrollPosition = triggerTop - headerHeight - 16;
 
-            if (Math.abs(scrollAmount) > 1) {
-              window.scrollBy({
-                top: scrollAmount,
-                behavior: 'smooth',
-              });
-              triggerElement.focus({ preventScroll: true });
-            }
-          }
-        });
-      };
-
-      content.addEventListener('animationend', scrollAfterAnimation, {
-        once: true,
-      });
+          gsap.to(window, {
+            duration: 0.25,
+            scrollTo: scrollPosition,
+            ease: 'power2.inOut',
+          });
+        }
+      }, animationDuration);
     }
   };
 

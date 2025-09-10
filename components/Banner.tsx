@@ -12,7 +12,7 @@ import { useTranslations } from 'next-intl';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// const NUM_CIRCLES = 7;
+const NUM_CIRCLES = 7;
 const VB_WIDTH = 4893;
 const VB_HEIGHT = 5099;
 
@@ -314,9 +314,20 @@ export default function Banner() {
   return (
     <section
       ref={mainRef}
-      className="relative h-screen min-h-screen overflow-hidden  w-full border-b border-border"
+      className="relative h-screen min-h-screen overflow-hidden w-full border-b border-border"
     >
       <div className="bg-grid absolute inset-0 pointer-events-none overflow-hidden" />
+      <div className="absolute inset-0">
+        {Array.from({ length: NUM_CIRCLES }).map((_, i) => (
+          <span
+            key={i}
+            ref={(el) => {
+              if (el) circlesRef.current[i] = el;
+            }}
+            className="absolute top-0 left-0"
+          />
+        ))}
+      </div>
 
       <FullWidth>
         <div
