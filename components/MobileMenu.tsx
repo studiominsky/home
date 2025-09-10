@@ -196,35 +196,35 @@ export default function MobileMenu({ onContactClick }: Props) {
         <div className="mt-12 flex flex-grow flex-col items-start space-y-6">
           <Link
             href="/#services"
-            className="menu-item font-geometric text-3xl"
+            className="menu-item font-geometric text-3xl transition-transform duration-300 ease-out hover:translate-x-2"
             onClick={handleLinkClick}
           >
             {t('services')}
           </Link>
           <Link
             href="/#projects"
-            className="menu-item font-geometric text-3xl"
+            className="menu-item font-geometric text-3xl transition-transform duration-300 ease-out hover:translate-x-2"
             onClick={handleLinkClick}
           >
             {t('projects')}
           </Link>
           <Link
             href="/#process"
-            className="menu-item font-geometric text-3xl"
+            className="menu-item font-geometric text-3xl transition-transform duration-300 ease-out hover:translate-x-2"
             onClick={handleLinkClick}
           >
             {t('process')}
           </Link>
           <Link
             href="/blog"
-            className="menu-item font-geometric text-3xl"
+            className="menu-item font-geometric text-3xl transition-transform duration-300 ease-out hover:translate-x-2"
             onClick={handleLinkClick}
           >
             {t('blog')}
           </Link>
           <Link
             href="/#contact"
-            className="menu-item font-geometric text-3xl"
+            className="menu-item font-geometric text-3xl transition-transform duration-300 ease-out hover:translate-x-2"
             onClick={(e) => {
               e.preventDefault();
               setIsOpen(false);

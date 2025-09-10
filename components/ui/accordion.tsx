@@ -6,63 +6,86 @@ import { ChevronDownIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
-function Accordion({
-  ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Root>) {
-  return <AccordionPrimitive.Root data-slot="accordion" {...props} />;
-}
+const Accordion = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>
+>(({ className, ...props }, ref) => (
+  <AccordionPrimitive.Root
+    ref={ref}
+    data-slot="accordion"
+    className={cn('w-full', className)}
+    {...props}
+  />
+));
+Accordion.displayName = AccordionPrimitive.Root.displayName;
 
-function AccordionItem({
-  className,
-  ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Item>) {
-  return (
-    <AccordionPrimitive.Item
-      data-slot="accordion-item"
-      className={cn(
-        'border-b last:border-b-0 border-border',
-        className
-      )}
-      {...props}
-    />
-  );
-}
+const AccordionItem = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
+>(({ className, ...props }, ref) => (
+  <AccordionPrimitive.Item
+    ref={ref}
+    data-slot="accordion-item"
+    className={cn(
+      'border-b last:border-b-0 border-border',
+      className
+    )}
+    {...props}
+  />
+));
+AccordionItem.displayName = AccordionPrimitive.Item.displayName;
 
-function AccordionTrigger({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
-  const triggerRef = React.useRef<HTMLButtonElement>(null);
+const AccordionTrigger = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => {
+  const handleTriggerClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const triggerElement = event.currentTarget;
 
-  const handleTriggerClick = () => {
-    if (triggerRef.current?.getAttribute('data-state') === 'closed') {
-      setTimeout(() => {
-        const header = document.querySelector('header');
-        if (triggerRef.current && header) {
-          const headerHeight = header.offsetHeight;
-          const triggerRect =
-            triggerRef.current.getBoundingClientRect();
+    if (triggerElement.getAttribute('data-state') === 'closed') {
+      const item = triggerElement.closest(
+        '[data-slot="accordion-item"]'
+      );
+      if (!item) return;
 
-          const desiredTopPosition = headerHeight + 16;
+      const content = item.querySelector(
+        '[data-slot="accordion-content"]'
+      ) as HTMLElement | null;
+      if (!content) return;
 
-          const scrollAmount = triggerRect.top - desiredTopPosition;
+      const scrollAfterAnimation = () => {
+        requestAnimationFrame(() => {
+          const header = document.querySelector('header');
+          if (header) {
+            const headerHeight = header.offsetHeight;
+            const triggerRect =
+              triggerElement.getBoundingClientRect();
+            const desiredTopPosition = headerHeight + 16;
+            const scrollAmount = triggerRect.top - desiredTopPosition;
 
-          if (Math.abs(scrollAmount) > 1) {
-            window.scrollBy({
-              top: scrollAmount,
-              behavior: 'smooth',
-            });
+            if (Math.abs(scrollAmount) > 1) {
+              window.scrollBy({
+                top: scrollAmount,
+                behavior: 'smooth',
+              });
+              triggerElement.focus({ preventScroll: true });
+            }
           }
-        }
-      }, 300);
+        });
+      };
+
+      content.addEventListener('animationend', scrollAfterAnimation, {
+        once: true,
+      });
     }
   };
 
   return (
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
-        ref={triggerRef}
+        ref={ref}
         onClick={handleTriggerClick}
         data-slot="accordion-trigger"
         className={cn(
@@ -76,23 +99,23 @@ function AccordionTrigger({
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );
-}
+});
+AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
 
-function AccordionContent({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Content>) {
-  return (
-    <AccordionPrimitive.Content
-      data-slot="accordion-content"
-      className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
-      {...props}
-    >
-      <div className={cn('pt-0 pb-4', className)}>{children}</div>
-    </AccordionPrimitive.Content>
-  );
-}
+const AccordionContent = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
+>(({ className, children, ...props }, ref) => (
+  <AccordionPrimitive.Content
+    ref={ref}
+    data-slot="accordion-content"
+    className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
+    {...props}
+  >
+    <div className={cn('pt-0 pb-4', className)}>{children}</div>
+  </AccordionPrimitive.Content>
+));
+AccordionContent.displayName = AccordionPrimitive.Content.displayName;
 
 export {
   Accordion,

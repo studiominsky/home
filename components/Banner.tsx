@@ -356,11 +356,7 @@ export default function Banner() {
               ref={descriptionRef}
               className="tracking-[0] text-[21px] leading-[35px] opacity-0"
             >
-              Studio Minsky builds the digital tools that drive
-              business growth. From websites that turn visitors into
-              customers, to custom software that streamlines your
-              operations, every product is designed to increase your
-              impact and efficiency.
+              {t('description')}
             </p>
 
             <span ref={buttonsRef} className="flex gap-4 opacity-0">

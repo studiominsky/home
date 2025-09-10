@@ -237,7 +237,7 @@ const DataVizVisual: React.FC = () => {
             {calendarDays.map((day) => (
               <div
                 key={day}
-                className={`flex items-center justify-center text-xs w-15 md:w-full aspect-square rounded-full ${selectedDays.includes(day) ? 'bg-primary text-background' : 'text-foreground/80'}`}
+                className={`flex items-center justify-center text-xs w-8 md:w-full aspect-square rounded-full ${selectedDays.includes(day) ? 'bg-primary text-background' : 'text-foreground/80'}`}
               >
                 {day}
               </div>
