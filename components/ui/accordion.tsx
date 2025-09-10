@@ -1,12 +1,12 @@
 'use client';
 
+import * as React from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { ChevronDownIcon } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
 import { cn } from '@/lib/utils';
-import React from 'react';
 
 gsap.registerPlugin(ScrollToPlugin);
 

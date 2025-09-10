@@ -40,11 +40,11 @@ const THEME_COLORS = [
   { name: 'purple', hex: '#B55DE4' },
 ];
 
-const debounce = (fn: () => void, ms: number) => {
-  let t: ReturnType<typeof setTimeout>;
+const debounce = (fn: () => void, delay: number) => {
+  let t: ReturnType<typeof setTimeout> | null = null;
   return () => {
-    clearTimeout(t);
-    t = setTimeout(fn, ms);
+    if (t) clearTimeout(t);
+    t = setTimeout(fn, delay);
   };
 };
 
@@ -62,6 +62,7 @@ export default function Banner() {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLSpanElement>(null);
 
+  // Theme pulse
   useEffect(() => {
     if (prevColorTheme.current === null) {
       prevColorTheme.current = colorTheme ?? null;
@@ -75,16 +76,16 @@ export default function Banner() {
     const targets = circlesRef.current;
 
     if (selectedColor && targets.length > 0) {
-      pulseAnimation.current?.kill();
-      pulseAnimation.current = null;
-
+      if (pulseAnimation.current) {
+        pulseAnimation.current.kill();
+        pulseAnimation.current = null;
+      }
       targets.forEach((el, i) => {
         gsap.set(el, {
           backgroundColor: INITIAL_CIRCLES[i].color,
           scale: 1,
         });
       });
-
       pulseAnimation.current = gsap.to(targets, {
         backgroundColor: selectedColor.hex,
         scale: 1.25,
@@ -99,7 +100,7 @@ export default function Banner() {
   }, [colorTheme]);
 
   useLayoutEffect(() => {
-    const component = mainRef.current!;
+    const component = mainRef.current;
     if (!component) return;
 
     const childEls = [
@@ -107,6 +108,8 @@ export default function Banner() {
       descriptionRef.current,
       buttonsRef.current,
     ];
+
+    let currentCleanup: (() => void) | null = null;
 
     const applyFinalLayout = () => {
       const { width: Cw, height: Ch } =
@@ -300,32 +303,51 @@ export default function Banner() {
 
       return () => {
         window.removeEventListener('resize', onResize);
-        tl.scrollTrigger?.kill();
+        if (tl.scrollTrigger) tl.scrollTrigger.kill();
         tl.kill();
       };
     };
 
-    const dd = debounce(() => {
-      if (!window.matchMedia('(min-width: 768px)').matches) {
+    const init = () => {
+      gsap.killTweensOf([
+        ...circlesRef.current,
+        textFullWidthRef.current,
+        ...childEls,
+      ]);
+
+      const isDesktop = window.matchMedia(
+        '(min-width: 768px)'
+      ).matches;
+
+      if (!isDesktop) {
         applyFinalLayout();
+        return () => {};
       }
-    }, 200);
 
-    const mm = gsap.matchMedia();
-
-    mm.add('(min-width: 768px)', () => {
       const cleanup = buildDesktopAnimation();
-      return () => cleanup?.();
-    });
+      ScrollTrigger.refresh();
+      return cleanup;
+    };
 
-    mm.add('(max-width: 767px)', () => {
-      applyFinalLayout();
-      window.addEventListener('resize', dd, { passive: true });
-      return () => window.removeEventListener('resize', dd);
-    });
+    currentCleanup = init();
+
+    const debouncedRebuild = debounce(() => {
+      if (currentCleanup) {
+        currentCleanup();
+        currentCleanup = null;
+      }
+      currentCleanup = init();
+    }, 150);
+
+    const onResize = () => debouncedRebuild();
+    window.addEventListener('resize', onResize, { passive: true });
 
     return () => {
-      mm.revert();
+      window.removeEventListener('resize', onResize);
+      if (currentCleanup) {
+        currentCleanup();
+        currentCleanup = null;
+      }
     };
   }, []);
 
@@ -362,8 +384,8 @@ export default function Banner() {
               className="relative flex items-center gap-2 mb-3 opacity-0"
             >
               <span className="relative flex size-3">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-positive opacity-75"></span>
-                <span className="relative inline-flex size-3 rounded-full bg-positive"></span>
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-positive opacity-75" />
+                <span className="relative inline-flex size-3 rounded-full bg-positive" />
               </span>
               <span className="font-mono text-sm">
                 Available for new projects
@@ -379,24 +401,22 @@ export default function Banner() {
 
             <span ref={buttonsRef} className="flex gap-4 opacity-0">
               <Link
-                href="/#contact"
+                href="/contact"
                 className={clsx(
-                  'cursor-pointer text-card z-99 max-w-[120px] mt-5 bg-background-inverted font-sans px-8 py-1 flex items-center justify-center rounded-full text-center',
+                  'cursor-pointer text-card z-99 max-w-[120px] mt-5 bg-background-inverted font-sans px-8 py-3 flex items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
                   'text-[var(--ds-background-100)]'
                 )}
                 style={{ letterSpacing: 'initial' }}
               >
-                <span>
-                  <MessageCircleIcon className="mr-1 size-4 text-card" />
-                </span>
+                <MessageCircleIcon className="mr-1 size-4 text-card" />
                 Contact
               </Link>
 
               <Link
-                href="/services"
+                href="/contact"
                 className={clsx(
-                  'cursor-pointer max-w-[120px] hidden z-99 mt-5 bg-transparent text-foreground border font-medium font-sans px-8 py-3 sm:flex items-center justify-center rounded-full text-center',
+                  'cursor-pointer max-w-[120px] z-99 mt-5 bg-transparent text-foreground border font-medium font-sans px-8 py-3 hidden sm:flex items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
                   'text-[var(--ds-background-100)]'
                 )}
