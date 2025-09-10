@@ -62,7 +62,6 @@ export default function Banner() {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLSpanElement>(null);
 
-  // Theme pulse
   useEffect(() => {
     if (prevColorTheme.current === null) {
       prevColorTheme.current = colorTheme ?? null;
@@ -401,7 +400,7 @@ export default function Banner() {
 
             <span ref={buttonsRef} className="flex gap-4 opacity-0">
               <Link
-                href="/contact"
+                href="/#contact"
                 className={clsx(
                   'cursor-pointer text-card z-99 max-w-[120px] mt-5 bg-background-inverted font-sans px-8 py-3 flex items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',
@@ -414,7 +413,7 @@ export default function Banner() {
               </Link>
 
               <Link
-                href="/contact"
+                href="/#services"
                 className={clsx(
                   'cursor-pointer max-w-[120px] z-99 mt-5 bg-transparent text-foreground border font-medium font-sans px-8 py-3 hidden sm:flex items-center justify-center rounded-full text-center',
                   'text-[0.875rem] leading-[1.25rem] font-medium opacity-100',

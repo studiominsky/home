@@ -4,6 +4,13 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
+import {
+  Phone,
+  FileText,
+  Code,
+  MessageSquare,
+  LifeBuoy,
+} from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,30 +20,35 @@ const steps = [
     titleDescription: 'Understanding Your Vision',
     description:
       'We start by understanding your needs and goals in a complimentary discovery call, ensuring we are perfectly aligned.',
+    icon: Phone,
   },
   {
     title: '02. Proposal',
     titleDescription: 'Crafting Your Blueprint',
     description:
       'Based on our call, we craft a tailored proposal outlining the project scope, timeline, and a transparent investment breakdown.',
+    icon: FileText,
   },
   {
     title: '03. Development',
     titleDescription: 'Bringing Ideas to Life',
     description:
       'Our team brings the plan to life, building your solution with precision, quality, and regular updates to keep you in the loop.',
+    icon: Code,
   },
   {
     title: '04. Feedback',
     titleDescription: 'Refining the Details',
     description:
       'We review progress with you at key milestones, gathering feedback and iterating until the result is exactly what you envisioned.',
+    icon: MessageSquare,
   },
   {
     title: '05. Support',
     titleDescription: 'Ensuring Long-Term Success',
     description:
       'After a successful launch, we provide ongoing support and maintenance packages to ensure your digital product continues to thrive.',
+    icon: LifeBuoy,
   },
 ];
 
@@ -259,41 +271,58 @@ function Process() {
                   className="flex flex-col justify-between"
                   style={{ minHeight: '700px' }}
                 >
-                  {steps.map((s, i) => (
-                    <div
-                      key={s.titleDescription}
-                      ref={(el) => {
-                        contentRefs.current[i] = el;
-                      }}
-                    >
-                      <h3 className="text-foreground text-xl font-semibold mb-2">
-                        {s.titleDescription}
-                      </h3>
-                      <p className="text-lg text-foreground/40">
-                        {s.description}
-                      </p>
-                    </div>
-                  ))}
+                  {steps.map((s, i) => {
+                    const Icon = s.icon;
+                    return (
+                      <div
+                        key={s.titleDescription}
+                        ref={(el) => {
+                          contentRefs.current[i] = el;
+                        }}
+                        className="flex items-start gap-4"
+                      >
+                        <div className="mt-1 flex-shrink-0 w-10 h-10 bg-primary/20 text-primary rounded-full flex items-center justify-center">
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <h3 className="text-foreground text-xl font-semibold mb-2">
+                            {s.titleDescription}
+                          </h3>
+                          <p className="text-lg text-foreground/40">
+                            {s.description}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
             <div className="lg:hidden space-y-10">
-              {steps.map((step) => (
-                <div
-                  key={step.title}
-                  className="border-b border-border pb-6"
-                >
-                  <h3 className="text-2xl font-geometric text-foreground mb-2">
-                    {step.title}
-                  </h3>
-                  <h4 className="text-lg font-semibold text-foreground/80 mb-2">
-                    {step.titleDescription}
-                  </h4>
-                  <p className="text-md text-foreground/60">
-                    {step.description}
-                  </p>
-                </div>
-              ))}
+              {steps.map((step) => {
+                const Icon = step.icon;
+                return (
+                  <div
+                    key={step.title}
+                    className="flex items-start gap-6 border-b border-border pb-8 last:border-b-0 last:pb-0"
+                  >
+                    <div className="mt-1 flex-shrink-0 w-12 h-12 bg-primary/20 text-primary rounded-full flex items-center justify-center">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-geometric text-foreground mb-2">
+                        {step.title}
+                      </h3>
+                      <h4 className="text-lg font-semibold text-foreground/80 mb-2">
+                        {step.titleDescription}
+                      </h4>
+                      <p className="text-md text-foreground/60">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
