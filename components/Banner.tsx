@@ -12,7 +12,7 @@ import { useTranslations } from 'next-intl';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const NUM_CIRCLES = 7;
+// const NUM_CIRCLES = 7;
 const VB_WIDTH = 4893;
 const VB_HEIGHT = 5099;
 
@@ -146,61 +146,63 @@ export default function Banner() {
           { x: 0.4 * Cw, y: 1.0 * Ch, size: 0.12 * Cw },
         ];
 
-        // MOBILE
-        if (window.innerWidth < 768) {
-          let extraIdx = 0;
-          circlesRef.current.forEach((el, i) => {
-            const def = INITIAL_CIRCLES[i];
-            let finalX: number, finalY: number, finalSize: number;
+        // // MOBILE
+        // if (window.innerWidth < 768) {
+        //   ScrollTrigger.getAll().forEach((st) => st.kill(true));
 
-            if (def.mapsTo > -1) {
-              const shape = FINAL_SHAPES[def.mapsTo];
-              finalX = offsetX + (shape.x + shape.width / 2) * scale;
-              finalY = offsetY + (shape.y + shape.height / 2) * scale;
-              finalSize = shape.width * scale;
-            } else {
-              const e = extras[extraIdx++];
-              finalX = e.x;
-              finalY = e.y;
-              finalSize = e.size;
-            }
+        //   let extraIdx = 0;
+        //   circlesRef.current.forEach((el, i) => {
+        //     const def = INITIAL_CIRCLES[i];
+        //     let finalX: number, finalY: number, finalSize: number;
 
-            gsap.set(el, {
-              x: finalX,
-              y: finalY,
-              width: finalSize,
-              height: finalSize,
-              backgroundColor: def.color,
-              borderRadius: '50%',
-              xPercent: -50,
-              yPercent: -50,
-              opacity: 1,
-              scale: 1,
-            });
-          });
+        //     if (def.mapsTo > -1) {
+        //       const shape = FINAL_SHAPES[def.mapsTo];
+        //       finalX = offsetX + (shape.x + shape.width / 2) * scale;
+        //       finalY = offsetY + (shape.y + shape.height / 2) * scale;
+        //       finalSize = shape.width * scale;
+        //     } else {
+        //       const e = extras[extraIdx++];
+        //       finalX = e.x;
+        //       finalY = e.y;
+        //       finalSize = e.size;
+        //     }
 
-          if (textFullWidthRef.current) {
-            const finalTopPadding = 150;
-            const textBlockHeight =
-              textFullWidthRef.current.offsetHeight;
-            const initialBottomOffset = 10;
-            const yTravelDistance =
-              Ch -
-              textBlockHeight -
-              initialBottomOffset -
-              finalTopPadding;
+        //     gsap.set(el, {
+        //       x: finalX,
+        //       y: finalY,
+        //       width: finalSize,
+        //       height: finalSize,
+        //       backgroundColor: def.color,
+        //       borderRadius: '50%',
+        //       xPercent: -50,
+        //       yPercent: -50,
+        //       opacity: 1,
+        //       scale: 1,
+        //     });
+        //   });
 
-            gsap.set(textFullWidthRef.current, {
-              y: -yTravelDistance,
-              opacity: 1,
-            });
-          }
+        //   if (textFullWidthRef.current) {
+        //     const finalTopPadding = 150;
+        //     const textBlockHeight =
+        //       textFullWidthRef.current.offsetHeight;
+        //     const initialBottomOffset = 10;
+        //     const yTravelDistance =
+        //       Ch -
+        //       textBlockHeight -
+        //       initialBottomOffset -
+        //       finalTopPadding;
 
-          gsap.set(childElements, { opacity: 1, x: 0, y: 0 });
+        //     gsap.set(textFullWidthRef.current, {
+        //       y: -yTravelDistance,
+        //       opacity: 1,
+        //     });
+        //   }
 
-          ScrollTrigger.refresh();
-          return;
-        }
+        //   gsap.set(childElements, { opacity: 1, x: 0, y: 0 });
+
+        //   ScrollTrigger.refresh();
+        //   return;
+        // }
 
         // DESKTOP
         let extraIdx = 0;
@@ -315,7 +317,7 @@ export default function Banner() {
       className="relative h-screen min-h-screen overflow-hidden w-full border-b border-border"
     >
       <div className="bg-grid absolute inset-0 pointer-events-none overflow-hidden" />
-      <div className="absolute inset-0">
+      {/* <div className="absolute inset-0">
         {Array.from({ length: NUM_CIRCLES }).map((_, i) => (
           <span
             key={i}
@@ -325,7 +327,7 @@ export default function Banner() {
             className="absolute top-0 left-0"
           />
         ))}
-      </div>
+      </div> */}
 
       <FullWidth>
         <div
