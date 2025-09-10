@@ -13,12 +13,7 @@ import {
   FileJson2,
   BarChart3,
 } from 'lucide-react';
-
-declare global {
-  interface Window {
-    gsap?: GSAP;
-  }
-}
+import { gsap } from 'gsap';
 
 const AiVisual: React.FC = () => {
   const aiRef = useRef<HTMLDivElement>(null);
@@ -26,19 +21,7 @@ const AiVisual: React.FC = () => {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const animatedOnce = useRef(false);
 
-  const [isGsapReady, setIsGsapReady] = useState(false);
   const [linePaths, setLinePaths] = useState<string[]>([]);
-
-  useEffect(() => {
-    const s = document.createElement('script');
-    s.src =
-      'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
-    s.onload = () => setIsGsapReady(true);
-    document.body.appendChild(s);
-    return () => {
-      document.body.removeChild(s);
-    };
-  }, []);
 
   useLayoutEffect(() => {
     const containerEl = aiRef.current;
@@ -118,12 +101,11 @@ const AiVisual: React.FC = () => {
       if (rafId) cancelAnimationFrame(rafId);
       ro.disconnect();
     };
-  }, [isGsapReady, linePaths]);
+  }, []);
 
   useEffect(() => {
-    if (!isGsapReady || !window.gsap || animatedOnce.current) return;
+    if (animatedOnce.current || linePaths.length === 0) return;
 
-    const gsap = window.gsap;
     const tl = gsap.timeline({ delay: 0.3 });
 
     tl.fromTo(
@@ -158,7 +140,7 @@ const AiVisual: React.FC = () => {
     }
 
     animatedOnce.current = true;
-  }, [isGsapReady, linePaths]);
+  }, [linePaths]);
 
   const cards = [
     {
@@ -278,17 +260,18 @@ const AiVisual: React.FC = () => {
       </svg>
 
       <div className="relative flex flex-col items-center ai-center-element z-10">
-        <h3 className="text-xl sm:text-2xl font-bold font-geometric text-foreground mb-4 text-center">
+        <h3 className="text-xl flex sm:hidden xl:flex sm:text-2xl font-bold font-geometric text-foreground mb-4 xl:mb-10 text-center">
           AI Integration for Business
         </h3>
         <div
           ref={cpuContainerRef}
           className="relative flex items-center justify-center w-24 h-24 sm:w-40 sm:h-40"
         >
+          <div className="absolute w-full h-full bg-card rounded-full z-0" />
           <div className="absolute w-full h-full bg-primary/10 rounded-full animate-pulse" />
           <div className="absolute w-full h-full border border-primary/50 rounded-full animate-spin-slow" />
           <div className="absolute w-2/3 h-2/3 border border-primary/30 rounded-full animate-spin-slow [animation-delay:-2s]" />
-          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/20 rounded-full shadow-2xl shadow-primary/50 flex items-center justify-center">
+          <div className="relative z-10 w-12 h-12 sm:w-16 sm:h-16 bg-primary/20 rounded-full shadow-2xl shadow-primary/50 flex items-center justify-center">
             <Cpu className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
           </div>
         </div>

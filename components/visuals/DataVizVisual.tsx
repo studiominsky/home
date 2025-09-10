@@ -1,11 +1,6 @@
 'use client';
 
-import React, {
-  useLayoutEffect,
-  useRef,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { TrendingUp, UserRound } from 'lucide-react';
 import { Pie, PieChart, RadialBar, RadialBarChart } from 'recharts';
 import {
@@ -16,36 +11,14 @@ import {
   ChartContainer,
   type ChartConfig,
 } from '@/components/ui/chart';
+import { gsap } from 'gsap';
 
-declare global {
-  interface Window {
-    gsap?: GSAP;
-  }
-}
 const DataVizVisual: React.FC = () => {
   const vizRef = useRef<HTMLDivElement>(null);
-  const [isGsapReady, setIsGsapReady] = useState(false);
-
-  useEffect(() => {
-    if (document.querySelector('script[src*="gsap.min.js"]')) {
-      setIsGsapReady(true);
-      return;
-    }
-    const s = document.createElement('script');
-    s.src =
-      'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
-    s.async = true;
-    s.onload = () => setIsGsapReady(true);
-    document.body.appendChild(s);
-    return () => {
-      document.body.removeChild(s);
-    };
-  }, []);
 
   useLayoutEffect(() => {
-    if (!isGsapReady || !window.gsap || !vizRef.current) return;
+    if (!vizRef.current) return;
 
-    const gsap = window.gsap;
     const el = vizRef.current;
 
     if (gsap.getProperty(el.children[0], 'opacity') === 0) {
@@ -62,7 +35,7 @@ const DataVizVisual: React.FC = () => {
         }
       );
     }
-  }, [isGsapReady]);
+  }, []);
 
   const radialChartData = [
     {

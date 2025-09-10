@@ -86,17 +86,39 @@ export default function Chatbot() {
     const fab = fabRef.current;
     if (!fab) return;
 
-    gsap.fromTo(
-      fab,
-      { opacity: 0, scale: 0 },
+    const mm = gsap.matchMedia();
+    mm.add(
       {
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        ease: 'expo.out',
-        clearProps: 'all',
+        isMobile: '(max-width: 767px)',
+        isDesktop: '(min-width: 768px)',
+      },
+      (context) => {
+        const { isMobile, isDesktop } = context.conditions as {
+          isMobile: boolean;
+          isDesktop: boolean;
+        };
+
+        if (isDesktop) {
+          gsap.fromTo(
+            fab,
+            { opacity: 0, scale: 0 },
+            {
+              opacity: 1,
+              scale: 1,
+              delay: 1,
+              duration: 0.8,
+              ease: 'expo.out',
+              clearProps: 'all',
+            }
+          );
+        }
+
+        if (isMobile) {
+          gsap.set(fab, { opacity: 1, scale: 1 });
+        }
       }
     );
+    return () => mm.revert();
   }, []);
 
   useEffect(() => {
