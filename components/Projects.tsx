@@ -94,12 +94,18 @@ const projectData: ProjectDataItem[] = [
 
 export default function Projects() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(
+    null
+  );
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLHeadingElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const projectListRef = useRef<(HTMLDivElement | null)[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const circleRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
 
   useLayoutEffect(() => {
     if (contentRef.current) {
@@ -156,6 +162,37 @@ export default function Projects() {
     return () => ctx.revert();
   }, []);
 
+  const handleMouseEnter = (index: number) => {
+    if (index === activeIndex) return;
+    setHoveredIndex(index);
+    gsap.to(circleRefs.current[index], {
+      x: 12,
+      duration: 0.5,
+      ease: 'back.out(1.2)',
+    });
+    gsap.to(titleRefs.current[index], {
+      x: 12,
+      duration: 0.5,
+      ease: 'back.out(1.2)',
+      delay: 0.075,
+    });
+  };
+
+  const handleMouseLeave = (index: number) => {
+    setHoveredIndex(null);
+    gsap.to(titleRefs.current[index], {
+      x: 0,
+      duration: 0.5,
+      ease: 'back.out(1.2)',
+    });
+    gsap.to(circleRefs.current[index], {
+      x: 0,
+      duration: 0.5,
+      ease: 'back.out(1.2)',
+      delay: 0.075,
+    });
+  };
+
   const activeProject = projectData[activeIndex];
 
   return (
@@ -196,16 +233,41 @@ export default function Projects() {
                   key={project.id}
                   className="font-geometric pb-10 cursor-pointer opacity-0"
                   onClick={() => setActiveIndex(index)}
+                  onMouseEnter={() => handleMouseEnter(index)}
+                  onMouseLeave={() => handleMouseLeave(index)}
                 >
-                  <h3
-                    className={`text-[32px] uppercase transition-colors duration-300 ${
-                      activeIndex === index
-                        ? 'text-foreground'
-                        : 'text-foreground/30 hover:text-foreground/60'
-                    }`}
-                  >
-                    {project.title}
-                  </h3>
+                  <div className="flex gap-4 items-center">
+                    <div
+                      ref={(el) => {
+                        circleRefs.current[index] = el;
+                      }}
+                      className={`
+                        inline-block w-4 h-4 rounded-full border transition-colors duration-300
+                        ${
+                          activeIndex === index ||
+                          hoveredIndex === index
+                            ? 'bg-primary border-primary'
+                            : 'bg-foreground/30 border-border'
+                        }
+                      `}
+                    />
+                    <h3
+                      ref={(el) => {
+                        titleRefs.current[index] = el;
+                      }}
+                      className={`
+                        text-[32px] uppercase transition-colors duration-300
+                        ${
+                          activeIndex === index ||
+                          hoveredIndex === index
+                            ? 'text-foreground'
+                            : 'text-foreground/30'
+                        }
+                      `}
+                    >
+                      {project.title}
+                    </h3>
+                  </div>
                 </div>
               ))}
             </div>

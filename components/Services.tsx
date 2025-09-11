@@ -156,14 +156,7 @@ const Services: React.FC = () => {
 
   const handleMouseEnter = (index: number) => {
     if (index === activeIndex) return;
-
     setHoveredIndex(index);
-
-    gsap.killTweensOf([
-      circleRefs.current[index],
-      titleRefs.current[index],
-    ]);
-
     gsap.to(circleRefs.current[index], {
       x: 12,
       duration: 0.5,
@@ -179,12 +172,6 @@ const Services: React.FC = () => {
 
   const handleMouseLeave = (index: number) => {
     setHoveredIndex(null);
-
-    gsap.killTweensOf([
-      circleRefs.current[index],
-      titleRefs.current[index],
-    ]);
-
     gsap.to(titleRefs.current[index], {
       x: 0,
       duration: 0.5,
