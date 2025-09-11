@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useRef, useLayoutEffect } from 'react';
 import type { BlogPostMeta } from '@/types/blog';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import clsx from 'clsx';
 import { gsap } from 'gsap';

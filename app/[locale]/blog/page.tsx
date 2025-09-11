@@ -1,9 +1,9 @@
 import FilteredBlogPosts from '@/components/FilteredPosts';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import { Link } from '@/i18n/navigation';
 import { getPosts } from '@/lib/notion';
 import type { BlogPostMeta } from '@/types/blog';
-import Link from 'next/link';
 
 export default async function BlogListPage() {
   const posts: BlogPostMeta[] = await getPosts();
