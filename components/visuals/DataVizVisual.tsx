@@ -12,7 +12,10 @@ import {
   type ChartConfig,
 } from '@/components/ui/chart';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslations } from 'next-intl';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const DataVizVisual: React.FC = () => {
   const t = useTranslations('Visuals.DataViz');
@@ -23,7 +26,7 @@ const DataVizVisual: React.FC = () => {
 
     const el = vizRef.current;
 
-    if (gsap.getProperty(el.children[0], 'opacity') === 0) {
+    const ctx = gsap.context(() => {
       gsap.fromTo(
         el.children,
         { opacity: 0, y: 30 },
@@ -33,10 +36,16 @@ const DataVizVisual: React.FC = () => {
           duration: 0.6,
           ease: 'power3.out',
           stagger: 0.1,
-          delay: 0.2,
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 80%',
+            once: true,
+          },
         }
       );
-    }
+    }, vizRef);
+
+    return () => ctx.revert();
   }, []);
 
   const radialChartData = [
@@ -172,6 +181,8 @@ const DataVizVisual: React.FC = () => {
                   background={{
                     fill: 'rgba(var(--color-primary-rgb), 0.25)',
                   }}
+                  isAnimationActive={true}
+                  animationDuration={800}
                 />
               </RadialBarChart>
             </ChartContainer>
