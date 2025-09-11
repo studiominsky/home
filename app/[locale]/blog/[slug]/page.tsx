@@ -8,10 +8,17 @@ import PostContent from '@/components/PostContent';
 import Footer from '@/components/Footer';
 
 export async function generateStaticParams(): Promise<
-  { slug: string }[]
+  { slug: string; locale: string }[]
 > {
   const posts: BlogPostMeta[] = await getPosts();
-  return posts.map((p) => ({ slug: p.slug }));
+  const locales = ['en', 'de'];
+
+  return posts.flatMap((p) =>
+    locales.map((locale) => ({
+      slug: p.slug,
+      locale: locale,
+    }))
+  );
 }
 
 export default async function BlogPostPage({
