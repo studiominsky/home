@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
@@ -27,38 +27,41 @@ function Process() {
   const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const steps = [
-    {
-      title: t('step1Title'),
-      titleDescription: t('step1TitleDescription'),
-      description: t('step1Description'),
-      icon: Phone,
-    },
-    {
-      title: t('step2Title'),
-      titleDescription: t('step2TitleDescription'),
-      description: t('step2Description'),
-      icon: FileText,
-    },
-    {
-      title: t('step3Title'),
-      titleDescription: t('step3TitleDescription'),
-      description: t('step3Description'),
-      icon: Code,
-    },
-    {
-      title: t('step4Title'),
-      titleDescription: t('step4TitleDescription'),
-      description: t('step4Description'),
-      icon: MessageSquare,
-    },
-    {
-      title: t('step5Title'),
-      titleDescription: t('step5TitleDescription'),
-      description: t('step5Description'),
-      icon: LifeBuoy,
-    },
-  ];
+  const steps = useMemo(
+    () => [
+      {
+        title: t('step1Title'),
+        titleDescription: t('step1TitleDescription'),
+        description: t('step1Description'),
+        icon: Phone,
+      },
+      {
+        title: t('step2Title'),
+        titleDescription: t('step2TitleDescription'),
+        description: t('step2Description'),
+        icon: FileText,
+      },
+      {
+        title: t('step3Title'),
+        titleDescription: t('step3TitleDescription'),
+        description: t('step3Description'),
+        icon: Code,
+      },
+      {
+        title: t('step4Title'),
+        titleDescription: t('step4TitleDescription'),
+        description: t('step4Description'),
+        icon: MessageSquare,
+      },
+      {
+        title: t('step5Title'),
+        titleDescription: t('step5TitleDescription'),
+        description: t('step5Description'),
+        icon: LifeBuoy,
+      },
+    ],
+    [t]
+  );
 
   useLayoutEffect(() => {
     const mm = gsap.matchMedia();
@@ -104,7 +107,7 @@ function Process() {
           gsap.set(c, { autoAlpha: 1, x: 0, y: 0, clearProps: 'all' })
         );
         gsap.set(track, { height: '100%' });
-        gsap.set(dot, { top: 'calc(100% - 10px)' });
+        gsap.set(dot, { top: 'calc(100% - 15.5px)' });
       };
 
       let introTl: gsap.core.Timeline | null = null;
@@ -169,7 +172,11 @@ function Process() {
         });
 
         pinTL.to(track, { height: '100%', ease: 'none' }, 0);
-        pinTL.to(dot, { top: 'calc(100% - 10px)', ease: 'none' }, 0);
+        pinTL.to(
+          dot,
+          { top: 'calc(100% - 15.5px)', ease: 'none' },
+          0
+        );
 
         stepST = ScrollTrigger.create({
           trigger: container,
@@ -244,7 +251,7 @@ function Process() {
     return () => {
       mm.revert();
     };
-  }, [t]);
+  }, [steps]);
 
   return (
     <section
@@ -283,7 +290,7 @@ function Process() {
                 />
                 <div
                   ref={dotRef}
-                  className="absolute left-[4px] top-0 w-4 h-4 rounded-full bg-primary transform -translate-x-1/2 -translate-y-1/2"
+                  className="absolute left-2 top-0 w-4 h-4 rounded-full bg-primary transform -translate-x-1/2 "
                 />
                 <div className="flex flex-col justify-between xl:min-h-[400px] 2xl:min-h-[700px]">
                   {steps.map((s, i) => (

@@ -19,6 +19,22 @@
         "dialogDescription": "Quick form. Two steps. We’ll reply within 1–2 business days.",
         "noPostsYet": "No blog posts yet."
     },
+    "AnimatedText": {
+        "section1": "We build high-performance websites that captivate and convert. Our focus on speed and user experience delivers measurable results.",
+        "section2": "AI-powered development allows us to build complex applications faster and more efficiently, reducing time-to-market and saving you costs.",
+        "section3": "From sleek marketing sites to complex web applications, our tailored solutions are designed to elevate your brand and drive growth."
+    },
+    "Stats": {
+        "lighthouse": "Avg. Lighthouse Perf",
+        "fcp": "FCP target",
+        "webVitals": "Core Web Vitals",
+        "devAcceleration": "Dev Acceleration",
+        "timeToMarket": "Time to Market",
+        "costReduction": "Cost Reduction",
+        "satisfaction": "Client Satisfaction",
+        "retention": "Project Retention",
+        "seoBoost": "Avg. SEO Boost"
+    },
     "Services": {
         "preTitle": "WHAT WE OFFER",
         "title": "Services",

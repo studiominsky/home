@@ -10,8 +10,11 @@ import Projects from '@/components/Projects';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import Chatbot from '@/components/Chatbot';
+import { useTranslations } from 'next-intl';
 
 export default function Home() {
+  const t = useTranslations();
+
   return (
     <>
       <Header />
@@ -19,39 +22,32 @@ export default function Home() {
       <Services />
       <AnimatedText
         stats={[
-          { label: 'Avg. Lighthouse Perf', value: '95+' },
-          { label: 'FCP target', value: '<1.8s' },
-          { label: 'Core Web Vitals', value: 'Green' },
+          { label: t('Stats.lighthouse'), value: '95+' },
+          { label: t('Stats.fcp'), value: '<1.8s' },
+          { label: t('Stats.webVitals'), value: 'Green' },
         ]}
       >
-        Digital products for today’s world. Available for new
-        projects. Studio Minsky builds the digital tools that drive
-        business growth. From websites to custom software.
+        {t('AnimatedText.section1')}
       </AnimatedText>
       <Projects />
       <AnimatedText
         stats={[
-          { label: 'Avg. Lighthouse Perf', value: '95+' },
-          { label: 'FCP target', value: '<1.8s' },
-          { label: 'Core Web Vitals', value: 'Green' },
-          { label: 'Deploys/Month', value: '30+' },
+          { label: t('Stats.devAcceleration'), value: '40%' },
+          { label: t('Stats.timeToMarket'), value: '-30%' },
+          { label: t('Stats.costReduction'), value: '-25%' },
         ]}
       >
-        Digital products for today’s world. Available for new projects
-        Studio Minsky builds the digital tools that drive business
-        growth. From websites
+        {t('AnimatedText.section2')}
       </AnimatedText>
       <Process />
       <AnimatedText
         stats={[
-          { label: 'Avg. Lighthouse Perf', value: '95+' },
-          { label: 'FCP target', value: '<1.8s' },
-          { label: 'Core Web Vitals', value: 'Green' },
+          { label: t('Stats.satisfaction'), value: '100%' },
+          { label: t('Stats.retention'), value: '9/10' },
+          { label: t('Stats.seoBoost'), value: '+50%' },
         ]}
       >
-        Digital products for today’s world. Available for new projects
-        Studio Minsky builds the digital tools that drive business
-        growth. From websites
+        {t('AnimatedText.section3')}
       </AnimatedText>
       <Blog />
       <Contact />

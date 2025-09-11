@@ -19,6 +19,22 @@
         "dialogDescription": "Kurzes Formular. Zwei Schritte. Wir antworten innerhalb von 1–2 Werktagen.",
         "noPostsYet": "Noch keine Blogbeiträge."
     },
+    "AnimatedText": {
+        "section1": "Wir erstellen hochleistungsfähige Websites, die fesseln und konvertieren. Unser Fokus auf Geschwindigkeit und Benutzererlebnis liefert messbare Ergebnisse.",
+        "section2": "KI-gestützte Entwicklung ermöglicht es uns, komplexe Anwendungen schneller und effizienter zu erstellen, was die Markteinführungszeit verkürzt und Ihnen Kosten spart.",
+        "section3": "Von eleganten Marketing-Websites bis hin zu komplexen Webanwendungen – unsere maßgeschneiderten Lösungen sind darauf ausgelegt, Ihre Marke zu stärken und das Wachstum zu fördern."
+    },
+    "Stats": {
+        "lighthouse": "Durchschn. Lighthouse Perf",
+        "fcp": "FCP-Ziel",
+        "webVitals": "Core Web Vitals",
+        "devAcceleration": "Schnellere Entw.",
+        "timeToMarket": "Markteinführung",
+        "costReduction": "Kostenreduktion",
+        "satisfaction": "Kundenzufriedenheit",
+        "retention": "Projekttreue",
+        "seoBoost": "Durchschn. SEO-Boost"
+    },
     "Services": {
         "preTitle": "WAS WIR ANBIETEN",
         "title": "Leistungen",
