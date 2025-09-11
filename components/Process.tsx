@@ -11,48 +11,12 @@ import {
   MessageSquare,
   LifeBuoy,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const steps = [
-  {
-    title: '01. Discovery Call',
-    titleDescription: 'Understanding Your Vision',
-    description:
-      'A complimentary call to align on your vision and goals.',
-    icon: Phone,
-  },
-  {
-    title: '02. Proposal',
-    titleDescription: 'Crafting Your Blueprint',
-    description:
-      'A tailored proposal with scope, timeline, and transparent investment.',
-    icon: FileText,
-  },
-  {
-    title: '03. Development',
-    titleDescription: 'Bringing Ideas to Life',
-    description:
-      'We build your solution with precision and provide regular updates.',
-    icon: Code,
-  },
-  {
-    title: '04. Feedback',
-    titleDescription: 'Refining the Details',
-    description:
-      'We gather feedback at key milestones and iterate with you.',
-    icon: MessageSquare,
-  },
-  {
-    title: '05. Support',
-    titleDescription: 'Ensuring Long-Term Success',
-    description:
-      'Ongoing support and maintenance packages for long-term success.',
-    icon: LifeBuoy,
-  },
-];
-
 function Process() {
+  const t = useTranslations('Process');
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
@@ -62,6 +26,39 @@ function Process() {
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const steps = [
+    {
+      title: t('step1Title'),
+      titleDescription: t('step1TitleDescription'),
+      description: t('step1Description'),
+      icon: Phone,
+    },
+    {
+      title: t('step2Title'),
+      titleDescription: t('step2TitleDescription'),
+      description: t('step2Description'),
+      icon: FileText,
+    },
+    {
+      title: t('step3Title'),
+      titleDescription: t('step3TitleDescription'),
+      description: t('step3Description'),
+      icon: Code,
+    },
+    {
+      title: t('step4Title'),
+      titleDescription: t('step4TitleDescription'),
+      description: t('step4Description'),
+      icon: MessageSquare,
+    },
+    {
+      title: t('step5Title'),
+      titleDescription: t('step5TitleDescription'),
+      description: t('step5Description'),
+      icon: LifeBuoy,
+    },
+  ];
 
   useLayoutEffect(() => {
     const mm = gsap.matchMedia();
@@ -247,7 +244,7 @@ function Process() {
     return () => {
       mm.revert();
     };
-  }, []);
+  }, [t]);
 
   return (
     <section
@@ -258,37 +255,35 @@ function Process() {
       <Container>
         <div ref={containerRef} className="overflow-hidden">
           <span className="font-mono border-b border-gray-300 py-3 text-sm block">
-            02 HOW WE DO IT
+            03 {t('preTitle')}
           </span>
           <div className="flex flex-col lg:flex-row justify-between pt-10">
             <h1
               ref={headerRef}
               className="font-geometric text-5xl md:text-6xl lg:text-6xl xl:text-[75px] w-full lg:w-2/5"
             >
-              PROCESS
+              {t('title')}
             </h1>
             <p
               ref={paragraphRef}
               className="text-lg md:text-xl w-full lg:w-1/3 text-foreground"
             >
-              Our process is designed for clarity and collaboration,
-              ensuring every project is a partnership that leads to
-              exceptional results.
+              {t('description')}
             </p>
           </div>
 
           <div className="mt-12 lg:mt-16 xl:mt-20">
             <div className="hidden lg:flex gap-10 md:gap-20">
               <div className="relative w-1/3">
-                <div className="absolute left-3 top-0 w-0.5 bg-gray-200 h-full" />
+                <div className="absolute left-2 top-0 w-0.5 bg-gray-200 h-full" />
                 <div
                   ref={lineRef}
-                  className="absolute left-3 top-0 w-0.5 bg-primary origin-top"
+                  className="absolute left-2 top-0 w-0.5 bg-primary origin-top"
                   style={{ height: 0 }}
                 />
                 <div
                   ref={dotRef}
-                  className="absolute left-[12px] top-0 w-5 h-5 rounded-full bg-primary transform -translate-x-1/2 -translate-y-1/2"
+                  className="absolute left-[4px] top-0 w-4 h-4 rounded-full bg-primary transform -translate-x-1/2 -translate-y-1/2"
                 />
                 <div className="flex flex-col justify-between xl:min-h-[400px] 2xl:min-h-[700px]">
                   {steps.map((s, i) => (

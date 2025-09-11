@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 import { gsap } from 'gsap';
+import { useTranslations } from 'next-intl';
 
 const SERVICES = [
   'Marketing Website',
@@ -26,6 +27,7 @@ const SERVICES = [
 ];
 
 export default function ContactForm() {
+  const t = useTranslations('ContactForm');
   const basicsRefs = useRef<(HTMLElement | null)[]>([]);
   const projectRefs = useRef<(HTMLElement | null)[]>([]);
   const doneRefs = useRef<(HTMLElement | null)[]>([]);
@@ -108,7 +110,7 @@ export default function ContactForm() {
     if (loading) return;
 
     if (!projectValid) {
-      setError('Message is required.');
+      setError(t('messageRequired'));
       return;
     }
 
@@ -130,9 +132,7 @@ export default function ContactForm() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data?.error) {
-        setError(
-          data?.error || 'Something went wrong. Please try again.'
-        );
+        setError(data?.error || t('errorMessage'));
         setLoading(false);
         return;
       }
@@ -140,7 +140,7 @@ export default function ContactForm() {
       setLoading(false);
       animateSwap(3);
     } catch {
-      setError('Network error. Please try again.');
+      setError(t('networkError'));
       setLoading(false);
     }
   };
@@ -173,7 +173,7 @@ export default function ContactForm() {
         <StepDot
           current={step}
           me={1}
-          label="Basics"
+          label={t('step1')}
           onClick={() => animateSwap(1)}
           sent={sent}
         />
@@ -181,12 +181,17 @@ export default function ContactForm() {
         <StepDot
           current={step}
           me={2}
-          label="Project"
+          label={t('step2')}
           onClick={() => animateSwap(2)}
           sent={sent}
         />
         <div className="h-[3px] w-4 md:w-20 rounded-full bg-foreground/20" />
-        <StepDot current={step} me={3} label="Done" sent={sent} />
+        <StepDot
+          current={step}
+          me={3}
+          label={t('step3')}
+          sent={sent}
+        />
       </div>
 
       <div
@@ -197,7 +202,7 @@ export default function ContactForm() {
           <form onSubmit={onNextBasics} className="space-y-10">
             <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
               <UnderlinedField
-                label="Your name"
+                label={t('nameLabel')}
                 htmlFor="name"
                 icon={<User2 className="h-5 w-5" />}
                 ref={(el) => {
@@ -208,7 +213,7 @@ export default function ContactForm() {
                   id="name"
                   name="name"
                   autoComplete="name"
-                  placeholder="Jane Doe"
+                  placeholder={t('namePlaceholder')}
                   className={inputCardClass}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -218,7 +223,7 @@ export default function ContactForm() {
               </UnderlinedField>
 
               <UnderlinedField
-                label="Email"
+                label={t('emailLabel')}
                 htmlFor="email"
                 icon={<Mail className="h-5 w-5" />}
                 ref={(el) => {
@@ -231,7 +236,7 @@ export default function ContactForm() {
                   type="email"
                   autoComplete="email"
                   inputMode="email"
-                  placeholder="you@example.com"
+                  placeholder={t('emailPlaceholder')}
                   className={inputCardClass}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -241,7 +246,7 @@ export default function ContactForm() {
             </div>
 
             <UnderlinedField
-              label="Company (optional)"
+              label={t('companyLabel')}
               htmlFor="company"
               icon={<Building2 className="h-5 w-5" />}
               ref={(el) => {
@@ -251,7 +256,7 @@ export default function ContactForm() {
               <Input
                 id="company"
                 name="company"
-                placeholder="Acme Inc."
+                placeholder={t('companyPlaceholder')}
                 className={inputCardClass}
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
@@ -276,13 +281,13 @@ export default function ContactForm() {
                     : 'hover:opacity-90'
                 )}
               >
-                <span>Next</span>
+                <span>{t('nextButton')}</span>
                 <ArrowRight className="ml-2 h-6 w-6" />
               </Button>
 
               {!basicsValid && (
                 <p className="mt-3 text-sm text-foreground/70">
-                  Enter your name and a valid email to continue.
+                  {t('validationMessage')}
                 </p>
               )}
             </div>
@@ -297,7 +302,7 @@ export default function ContactForm() {
               }}
             >
               <Label className="text-sm uppercase tracking-[0.14em] text-foreground">
-                What do you need? (select all that apply)
+                {t('servicesLabel')}
               </Label>
 
               <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -347,7 +352,7 @@ export default function ContactForm() {
             </div>
 
             <UnderlinedField
-              label="Project brief"
+              label={t('briefLabel')}
               htmlFor="message"
               ref={(el) => {
                 projectRefs.current[1 + SERVICES.length] = el;
@@ -357,7 +362,7 @@ export default function ContactForm() {
                 id="message"
                 name="message"
                 rows={6}
-                placeholder="Goals, timeline, references, success criteria…"
+                placeholder={t('briefPlaceholder')}
                 className={textareaCardClass}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
@@ -395,7 +400,7 @@ export default function ContactForm() {
                   className="rounded-full bg-transparent px-6 py-5 text-base text-foreground hover:bg-foreground/20"
                 >
                   <ArrowLeft className="mr-2 h-6 w-6" />
-                  Back
+                  {t('backButton')}
                 </Button>
                 <Button
                   type="submit"
@@ -403,13 +408,13 @@ export default function ContactForm() {
                   disabled={loading || !projectValid}
                   className="cursor-pointer rounded-full bg-foreground px-10 py-4 text-sm text-card hover:bg-0 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {loading ? 'Sending…' : 'Send message'}
+                  {loading ? t('sendingButton') : t('sendButton')}
                 </Button>
               </div>
 
               {!projectValid && !loading && (
                 <p className="mt-3 text-sm text-foreground/70">
-                  Please enter a message to continue.
+                  {t('messageRequired')}
                 </p>
               )}
 
@@ -435,10 +440,10 @@ export default function ContactForm() {
             </div>
 
             <h3 className="text-2xl font-semibold text-foreground md:text-3xl">
-              {sent ? 'Thank you!' : 'All set!'}
+              {t('thankYou')}
             </h3>
             <p className="mt-3 text-[15px] text-foreground/70">
-              We’ll be in touch within 1–2 business days.
+              {t('confirmation')}
             </p>
             <div className="mt-8">
               <Button
@@ -446,7 +451,7 @@ export default function ContactForm() {
                 variant="ghost"
                 className="cursor-pointer rounded-full bg-transparent px-6 py-5 text-base text-foreground hover:bg-foreground/10"
               >
-                Send another
+                {t('sendAnother')}
               </Button>
             </div>
           </div>

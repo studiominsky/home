@@ -1,21 +1,135 @@
 {
     "Home": {
-        "title": "Digitale Produkte für die Welt von heute",
-        "status": "Digital products for today’s world.",
-        "description": "Studio Minsky entwickelt digitale Tools, die das Wachstum Ihres Unternehmens fördern. Von Websites, die Besucher zu Kunden machen, bis hin zu maßgeschneiderter Software, die Ihre Abläufe optimiert."
+        "title": "Digitale Produkte für die Welt von heute.",
+        "description": "Studio Minsky entwickelt digitale Werkzeuge, die das Geschäftswachstum fördern. Von Websites, die Besucher in Kunden verwandeln, bis hin zu maßgeschneiderter Software, die Ihre Abläufe optimiert.",
+        "availability": "Verfügbar für neue Projekte"
     },
     "Header": {
-        "services": "Services",
-        "projects": "Projects",
-        "process": "Process",
+        "services": "Leistungen",
+        "projects": "Projekte",
+        "process": "Prozess",
         "blog": "Blog",
-        "settings": "Settings",
-        "contact": "Contact",
-        "latest": "Latests",
-        "theme": "Theme",
-        "color": "Color",
-        "language": "Language",
-        "dialogTitle": "Tell us about your project.",
-        "dialogDescription": "Quick form. Two steps. We’ll reply within 1–2 business days."
+        "settings": "Einstellungen",
+        "contact": "Kontakt",
+        "latest": "Neueste",
+        "theme": "Thema",
+        "color": "Farbe",
+        "language": "Sprache",
+        "dialogTitle": "Erzählen Sie uns von Ihrem Projekt.",
+        "dialogDescription": "Kurzes Formular. Zwei Schritte. Wir antworten innerhalb von 1–2 Werktagen.",
+        "noPostsYet": "Noch keine Blogbeiträge."
+    },
+    "Services": {
+        "preTitle": "WAS WIR ANBIETEN",
+        "title": "Leistungen",
+        "description": "Von Websites, die Besucher in Kunden verwandeln, bis hin zu maßgeschneiderter Software, die Ihre Abläufe optimiert – jedes Produkt ist darauf ausgelegt, Ihre Wirkung und Effizienz zu steigern.",
+        "webApplications": "Webanwendungen",
+        "webApplicationsDescription": "Wir erstellen robuste und skalierbare Webanwendungen, die auf Ihre Geschäftsanforderungen zugeschnitten sind. Von komplexen Dashboards bis hin zu interaktiven Plattformen liefern wir hochleistungsfähige Lösungen.",
+        "webApplicationsAdditional": "Unsere Anwendungen steigern nachweislich die Nutzerbindung um durchschnittlich 40 %.",
+        "websites": "Websites",
+        "websitesDescription": "Ihre Website ist Ihr digitales Aushängeschild. Wir erstellen ansprechende, reaktionsschnelle und SEO-freundliche Websites, die die Essenz Ihrer Marke einfangen und Besucher in Kunden verwandeln.",
+        "websitesAdditional": "Wir konzentrieren uns auf einen Mobile-First-Ansatz, um ein nahtloses Erlebnis auf allen Geräten zu gewährleisten.",
+        "dataVisualizations": "Datenvisualisierungen",
+        "dataVisualizationsDescription": "Wir verwandeln komplexe Daten in klare und überzeugende visuelle Geschichten. Unsere interaktiven Diagramme und Karten helfen Ihnen, Erkenntnisse zu gewinnen und datengestützte Entscheidungen zu treffen.",
+        "dataVisualizationsAdditional": "Unsere Visualisierungen wurden in mehreren branchenführenden Publikationen vorgestellt.",
+        "aiIntegrations": "KI-Integrationen",
+        "aiIntegrationsDescription": "Nutzen Sie die Kraft der KI, um Prozesse zu automatisieren und das Nutzererlebnis zu verbessern. Wir integrieren modernste KI-Modelle in Ihre Produkte und Arbeitsabläufe.",
+        "aiIntegrationsAdditional": "Automatisieren Sie bis zu 80 % Ihrer Kundensupport-Anfragen mit unseren KI-gestützten Chatbots.",
+        "chatbots": "Chatbots",
+        "chatbotsDescription": "Binden Sie Ihr Publikum mit intelligenten und dialogorientierten Chatbots. Wir entwerfen und erstellen benutzerdefinierte Chatbots für Kundensupport, Lead-Generierung und mehr.",
+        "chatbotsAdditional": "Unsere Chatbots sind rund um die Uhr verfügbar und bieten Ihren Kunden sofortige Unterstützung."
+    },
+    "Projects": {
+        "preTitle": "AUSGEWÄHLTE ARBEITEN",
+        "title": "Projekte",
+        "description": "Unser Portfolio zeigt unser Engagement für Qualität, Leistung und benutzerzentriertes Design. Entdecken Sie einige unserer jüngsten Arbeiten.",
+        "keyFeatures": "Hauptmerkmale",
+        "viewLiveSite": "Live-Seite ansehen"
+    },
+    "Process": {
+        "preTitle": "WIE WIR ARBEITEN",
+        "title": "Prozess",
+        "description": "Unser Prozess ist auf Klarheit und Zusammenarbeit ausgelegt und stellt sicher, dass jedes Projekt eine Partnerschaft ist, die zu außergewöhnlichen Ergebnissen führt.",
+        "step1Title": "01. Erstgespräch",
+        "step1TitleDescription": "Ihre Vision verstehen",
+        "step1Description": "Ein kostenloses Gespräch, um Ihre Vision und Ziele abzugleichen.",
+        "step2Title": "02. Angebot",
+        "step2TitleDescription": "Ihr Konzept erstellen",
+        "step2Description": "Ein maßgeschneidertes Angebot mit Umfang, Zeitplan und transparenter Investition.",
+        "step3Title": "03. Entwicklung",
+        "step3TitleDescription": "Ideen zum Leben erwecken",
+        "step3Description": "Wir entwickeln Ihre Lösung mit Präzision und liefern regelmäßige Updates.",
+        "step4Title": "04. Feedback",
+        "step4TitleDescription": "Details verfeinern",
+        "step4Description": "Wir sammeln an wichtigen Meilensteinen Feedback und iterieren mit Ihnen.",
+        "step5Title": "05. Support",
+        "step5TitleDescription": "Langfristigen Erfolg sichern",
+        "step5Description": "Laufende Support- und Wartungspakete für langfristigen Erfolg."
+    },
+    "Blog": {
+        "preTitle": "AUS DEM BLOG",
+        "title": "Blog",
+        "description": "Eine Sammlung unserer Gedanken zu Design, Entwicklung und Zusammenarbeit. Verwenden Sie die Tags, um Artikel nach Themen zu filtern.",
+        "seeAll": "Alle Artikel ansehen"
+    },
+    "Contact": {
+        "title": "Erzählen Sie uns von Ihrem Projekt.",
+        "description": "Kurzes Formular. Zwei Schritte. Wir antworten innerhalb von 1–2 Werktagen."
+    },
+    "ContactForm": {
+        "step1": "Basis",
+        "step2": "Projekt",
+        "step3": "Fertig",
+        "nameLabel": "Ihr Name",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "E-Mail",
+        "emailPlaceholder": "sie@beispiel.com",
+        "companyLabel": "Firma (optional)",
+        "companyPlaceholder": "Acme Inc.",
+        "nextButton": "Weiter",
+        "validationMessage": "Geben Sie Ihren Namen und eine gültige E-Mail-Adresse ein, um fortzufahren.",
+        "servicesLabel": "Was benötigen Sie? (Mehrfachauswahl möglich)",
+        "briefLabel": "Projektbeschreibung",
+        "briefPlaceholder": "Ziele, Zeitplan, Referenzen, Erfolgskriterien…",
+        "backButton": "Zurück",
+        "sendButton": "Nachricht senden",
+        "sendingButton": "Wird gesendet…",
+        "messageRequired": "Bitte geben Sie eine Nachricht ein, um fortzufahren.",
+        "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+        "networkError": "Netzwerkfehler. Bitte versuchen Sie es erneut.",
+        "thankYou": "Vielen Dank!",
+        "confirmation": "Wir werden uns innerhalb von 1–2 Werktagen bei Ihnen melden.",
+        "sendAnother": "Weitere senden"
+    },
+    "Footer": {
+        "description": "Studio Minsky — entwickelt durchdachte, schnelle und zugängliche Weberlebnisse.",
+        "email": "hallo@studiominsky.com",
+        "services": "Leistungen",
+        "projects": "Projekte",
+        "process": "Prozess",
+        "contact": "Kontakt",
+        "privacy": "Datenschutz",
+        "terms": "AGB",
+        "linkedin": "LinkedIn",
+        "github": "GitHub",
+        "twitter": "X",
+        "rights": "Alle Rechte vorbehalten."
+    },
+    "Chatbot": {
+        "greeting": "Hallo! Ich bin der Assistent von Studio Minsky. Fragen Sie mich nach unseren Leistungen, Projekten oder unserem Prozess."
+    },
+    "BlogPage": {
+        "backToHome": "Zurück zur Startseite",
+        "title": "Unser Blog",
+        "description": "Eine Sammlung unserer Gedanken zu Design, Entwicklung und Zusammenarbeit. Verwenden Sie die Tags, um Artikel nach Themen zu filtern.",
+        "allTopics": "Alle Themen",
+        "allPosts": "Alle Beiträge",
+        "noPosts": "Keine Beiträge für \"{tag}\" gefunden",
+        "noPostsDescription": "Versuchen Sie, einen anderen Tag auszuwählen."
+    },
+    "BlogPostPage": {
+        "publishedOn": "Veröffentlicht am",
+        "summary": "Zusammenfassung",
+        "tocTitle": "Auf dieser Seite"
     }
 }

@@ -1,8 +1,8 @@
 {
     "Home": {
         "title": "Digital products for today’s world.",
-        "status": "Digital products for today’s world.",
-        "description": "Studio Minsky builds the digital tools that drive business growth. From websites that turn visitors into customers, to custom software that streamlines your operations."
+        "description": "Studio Minsky builds the digital tools that drive business growth. From websites that turn visitors into customers, to custom software that streamlines your operations.",
+        "availability": "Available for new projects"
     },
     "Header": {
         "services": "Services",
@@ -11,11 +11,125 @@
         "blog": "Blog",
         "settings": "Settings",
         "contact": "Contact",
-        "latest": "Latests",
+        "latest": "Latest",
         "theme": "Theme",
         "color": "Color",
         "language": "Language",
         "dialogTitle": "Tell us about your project.",
-        "dialogDescription": "Quick form. Two steps. We’ll reply within 1–2 business days."
+        "dialogDescription": "Quick form. Two steps. We’ll reply within 1–2 business days.",
+        "noPostsYet": "No blog posts yet."
+    },
+    "Services": {
+        "preTitle": "WHAT WE OFFER",
+        "title": "Services",
+        "description": "From websites that turn visitors into customers, to custom software that streamlines your operations, every product is designed to increase your impact and efficiency.",
+        "webApplications": "Web Applications",
+        "webApplicationsDescription": "We build robust and scalable web applications tailored to your business needs. From complex dashboards to interactive platforms, we deliver high-performance solutions.",
+        "webApplicationsAdditional": "Our applications have proven to increase user engagement by an average of 40%.",
+        "websites": "Websites",
+        "websitesDescription": "Your website is your digital storefront. We create beautiful, responsive, and SEO-friendly websites that capture your brand's essence and convert visitors into customers.",
+        "websitesAdditional": "We focus on a mobile-first approach, ensuring a seamless experience on all devices.",
+        "dataVisualizations": "Data Visualizations",
+        "dataVisualizationsDescription": "We transform complex data into clear and compelling visual stories. Our interactive charts and maps help you uncover insights and make data-driven decisions.",
+        "dataVisualizationsAdditional": "Our visualizations have been featured in several industry-leading publications.",
+        "aiIntegrations": "AI Integrations",
+        "aiIntegrationsDescription": "Leverage the power of AI to automate processes and enhance user experiences. We integrate cutting-edge AI models into your products and workflows.",
+        "aiIntegrationsAdditional": "Automate up to 80% of your customer support inquiries with our AI-powered chatbots.",
+        "chatbots": "Chatbots",
+        "chatbotsDescription": "Engage your audience with intelligent and conversational chatbots. We design and build custom chatbots for customer support, lead generation, and more.",
+        "chatbotsAdditional": "Our chatbots are available 24/7, providing instant support to your customers."
+    },
+    "Projects": {
+        "preTitle": "SELECTED WORK",
+        "title": "Projects",
+        "description": "Our portfolio showcases our commitment to quality, performance, and user-centric design. Explore some of our recent work.",
+        "keyFeatures": "Key Features",
+        "viewLiveSite": "View Live Site"
+    },
+    "Process": {
+        "preTitle": "HOW WE DO IT",
+        "title": "Process",
+        "description": "Our process is designed for clarity and collaboration, ensuring every project is a partnership that leads to exceptional results.",
+        "step1Title": "01. Discovery Call",
+        "step1TitleDescription": "Understanding Your Vision",
+        "step1Description": "A complimentary call to align on your vision and goals.",
+        "step2Title": "02. Proposal",
+        "step2TitleDescription": "Crafting Your Blueprint",
+        "step2Description": "A tailored proposal with scope, timeline, and transparent investment.",
+        "step3Title": "03. Development",
+        "step3TitleDescription": "Bringing Ideas to Life",
+        "step3Description": "We build your solution with precision and provide regular updates.",
+        "step4Title": "04. Feedback",
+        "step4TitleDescription": "Refining the Details",
+        "step4Description": "We gather feedback at key milestones and iterate with you.",
+        "step5Title": "05. Support",
+        "step5TitleDescription": "Ensuring Long-Term Success",
+        "step5Description": "Ongoing support and maintenance packages for long-term success."
+    },
+    "Blog": {
+        "preTitle": "FROM THE BLOG",
+        "title": "Blog",
+        "description": "A collection of our thoughts on design, development, and collaboration. Use the tags to filter articles by topic.",
+        "seeAll": "See all articles"
+    },
+    "Contact": {
+        "title": "Tell us about your project.",
+        "description": "Quick form. Two steps. We’ll reply within 1–2 business days."
+    },
+    "ContactForm": {
+        "step1": "Basics",
+        "step2": "Project",
+        "step3": "Done",
+        "nameLabel": "Your name",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "companyLabel": "Company (optional)",
+        "companyPlaceholder": "Acme Inc.",
+        "nextButton": "Next",
+        "validationMessage": "Enter your name and a valid email to continue.",
+        "servicesLabel": "What do you need? (select all that apply)",
+        "briefLabel": "Project brief",
+        "briefPlaceholder": "Goals, timeline, references, success criteria…",
+        "backButton": "Back",
+        "sendButton": "Send message",
+        "sendingButton": "Sending…",
+        "messageRequired": "Please enter a message to continue.",
+        "errorMessage": "Something went wrong. Please try again.",
+        "networkError": "Network error. Please try again.",
+        "thankYou": "Thank you!",
+        "confirmation": "We’ll be in touch within 1–2 business days.",
+        "sendAnother": "Send another"
+    },
+    "Footer": {
+        "description": "Studio Minsky — building thoughtful, fast, and accessible web experiences.",
+        "email": "hello@studiominsky.com",
+        "services": "Services",
+        "projects": "Projects",
+        "process": "Process",
+        "contact": "Contact",
+        "privacy": "Privacy",
+        "terms": "Terms",
+        "linkedin": "LinkedIn",
+        "github": "GitHub",
+        "twitter": "X",
+        "rights": "All rights reserved."
+    },
+    "Chatbot": {
+        "greeting": "Hi! I’m the Studio Minsky assistant. Ask me about our services, projects, or process."
+    },
+    "BlogPage": {
+        "backToHome": "Back to Home",
+        "title": "Our Blog",
+        "description": "A collection of our thoughts on design, development, and collaboration. Use the tags to filter articles by topic.",
+        "allTopics": "All topics",
+        "allPosts": "All Posts",
+        "noPosts": "No posts found for \"{tag}\"",
+        "noPostsDescription": "Try selecting another tag."
+    },
+    "BlogPostPage": {
+        "publishedOn": "Published on",
+        "summary": "Summary",
+        "tocTitle": "On this page"
     }
 }

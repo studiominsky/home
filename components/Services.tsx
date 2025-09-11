@@ -11,60 +11,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { useTranslations } from 'next-intl';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface ServiceDataItem {
-  title: string;
-  description: string;
-  tags: string[];
-  additional: string;
-}
-
-const serviceData: ServiceDataItem[] = [
-  {
-    title: 'Web Applications',
-    description:
-      'We build robust and scalable web applications tailored to your business needs. We build robust and scalable web applications tailored to your business needs. From complex dashboards to interactive platforms, we deliver high-performance solutions. From complex dashboards to interactive platforms, we deliver high-performance solutions. ',
-    tags: ['React', 'Next.js', 'Node.js', 'Databases'],
-    additional:
-      '1.0 Our applications have proven to increase user engagement by an average of 40%.',
-  },
-  {
-    title: 'Websites',
-    description:
-      "Your website is your digital storefront. We create beautiful, responsive, and SEO-friendly websites that capture your brand's essence and convert visitors into customers.",
-    tags: ['Webflow', 'Wordpress', 'Shopify', 'SEO'],
-    additional:
-      '2.0 We focus on a mobile-first approach, ensuring a seamless experience on all devices.',
-  },
-  {
-    title: 'Data Visualizations',
-    description:
-      'We transform complex data into clear and compelling visual stories. Our interactive charts and maps help you uncover insights and make data-driven decisions.',
-    tags: ['D3.js', 'Tableau', 'PowerBI', 'Charts'],
-    additional:
-      '3.0 Our visualizations have been featured in several industry-leading publications.',
-  },
-  {
-    title: 'AI Integrations',
-    description:
-      'Leverage the power of AI to automate processes and enhance user experiences. We integrate cutting-edge AI models into your products and workflows.',
-    tags: ['OpenAI', 'LangChain', 'Embeddings', 'Automation'],
-    additional:
-      '4.0 Automate up to 80% of your customer support inquiries with our AI-powered chatbots.',
-  },
-  {
-    title: 'Chatbots',
-    description:
-      'Engage your audience with intelligent and conversational chatbots. We design and build custom chatbots for customer support, lead generation, and more.',
-    tags: ['Dialogflow', 'Botpress', 'NLP', 'Conversational AI'],
-    additional:
-      '5.0 Our chatbots are available 24/7, providing instant support to your customers.',
-  },
-];
-
 const Services: React.FC = () => {
+  const t = useTranslations('Services');
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(
     null
@@ -80,6 +32,39 @@ const Services: React.FC = () => {
 
   const circleRefs = useRef<(HTMLDivElement | null)[]>([]);
   const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
+
+  const serviceData = [
+    {
+      title: t('webApplications'),
+      description: t('webApplicationsDescription'),
+      tags: ['React', 'Next.js', 'Node.js', 'Databases'],
+      additional: t('webApplicationsAdditional'),
+    },
+    {
+      title: t('websites'),
+      description: t('websitesDescription'),
+      tags: ['Webflow', 'Wordpress', 'Shopify', 'SEO'],
+      additional: t('websitesAdditional'),
+    },
+    {
+      title: t('dataVisualizations'),
+      description: t('dataVisualizationsDescription'),
+      tags: ['D3.js', 'Tableau', 'PowerBI', 'Charts'],
+      additional: t('dataVisualizationsAdditional'),
+    },
+    {
+      title: t('aiIntegrations'),
+      description: t('aiIntegrationsDescription'),
+      tags: ['OpenAI', 'LangChain', 'Embeddings', 'Automation'],
+      additional: t('aiIntegrationsAdditional'),
+    },
+    {
+      title: t('chatbots'),
+      description: t('chatbotsDescription'),
+      tags: ['Dialogflow', 'Botpress', 'NLP', 'Conversational AI'],
+      additional: t('chatbotsAdditional'),
+    },
+  ];
 
   useLayoutEffect(() => {
     if (browserContentRef.current) {
@@ -193,7 +178,7 @@ const Services: React.FC = () => {
     >
       <Container>
         <span className="font-mono border-b border-border py-3 text-sm w-full block">
-          01 WHAT WE OFFER
+          01 {t('preTitle')}
         </span>
         <div className="flex flex-col pt-10">
           <div className="flex flex-col lg:flex-row justify-between gap-10">
@@ -201,17 +186,13 @@ const Services: React.FC = () => {
               ref={headerRef}
               className="font-geometric text-5xl md:text-6xl lg:text-[75px] flex items-center gap-5 w-full lg:w-2/5"
             >
-              <span>SERVICES</span>
+              <span>{t('title')}</span>
             </h1>
             <p
               ref={paragraphRef}
               className="text-lg md:text-xl w-full lg:w-1/3"
             >
-              Studio Minsky builds the digital tools that drive
-              business growth. From websites that turn visitors into
-              customers, to custom software that streamlines your
-              operations, every product is designed to increase your
-              impact and efficiency.
+              {t('description')}
             </p>
           </div>
 

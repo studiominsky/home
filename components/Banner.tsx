@@ -373,7 +373,7 @@ export default function Banner() {
           ref={textFullWidthRef}
           className="absolute bottom-10 flex w-[80%] lg:w-[70%] xl:w-[60%] flex-col text-foreground"
         >
-          <span className="font-geometric text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-[100px] leading-tight lg:leading-[1.25] flex flex-col">
+          <span className="font-geometric text-4xl xs:text-5xl sm:text-6xl lg:text-7xl 2xl:text-[100px] leading-tight lg:leading-[1.25] flex flex-col">
             <span>{t('title')}</span>
           </span>
 
