@@ -5,8 +5,10 @@ import { TrendingUp } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ChartAreaGradient } from '../Chart';
 import InvoiceTable from '../Table';
+import { useTranslations } from 'next-intl';
 
 const WebAppVisual: React.FC = () => {
+  const t = useTranslations('Visuals.WebApp');
   const gridRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -33,7 +35,9 @@ const WebAppVisual: React.FC = () => {
         className="w-full h-full flex flex-col gap-4 md:grid md:grid-cols-3 md:grid-rows-3 md:gap-7"
       >
         <div className="md:col-span-2 md:row-span-2 bg-card border border-border rounded-md p-4 flex flex-col">
-          <h4 className="font-semibold text-foreground">Revenue</h4>
+          <h4 className="font-semibold text-foreground">
+            {t('revenue')}
+          </h4>
           <div className="flex items-center gap-2 mt-3">
             <span className="text-3xl md:text-4xl">$20.5K</span>
             <span className="flex flex-col">
@@ -47,7 +51,7 @@ const WebAppVisual: React.FC = () => {
         </div>
         <div className="md:col-start-3 bg-card border border-border rounded-md p-4 flex flex-col items-center justify-center text-center">
           <h4 className="font-semibold text-foreground/80 text-sm">
-            Conversion Rate
+            {t('conversionRate')}
           </h4>
           <div className="flex items-baseline gap-2 mt-2">
             <span className="text-3xl md:text-[38px] font-bold text-foreground">
@@ -61,12 +65,12 @@ const WebAppVisual: React.FC = () => {
         </div>
         <div className="md:col-start-3 md:row-start-2 bg-card p-4 border border-border rounded-md flex flex-col justify-center">
           <h4 className="font-semibold text-foreground">
-            Project Status
+            {t('projectStatus')}
           </h4>
           <div className="mt-4 space-y-4">
             <div>
               <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                <span>Frontend</span>
+                <span>{t('frontend')}</span>
                 <span>80%</span>
               </div>
               <div className="w-full bg-muted rounded-full h-2">
@@ -78,7 +82,7 @@ const WebAppVisual: React.FC = () => {
             </div>
             <div>
               <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                <span>Backend</span>
+                <span>{t('backend')}</span>
                 <span>65%</span>
               </div>
               <div className="w-full bg-muted rounded-full h-2">
@@ -91,7 +95,7 @@ const WebAppVisual: React.FC = () => {
           </div>
         </div>
         <div className="md:col-span-3 bg-card p-4 border border-border rounded-md">
-          <h4 className="font-semibold mb-4">Customers</h4>
+          <h4 className="font-semibold mb-4">{t('customers')}</h4>
           <InvoiceTable />
         </div>
       </div>

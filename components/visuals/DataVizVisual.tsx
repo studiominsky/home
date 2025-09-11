@@ -12,8 +12,10 @@ import {
   type ChartConfig,
 } from '@/components/ui/chart';
 import { gsap } from 'gsap';
+import { useTranslations } from 'next-intl';
 
 const DataVizVisual: React.FC = () => {
+  const t = useTranslations('Visuals.DataViz');
   const vizRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -140,10 +142,10 @@ const DataVizVisual: React.FC = () => {
         <div className="md:col-span-4 lg:col-span-4 lg:row-span-2 gradient-card bg-card border border-border rounded-md p-4 flex flex-col">
           <div className="text-center z-10">
             <h4 className="font-semibold text-foreground">
-              Radial Chart - Browser Share
+              {t('chartTitle')}
             </h4>
             <p className="text-sm text-foreground/60">
-              January - June 2025
+              {t('chartSubtitle')}
             </p>
           </div>
           <div className="relative z-10 mt-2 flex-1 min-h-[260px] sm:min-h-[300px] lg:min-h-[350px] pb-4">
@@ -176,7 +178,7 @@ const DataVizVisual: React.FC = () => {
           </div>
           <div className="flex-col gap-2 text-sm text-center z-10 mt-auto">
             <div className="flex items-center justify-center gap-2 font-medium">
-              Trending up by 5.2% this month
+              {t('trendingUp')}
               <TrendingUp className="h-4 w-4" />
             </div>
           </div>
@@ -184,7 +186,7 @@ const DataVizVisual: React.FC = () => {
 
         <div className="md:col-span-2 lg:col-span-2 bg-card border border-border rounded-md p-4 flex flex-col items-center justify-center text-center">
           <h4 className="font-semibold text-foreground/80 text-sm">
-            Conversion Rate
+            {t('conversionRate')}
           </h4>
           <div className="flex items-baseline gap-2 mt-2">
             <span className="text-3xl sm:text-[38px] font-bold text-foreground">
@@ -199,7 +201,7 @@ const DataVizVisual: React.FC = () => {
 
         <div className="md:col-span-2 lg:col-span-2 bg-card border border-border rounded-md p-4 flex flex-col">
           <h4 className="font-semibold text-sm text-foreground text-center">
-            Key Dates
+            {t('keyDates')}
           </h4>
           <div className="grid grid-cols-7 gap-y-1 text-center text-xs text-foreground/60 mt-2">
             {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
@@ -221,12 +223,12 @@ const DataVizVisual: React.FC = () => {
         <div className="md:col-span-4 lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-7">
           <div className="bg-card border border-border rounded-md p-4 flex flex-col">
             <h4 className="font-semibold text-foreground mb-4">
-              Performance Metrics
+              {t('performanceMetrics')}
             </h4>
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                  <span>Speed</span>
+                  <span>{t('speed')}</span>
                   <span>95%</span>
                 </div>
                 <div
@@ -238,7 +240,7 @@ const DataVizVisual: React.FC = () => {
               </div>
               <div>
                 <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                  <span>Usability</span>
+                  <span>{t('usability')}</span>
                   <span>82%</span>
                 </div>
                 <div
@@ -250,7 +252,7 @@ const DataVizVisual: React.FC = () => {
               </div>
               <div>
                 <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                  <span>Accessibility</span>
+                  <span>{t('accessibility')}</span>
                   <span>95%</span>
                 </div>
                 <div
@@ -265,7 +267,7 @@ const DataVizVisual: React.FC = () => {
 
           <div className="bg-card border border-border rounded-md p-4 flex flex-col">
             <h4 className="font-semibold text-foreground mb-3">
-              Employee Task Distribution
+              {t('employeeTasks')}
             </h4>
             <div className="space-y-3">
               {employeeData.map((employee) => (

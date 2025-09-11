@@ -12,6 +12,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
 import Image from 'next/image';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +26,7 @@ type Article = {
 };
 
 export default function Blog() {
+  const t = useTranslations('Blog');
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLHeadingElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
@@ -99,22 +101,20 @@ export default function Blog() {
       <Container>
         <div className="overflow-hidden">
           <span className="font-mono border-b border-gray-300 py-3 text-sm block">
-            02 SOME TEXT HERE
+            04 {t('preTitle')}
           </span>
           <div className="flex flex-col lg:flex-row justify-between pt-10">
             <h1
               ref={headerRef}
               className="font-geometric text-5xl md:text-[75px] w-full lg:w-2/5 opacity-0 translate-y-8"
             >
-              BLOG
+              {t('title')}
             </h1>
             <p
               ref={paragraphRef}
               className="text-lg md:text-xl w-full lg:w-1/3 text-foreground opacity-0 translate-y-8"
             >
-              Our Blog is designed for clarity and collaboration,
-              ensuring every project is a partnership that leads to
-              exceptional results. Try deploy.
+              {t('description')}
             </p>
           </div>
 
@@ -179,7 +179,7 @@ export default function Blog() {
               letterSpacing: 'initial',
             }}
           >
-            See all articles
+            {t('seeAll')}
           </Link>
         </div>
       </Container>

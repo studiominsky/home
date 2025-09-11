@@ -14,8 +14,10 @@ import {
   BarChart3,
 } from 'lucide-react';
 import { gsap } from 'gsap';
+import { useTranslations } from 'next-intl';
 
 const AiVisual: React.FC = () => {
+  const t = useTranslations('Visuals.AI');
   const aiRef = useRef<HTMLDivElement>(null);
   const cpuContainerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -146,28 +148,24 @@ const AiVisual: React.FC = () => {
     {
       type: 'list',
       icon: Zap,
-      title: 'What is AI Integration?',
-      content: [
-        'Automating tasks for more strategic work.',
-        'Enhancing decision-making with data insights.',
-        'Personalizing customer experiences.',
-      ],
+      title: t('card1Title'),
+      content: [t('card1Item1'), t('card1Item2'), t('card1Item3')],
     },
     {
       type: 'list',
       icon: TrendingUp,
-      title: 'Benefits of AI Integration',
+      title: t('card2Title'),
       content: [
-        'Increased efficiency and productivity.',
-        'Reduced costs through automation.',
-        'Enhanced customer satisfaction and loyalty.',
-        'A significant competitive advantage.',
+        t('card2Item1'),
+        t('card2Item2'),
+        t('card2Item3'),
+        t('card2Item4'),
       ],
     },
     {
       type: 'json',
       icon: FileJson2,
-      title: 'AI in Action: Product Recommendation',
+      title: t('card3Title'),
       content: (
         <div className="font-mono text-[10px]">
           <p>{'{'}</p>
@@ -210,7 +208,7 @@ const AiVisual: React.FC = () => {
     {
       type: 'chart',
       icon: BarChart3,
-      title: 'AI-Powered Data Analysis',
+      title: t('card4Title'),
       content: (
         <div className="space-y-3 text-xs text-foreground/70">
           <div>
@@ -232,7 +230,7 @@ const AiVisual: React.FC = () => {
             </div>
           </div>
           <p className="text-sm pt-1 font-semibold text-foreground">
-            AI identifies key trends for growth.
+            {t('card4Description')}
           </p>
         </div>
       ),
@@ -261,7 +259,7 @@ const AiVisual: React.FC = () => {
 
       <div className="relative flex flex-col items-center ai-center-element z-10">
         <h3 className="text-xl flex sm:hidden xl:flex sm:text-2xl font-bold font-geometric text-foreground mb-4 xl:mb-10 text-center">
-          AI Integration for Business
+          {t('mainTitle')}
         </h3>
         <div
           ref={cpuContainerRef}

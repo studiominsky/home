@@ -3,8 +3,10 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { Zap, Smartphone, TrendingUp } from 'lucide-react';
 import { gsap } from 'gsap';
+import { useTranslations } from 'next-intl';
 
 export function WebsiteVisual() {
+  const t = useTranslations('Visuals.Website');
   const visualRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -72,23 +74,22 @@ export function WebsiteVisual() {
       <header className="flex justify-between items-center p-4">
         <div className="nav-item w-5 h-5 rounded-full bg-primary" />
         <nav className="hidden sm:flex gap-6 text-sm text-foreground/80">
-          <span className="nav-item">Home</span>
-          <span className="nav-item">About</span>
-          <span className="nav-item">Services</span>
-          <span className="nav-item">Contact</span>
+          <span className="nav-item">{t('navHome')}</span>
+          <span className="nav-item">{t('navAbout')}</span>
+          <span className="nav-item">{t('navServices')}</span>
+          <span className="nav-item">{t('navContact')}</span>
         </nav>
       </header>
 
       <div className="flex-grow flex flex-col items-center mt-8 sm:mt-16 text-center px-4 pb-10 sm:pb-16">
         <h1 className="hero-title text-3xl sm:text-5xl font-bold font-geometric max-w-2xl leading-tight text-foreground">
-          Your Amazing Website
+          {t('heroTitle')}
         </h1>
         <p className="hero-subtitle text-base sm:text-lg text-foreground/70 mt-4 max-w-xl">
-          We build lightning-fast, visually stunning, and
-          user-friendly websites that convert visitors into customers.
+          {t('heroSubtitle')}
         </p>
         <button className="hero-cta mt-8 bg-positive text-background font-semibold py-3 px-8 rounded-full">
-          Get Started
+          {t('cta')}
         </button>
 
         <div className="w-full max-w-3xl mx-auto mt-[7.5rem] sm:mt-24 md:mt-52">
@@ -100,11 +101,10 @@ export function WebsiteVisual() {
               </div>
               <div>
                 <h4 className="font-semibold text-foreground">
-                  Lightning Fast
+                  {t('feature1Title')}
                 </h4>
                 <p className="text-sm  text-foreground/60 mt-1">
-                  Optimized for performance to ensure the best user
-                  experience.
+                  {t('feature1Description')}
                 </p>
               </div>
             </div>
@@ -114,11 +114,10 @@ export function WebsiteVisual() {
               </div>
               <div>
                 <h4 className="font-semibold text-foreground">
-                  Fully Responsive
+                  {t('feature2Title')}
                 </h4>
                 <p className="text-sm text-foreground/60 mt-1">
-                  Looks perfect on all devices, from desktops to
-                  smartphones.
+                  {t('feature2Description')}
                 </p>
               </div>
             </div>
@@ -128,11 +127,10 @@ export function WebsiteVisual() {
               </div>
               <div>
                 <h4 className="font-semibold text-foreground">
-                  SEO Optimized
+                  {t('feature3Title')}
                 </h4>
                 <p className="text-sm text-foreground/60 mt-1">
-                  Built to rank high on search engines and attract
-                  more traffic.
+                  {t('feature3Description')}
                 </p>
               </div>
             </div>

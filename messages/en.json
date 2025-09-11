@@ -147,5 +147,78 @@
         "publishedOn": "Published on",
         "summary": "Summary",
         "tocTitle": "On this page"
+    },
+    "Visuals": {
+        "Website": {
+            "navHome": "Home",
+            "navAbout": "About",
+            "navServices": "Services",
+            "navContact": "Contact",
+            "heroTitle": "Your Amazing Website",
+            "heroSubtitle": "We build lightning-fast, visually stunning, and user-friendly websites that convert visitors into customers.",
+            "cta": "Get Started",
+            "feature1Title": "Lightning Fast",
+            "feature1Description": "Optimized for performance to ensure the best user experience.",
+            "feature2Title": "Fully Responsive",
+            "feature2Description": "Looks perfect on all devices, from desktops to smartphones.",
+            "feature3Title": "SEO Optimized",
+            "feature3Description": "Built to rank high on search engines and attract more traffic."
+        },
+        "WebApp": {
+            "revenue": "Revenue",
+            "conversionRate": "Conversion Rate",
+            "projectStatus": "Project Status",
+            "frontend": "Frontend",
+            "backend": "Backend",
+            "customers": "Customers",
+            "customerId": "Customer ID",
+            "name": "Name",
+            "email": "Email",
+            "dateJoined": "Date Joined",
+            "status": "Status",
+            "active": "Active",
+            "inactive": "Inactive"
+        },
+        "DataViz": {
+            "chartTitle": "Radial Chart - Browser Share",
+            "chartSubtitle": "January - June 2025",
+            "trendingUp": "Trending up by 5.2% this month",
+            "conversionRate": "Conversion Rate",
+            "keyDates": "Key Dates",
+            "performanceMetrics": "Performance Metrics",
+            "speed": "Speed",
+            "usability": "Usability",
+            "accessibility": "Accessibility",
+            "employeeTasks": "Employee Task Distribution"
+        },
+        "AI": {
+            "mainTitle": "AI Integration for Business",
+            "card1Title": "What is AI Integration?",
+            "card1Item1": "Automating tasks for more strategic work.",
+            "card1Item2": "Enhancing decision-making with data insights.",
+            "card1Item3": "Personalizing customer experiences.",
+            "card2Title": "Benefits of AI Integration",
+            "card2Item1": "Increased efficiency and productivity.",
+            "card2Item2": "Reduced costs through automation.",
+            "card2Item3": "Enhanced customer satisfaction and loyalty.",
+            "card2Item4": "A significant competitive advantage.",
+            "card3Title": "AI in Action: Product Recommendation",
+            "card4Title": "AI-Powered Data Analysis",
+            "card4Description": "AI identifies key trends for growth."
+        },
+        "Chatbot": {
+            "assistantName": "AI Assistant",
+            "statusOnline": "Online",
+            "greeting": "Hello! How can I assist you today?",
+            "userRequest": "I'd like to start a project.",
+            "aiQuestion": "Of course! What kind of project are you envisioning?",
+            "option1": "Web Application",
+            "option2": "Website",
+            "option3": "Chatbot",
+            "option4": "Data Visualization",
+            "userChoice": "Web Application",
+            "aiClosing": "Understood. We'll be in touch to discuss the details. Thank you!",
+            "feedbackQuestion": "How was your experience with me?"
+        }
     }
 }

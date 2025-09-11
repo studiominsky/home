@@ -3,8 +3,10 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { Sparkles, Smile, Meh, Frown } from 'lucide-react';
 import { gsap } from 'gsap';
+import { useTranslations } from 'next-intl';
 
 const ChatbotVisual: React.FC = () => {
+  const t = useTranslations('Visuals.Chatbot');
   const chatRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     const el = chatRef.current;
@@ -24,26 +26,26 @@ const ChatbotVisual: React.FC = () => {
   }, []);
 
   const conversation = [
-    { type: 'ai', text: 'Hello! How can I assist you today?' },
-    { type: 'user', text: "I'd like to start a project." },
+    { type: 'ai', text: t('greeting') },
+    { type: 'user', text: t('userRequest') },
     {
       type: 'ai',
-      text: 'Of course! What kind of project are you envisioning?',
+      text: t('aiQuestion'),
       options: [
-        'Web Application',
-        'Website',
-        'Chatbot',
-        'Data Visualization',
+        t('option1'),
+        t('option2'),
+        t('option3'),
+        t('option4'),
       ],
     },
-    { type: 'user', text: 'Web Application' },
+    { type: 'user', text: t('userChoice') },
     {
       type: 'ai',
-      text: "Understood. We'll be in touch to discuss the details. Thank you!",
+      text: t('aiClosing'),
     },
     {
       type: 'ai',
-      text: 'How was your experience with me?',
+      text: t('feedbackQuestion'),
       feedback: true,
     },
   ];
@@ -58,8 +60,10 @@ const ChatbotVisual: React.FC = () => {
           <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-positive rounded-full border-2 border-card" />
         </div>
         <div>
-          <h5 className="font-semibold">AI Assistant</h5>
-          <p className="text-xs text-foreground/60">Online</p>
+          <h5 className="font-semibold">{t('assistantName')}</h5>
+          <p className="text-xs text-foreground/60">
+            {t('statusOnline')}
+          </p>
         </div>
       </div>
 

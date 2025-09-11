@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useTranslations } from 'next-intl';
 
 const customers = [
   {
@@ -33,6 +34,7 @@ const customers = [
 ];
 
 function StatusIndicator({ status }: { status: string }) {
+  const t = useTranslations('Visuals.WebApp');
   const isActive = status === 'Active';
   const color = isActive ? 'bg-positive' : 'bg-gray-400';
   return (
@@ -53,21 +55,24 @@ function StatusIndicator({ status }: { status: string }) {
                     before:opacity-75
                 `}
       />
-      {status}
+      {isActive ? t('active') : t('inactive')}
     </span>
   );
 }
 
 function CustomerTable() {
+  const t = useTranslations('Visuals.WebApp');
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Customer ID</TableHead>
-          <TableHead>Name</TableHead>
-          <TableHead>Email</TableHead>
-          <TableHead>Date Joined</TableHead>
-          <TableHead>Status</TableHead>
+          <TableHead className="w-[100px]">
+            {t('customerId')}
+          </TableHead>
+          <TableHead>{t('name')}</TableHead>
+          <TableHead>{t('email')}</TableHead>
+          <TableHead>{t('dateJoined')}</TableHead>
+          <TableHead>{t('status')}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

@@ -147,5 +147,78 @@
         "publishedOn": "Veröffentlicht am",
         "summary": "Zusammenfassung",
         "tocTitle": "Auf dieser Seite"
+    },
+    "Visuals": {
+        "Website": {
+            "navHome": "Startseite",
+            "navAbout": "Über uns",
+            "navServices": "Leistungen",
+            "navContact": "Kontakt",
+            "heroTitle": "Ihre beeindruckende Website",
+            "heroSubtitle": "Wir erstellen blitzschnelle, visuell beeindruckende und benutzerfreundliche Websites, die Besucher in Kunden verwandeln.",
+            "cta": "Jetzt starten",
+            "feature1Title": "Blitzschnell",
+            "feature1Description": "Optimiert für beste Leistung, um das beste Benutzererlebnis zu gewährleisten.",
+            "feature2Title": "Voll responsiv",
+            "feature2Description": "Perfekte Darstellung auf allen Geräten, von Desktops bis zu Smartphones.",
+            "feature3Title": "SEO-optimiert",
+            "feature3Description": "Entwickelt, um in Suchmaschinen hoch zu ranken und mehr Besucher anzuziehen."
+        },
+        "WebApp": {
+            "revenue": "Umsatz",
+            "conversionRate": "Konversionsrate",
+            "projectStatus": "Projektstatus",
+            "frontend": "Frontend",
+            "backend": "Backend",
+            "customers": "Kunden",
+            "customerId": "Kunden-ID",
+            "name": "Name",
+            "email": "E-Mail",
+            "dateJoined": "Beitrittsdatum",
+            "status": "Status",
+            "active": "Aktiv",
+            "inactive": "Inaktiv"
+        },
+        "DataViz": {
+            "chartTitle": "Radial-Diagramm - Browser-Anteil",
+            "chartSubtitle": "Januar - Juni 2025",
+            "trendingUp": "Anstieg um 5,2% in diesem Monat",
+            "conversionRate": "Konversionsrate",
+            "keyDates": "Wichtige Termine",
+            "performanceMetrics": "Leistungskennzahlen",
+            "speed": "Geschwindigkeit",
+            "usability": "Benutzerfreundlichkeit",
+            "accessibility": "Barrierefreiheit",
+            "employeeTasks": "Aufgabenverteilung Mitarbeiter"
+        },
+        "AI": {
+            "mainTitle": "KI-Integration für Unternehmen",
+            "card1Title": "Was ist KI-Integration?",
+            "card1Item1": "Automatisierung von Aufgaben für strategischere Arbeit.",
+            "card1Item2": "Verbesserung der Entscheidungsfindung durch Dateneinblicke.",
+            "card1Item3": "Personalisierung des Kundenerlebnisses.",
+            "card2Title": "Vorteile der KI-Integration",
+            "card2Item1": "Gesteigerte Effizienz und Produktivität.",
+            "card2Item2": "Reduzierte Kosten durch Automatisierung.",
+            "card2Item3": "Erhöhte Kundenzufriedenheit und -bindung.",
+            "card2Item4": "Ein signifikanter Wettbewerbsvorteil.",
+            "card3Title": "KI in Aktion: Produktempfehlung",
+            "card4Title": "KI-gestützte Datenanalyse",
+            "card4Description": "KI identifiziert Schlüsseltrends für Wachstum."
+        },
+        "Chatbot": {
+            "assistantName": "KI-Assistent",
+            "statusOnline": "Online",
+            "greeting": "Hallo! Wie kann ich Ihnen heute helfen?",
+            "userRequest": "Ich möchte ein Projekt starten.",
+            "aiQuestion": "Natürlich! An welche Art von Projekt denken Sie?",
+            "option1": "Webanwendung",
+            "option2": "Website",
+            "option3": "Chatbot",
+            "option4": "Datenvisualisierung",
+            "userChoice": "Webanwendung",
+            "aiClosing": "Verstanden. Wir werden uns mit Ihnen in Verbindung setzen, um die Details zu besprechen. Vielen Dank!",
+            "feedbackQuestion": "Wie war Ihre Erfahrung mit mir?"
+        }
     }
 }

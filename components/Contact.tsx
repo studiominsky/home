@@ -5,10 +5,12 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
 import ContactForm from './ContactForm';
+import { useTranslations } from 'next-intl';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Contact() {
+  const t = useTranslations('Contact');
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const subRef = useRef<HTMLParagraphElement>(null);
@@ -52,14 +54,13 @@ export default function Contact() {
             ref={headingRef}
             className="font-geometric text-4xl sm:text-5xl md:text-6xl lg:text-[72px]"
           >
-            Tell us about your project.
+            {t('title')}
           </h2>
           <p
             ref={subRef}
             className="mx-auto max-w-3xl text-base sm:text-lg text-foreground/70"
           >
-            Quick form. Two steps. We’ll reply within 1–2 business
-            days.
+            {t('description')}
           </p>
           <ContactForm />
         </div>
