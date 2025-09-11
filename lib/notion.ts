@@ -2,6 +2,7 @@ import { Client } from '@notionhq/client';
 import { NotionToMarkdown } from 'notion-to-md';
 import MarkdownIt from 'markdown-it';
 import mdPrism from 'markdown-it-prism';
+import { cache } from 'react';
 
 import type {
   PageObjectResponse,
@@ -100,7 +101,7 @@ function pageToMeta(page: PageObjectResponse): BlogPostMeta {
   };
 }
 
-export async function getPosts(): Promise<BlogPostMeta[]> {
+export const getPosts = cache(async (): Promise<BlogPostMeta[]> => {
   const pages: PageObjectResponse[] = [];
   let cursor: string | undefined;
 
@@ -122,7 +123,7 @@ export async function getPosts(): Promise<BlogPostMeta[]> {
   } while (cursor);
 
   return pages.map(pageToMeta);
-}
+});
 
 export type BlogPost = {
   frontMatter: BlogPostMeta;
