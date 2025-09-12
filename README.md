@@ -6,9 +6,8 @@ This is the official website for Studio Minsky, a digital studio specializing in
 
 -   **Services Overview:** Detailed descriptions of services offered, including Web Apps, AI Solutions, and Data Visualization.
 -   **Project Showcase:** A portfolio of featured projects with links to live demos and source code.
--   **Blog:** A collection of articles and posts on various topics./blog/page.tsx]
+-   **Blog:** A collection of articles and posts on various topics.
 -   **Contact Form:** A functional contact form for inquiries.
--   **Theme Toggling:** Light and dark mode support for better user experience.
 -   **Internationalization:** The website supports multiple languages.
 -   **AI Chatbot:** An AI-powered chatbot to interact with users.
 
