@@ -86,7 +86,7 @@ export default function ContentBlock({
                 ref={(el) => {
                   statRefs.current[i] = el;
                 }}
-                className="flex flex-col items-center justify-center size-28 sm:size-36 md:size-48 bg-black rounded-full text-white text-center p-4 opacity-0"
+                className="flex flex-col items-center justify-center size-28 sm:size-36 md:size-48 bg-background rounded-full text-foreground text-center p-4 opacity-0"
               >
                 <span className="font-geometric text-2xl sm:text-3xl md:text-4xl">
                   {stat.value}

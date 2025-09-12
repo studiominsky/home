@@ -37,21 +37,22 @@ const projectData: ProjectDataItem[] = [
     logoLight: '/logos/fineinterface-light.svg',
     logoDark: '/logos/fineinterface-dark.svg',
     description:
-      'A robust web application for a leading AI startup, featuring a complex data visualization dashboard and a custom-built NLP engine for processing user queries in real-time.',
+      'Fine Interface is a curated gallery of beautifully crafted user interfaces where the community can submit and save new finds. The site doubles as a design-system testbed, using Radix UI primitives and Next.js server actions to handle votes without page reloads.',
     features: [
-      'Real-time data processing pipeline',
-      'Interactive D3.js charting library',
-      'Secure multi-user authentication',
-      'Scalable cloud architecture on AWS',
+      'User Authentication (Google/GitHub)',
+      'Submit Websites for review',
+      'Create Folders to save favorite websites',
+      'Rate Websites',
+      'Admin Panel for approvals',
     ],
-    techStack: ['Next.js', 'TypeScript', 'D3.js', 'Python', 'AWS'],
-    testimonial: {
-      quote:
-        'The platform has fundamentally changed how our researchers approach data analysis, increasing our efficiency by over 300%.',
-      author: 'Dr. Alena Petrova, Head of Research at QuantumLeap',
-    },
-    liveUrl: '#',
-    caseStudyUrl: '#',
+    techStack: [
+      'Next.js',
+      'TypeScript',
+      'Tailwind CSS',
+      'Firebase',
+      'shadcn/ui',
+    ],
+    liveUrl: 'https://fineinterface.com',
   },
   {
     id: 2,
@@ -59,15 +60,23 @@ const projectData: ProjectDataItem[] = [
     logoLight: '/logos/panellio-light.svg',
     logoDark: '/logos/panellio-dark.svg',
     description:
-      'A beautiful and highly performant e-commerce website for a sustainable goods brand. We focused on a seamless mobile-first user experience and advanced SEO.',
+      'Panellio is a personal management tool designed to help organize your online life, reduce distractions, and boost productivity. It allows users to create directories and add features like notes, tasks, and habits. Panellio also includes an AI assistant to monitor and analyze data.',
     features: [
-      'Custom Shopify theme development',
-      ' headless architecture with React',
-      'Advanced SEO & performance optimization',
-      'Subscription model integration',
+      'Create directories for different projects',
+      'Add features like notes, tasks, and habits',
+      'Monitor and analyze data with AI',
+      'Track stats and progress',
+      'Free and paid subscription plans',
     ],
-    techStack: ['Shopify', 'React', 'GraphQL', 'Tailwind CSS', 'SEO'],
-    liveUrl: '#',
+    techStack: [
+      'Next.js',
+      'TypeScript',
+      'Tailwind CSS',
+      'Firebase',
+      'shadcn/ui',
+      'Stripe',
+    ],
+    liveUrl: 'https://panellio.com',
   },
   {
     id: 3,
@@ -75,20 +84,22 @@ const projectData: ProjectDataItem[] = [
     logoLight: '/logos/wordinventory-light.svg',
     logoDark: '/logos/wordinventory-dark.svg',
     description:
-      'A secure and intuitive financial dashboard that allows users to track investments, manage portfolios, and visualize market trends with up-to-the-minute information.',
+      'Word Inventory is a language learning web application with a clean interface, powered by AI. It helps users expand their vocabulary by allowing them to save words, get AI-generated example sentences, and receive grammar explanations.',
     features: [
-      'Integration with multiple financial data APIs',
-      'Custom portfolio performance charting',
-      'Bank-level security and data encryption',
-      'Automated PDF report generation',
+      'Save and organize new vocabulary',
+      'Get contextual examples from an AI',
+      'AI-powered grammar explanations',
+      'Clean, user-friendly interface',
     ],
-    techStack: ['React', 'Node.js', 'PostgreSQL', 'Chart.js', 'API'],
-    testimonial: {
-      quote:
-        "The dashboard's clarity and reliability have made it an indispensable tool for our clients.",
-      author: 'John Carter, CEO of Starlight Finance',
-    },
-    caseStudyUrl: '#',
+    techStack: [
+      'Next.js',
+      'TypeScript',
+      'Tailwind CSS',
+      'Firebase',
+      'shadcn/ui',
+      'OpenAI',
+    ],
+    liveUrl: '#',
   },
 ];
 
@@ -377,13 +388,14 @@ export default function Projects() {
                         </ul>
                       </div>
 
-                      {project.testimonial && (
+                      {activeProject.testimonial && (
                         <blockquote className="my-6 border-l-2 border-primary pl-4 italic text-foreground/90">
                           <p>
-                            &quot;{project.testimonial.quote}&quot;
+                            &quot;{activeProject.testimonial.quote}
+                            &quot;
                           </p>
                           <cite className="mt-2 block not-italic text-sm text-foreground/60">
-                            – {project.testimonial.author}
+                            – {activeProject.testimonial.author}
                           </cite>
                         </blockquote>
                       )}
