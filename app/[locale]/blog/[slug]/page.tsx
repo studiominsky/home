@@ -74,7 +74,7 @@ export default async function BlogPostPage({
             aria-label="Summary"
             className="relative my-10 pl-5 border-l-3 border-primary"
           >
-            <p className="m-0 text-lg sm:text-xl md:text-2xl leading-relaxed text-foreground/90">
+            <p className="m-0 text-lg sm:text-xl md:text-2xl leading-relaxed text-foreground/90 max-w-full sm:max-w-[70%]">
               {frontMatter.description}
             </p>
           </section>

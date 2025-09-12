@@ -134,7 +134,7 @@ export default function TableOfContents({
                 aria-current={isActive ? 'location' : undefined}
                 onClick={handleClick(id)}
                 className={clsx(
-                  'group flex items-start gap-3 rounded-md px-2 py-2 transition-colors',
+                  'group flex items-center gap-3 rounded-md px-2 py-2 transition-colors',
                   'focus:outline-none focus-visible:ring-2 focus-visible:ring-ring',
                   isActive
                     ? 'bg-muted/50 text-foreground'
@@ -160,7 +160,9 @@ export default function TableOfContents({
                 >
                   {idx + 1}.
                 </span>
-                <span className="text-lg leading-5">{h}</span>
+                <span className="text-lg leading-7 text-start">
+                  {h}
+                </span>
               </a>
             </li>
           );
