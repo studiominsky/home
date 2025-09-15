@@ -18,7 +18,6 @@ export default function Footer() {
               Studio Minsky — building thoughtful, fast, and
               accessible web experiences.
             </p>
-            {/* Using a standard <a> tag for mailto is correct */}
             <a
               href="mailto:hello@studiominsky.com"
               className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -27,7 +26,6 @@ export default function Footer() {
             </a>
           </div>
 
-          {/* Corrected Navigation Section */}
           <nav className="grid grid-cols-2 gap-3 md:max-md:grid-cols-3 md:grid-cols-2">
             <Link
               href="/#services"
@@ -53,7 +51,6 @@ export default function Footer() {
             >
               Contact
             </Link>
-            {/* Combined and corrected link */}
             <Link
               href="/terms-and-privacy"
               className="text-md text-muted-foreground hover:text-foreground transition-colors"
@@ -63,7 +60,6 @@ export default function Footer() {
           </nav>
 
           <div className="flex flex-col items-start gap-3">
-            {/* External links using <a> are correct */}
             <a
               href="https://www.linkedin.com/company/studiominsky"
               target="_blank"
