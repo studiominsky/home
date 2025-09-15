@@ -7,7 +7,7 @@ import { Sun, Moon } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -20,7 +20,7 @@ export function ThemeToggle() {
     <div className="flex items-center gap-2">
       <Sun className="h-4 w-4" />
       <Switch
-        checked={theme === 'dark'}
+        checked={resolvedTheme === 'dark'}
         onCheckedChange={(checked) =>
           setTheme(checked ? 'dark' : 'light')
         }
