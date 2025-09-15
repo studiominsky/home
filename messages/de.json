@@ -1,7 +1,7 @@
 {
     "Home": {
         "title": "Digitale Produkte für die Welt von heute.",
-        "description": "Studio Minsky entwickelt digitale Werkzeuge, die das Geschäftswachstum fördern. Von Websites, die Besucher in Kunden verwandeln, bis hin zu maßgeschneiderter Software, die Ihre Abläufe optimiert.",
+        "description": "Studio Minsky entwickelt digitale Werkzeuge für Ihr Wachstum. Von Websites, die Besucher in Kunden verwandeln, bis zu individueller Software, die Ihre Prozesse optimiert.",
         "availability": "Verfügbar für neue Projekte"
     },
     "Header": {
@@ -16,81 +16,81 @@
         "color": "Farbe",
         "language": "Sprache",
         "dialogTitle": "Erzählen Sie uns von Ihrem Projekt.",
-        "dialogDescription": "Kurzes Formular. Zwei Schritte. Wir antworten innerhalb von 1–2 Werktagen.",
+        "dialogDescription": "Kurzes Formular in zwei Schritten. Wir antworten innerhalb von 1–2 Werktagen.",
         "noPostsYet": "Noch keine Blogbeiträge."
     },
     "AnimatedText": {
-        "section1": "Wir erstellen hochleistungsfähige Websites, die fesseln und konvertieren. Unser Fokus auf Geschwindigkeit und Benutzererlebnis liefert messbare Ergebnisse.",
-        "section2": "KI-gestützte Entwicklung ermöglicht es uns, komplexe Anwendungen schneller und effizienter zu erstellen, was die Markteinführungszeit verkürzt und Ihnen Kosten spart.",
-        "section3": "Von eleganten Marketing-Websites bis hin zu komplexen Webanwendungen – unsere maßgeschneiderten Lösungen sind darauf ausgelegt, Ihre Marke zu stärken und das Wachstum zu fördern."
+        "section1": "Wir erstellen leistungsstarke Websites, die fesseln und konvertieren. Unser Fokus auf Tempo und Nutzererlebnis liefert messbare Ergebnisse.",
+        "section2": "KI-gestützte Entwicklung ermöglicht es uns, komplexe Apps schneller und effizienter zu bauen, was die Produkteinführung beschleunigt und Kosten spart.",
+        "section3": "Von eleganten Marketing-Sites bis zu komplexen Web-Apps – unsere individuellen Lösungen stärken Ihre Marke und fördern das Wachstum."
     },
     "Stats": {
         "lighthouse": "Durchschn. Lighthouse Perf",
         "fcp": "FCP-Ziel",
         "webVitals": "Core Web Vitals",
         "devAcceleration": "Schnellere Entw.",
-        "timeToMarket": "Markteinführung",
+        "timeToMarket": "Go-to-Market",
         "costReduction": "Kostenreduktion",
-        "satisfaction": "Kundenzufriedenheit",
+        "satisfaction": "Top Service",
         "retention": "Projekttreue",
         "seoBoost": "Durchschn. SEO-Boost"
     },
     "Services": {
         "preTitle": "WAS WIR ANBIETEN",
         "title": "Leistungen",
-        "description": "Von Websites, die Besucher in Kunden verwandeln, bis hin zu maßgeschneiderter Software, die Ihre Abläufe optimiert – jedes Produkt ist darauf ausgelegt, Ihre Wirkung und Effizienz zu steigern.",
-        "webApplications": "Webanwendungen",
-        "webApplicationsDescription": "Wir erstellen robuste und skalierbare Webanwendungen, die auf Ihre Geschäftsanforderungen zugeschnitten sind. Von komplexen Dashboards bis hin zu interaktiven Plattformen liefern wir hochleistungsfähige Lösungen.",
-        "webApplicationsAdditional": "Unsere Anwendungen steigern nachweislich die Nutzerbindung um durchschnittlich 40 %.",
+        "description": "Von Websites, die Besucher in Kunden verwandeln, bis zu individueller Software, die Ihre Abläufe optimiert – jedes Produkt steigert Ihre Wirkung und Effizienz.",
+        "webApplications": "Web-Apps",
+        "webApplicationsDescription": "Wir erstellen robuste und skalierbare Web-Apps, die auf Ihre Bedürfnisse zugeschnitten sind. Von komplexen Dashboards bis zu interaktiven Plattformen liefern wir Top-Lösungen.",
+        "webApplicationsAdditional": "Unsere Apps steigern die Nutzerbindung nachweislich um durchschnittlich 40 %.",
         "websites": "Websites",
-        "websitesDescription": "Ihre Website ist Ihr digitales Aushängeschild. Wir erstellen ansprechende, reaktionsschnelle und SEO-freundliche Websites, die die Essenz Ihrer Marke einfangen und Besucher in Kunden verwandeln.",
-        "websitesAdditional": "Wir konzentrieren uns auf einen Mobile-First-Ansatz, um ein nahtloses Erlebnis auf allen Geräten zu gewährleisten.",
-        "dataVisualizations": "Datenvisualisierungen",
-        "dataVisualizationsDescription": "Wir verwandeln komplexe Daten in klare und überzeugende visuelle Geschichten. Unsere interaktiven Diagramme und Karten helfen Ihnen, Erkenntnisse zu gewinnen und datengestützte Entscheidungen zu treffen.",
-        "dataVisualizationsAdditional": "Unsere Visualisierungen wurden in mehreren branchenführenden Publikationen vorgestellt.",
+        "websitesDescription": "Ihre Website ist Ihr digitales Aushängeschild. Wir erstellen ansprechende, reaktionsschnelle und SEO-freundliche Websites, die Ihre Marke einfangen und Besucher zu Kunden machen.",
+        "websitesAdditional": "Wir fokussieren uns auf einen Mobile-First-Ansatz für ein nahtloses Erlebnis auf allen Geräten.",
+        "dataVisualizations": "Datenvisualisierung",
+        "dataVisualizationsDescription": "Wir verwandeln komplexe Daten in klare, visuelle Geschichten. Unsere interaktiven Diagramme und Karten helfen Ihnen, Einblicke zu gewinnen und kluge Entscheidungen zu treffen.",
+        "dataVisualizationsAdditional": "Unsere Visualisierungen wurden in mehreren führenden Publikationen vorgestellt.",
         "aiIntegrations": "KI-Integrationen",
-        "aiIntegrationsDescription": "Nutzen Sie die Kraft der KI, um Prozesse zu automatisieren und das Nutzererlebnis zu verbessern. Wir integrieren modernste KI-Modelle in Ihre Produkte und Arbeitsabläufe.",
-        "aiIntegrationsAdditional": "Automatisieren Sie bis zu 80 % Ihrer Kundensupport-Anfragen mit unseren KI-gestützten Chatbots.",
+        "aiIntegrationsDescription": "Nutzen Sie KI, um Prozesse zu automatisieren und das Nutzererlebnis zu verbessern. Wir integrieren modernste KI-Modelle in Ihre Produkte und Abläufe.",
+        "aiIntegrationsAdditional": "Automatisieren Sie bis zu 80 % Ihrer Kundenanfragen mit unseren KI-gestützten Chatbots.",
         "chatbots": "Chatbots",
-        "chatbotsDescription": "Binden Sie Ihr Publikum mit intelligenten und dialogorientierten Chatbots. Wir entwerfen und erstellen benutzerdefinierte Chatbots für Kundensupport, Lead-Generierung und mehr.",
-        "chatbotsAdditional": "Unsere Chatbots sind rund um die Uhr verfügbar und bieten Ihren Kunden sofortige Unterstützung."
+        "chatbotsDescription": "Binden Sie Ihr Publikum mit intelligenten Chatbots. Wir entwerfen und bauen individuelle Chatbots für Support, Lead-Generierung und mehr.",
+        "chatbotsAdditional": "Unsere Chatbots sind 24/7 verfügbar und bieten Ihren Kunden sofortige Hilfe."
     },
     "Projects": {
         "preTitle": "AUSGEWÄHLTE ARBEITEN",
         "title": "Projekte",
-        "description": "Unser Portfolio zeigt unser Engagement für Qualität, Leistung und benutzerzentriertes Design. Entdecken Sie einige unserer jüngsten Arbeiten.",
+        "description": "Unser Portfolio zeigt unser Engagement für Qualität, Leistung und nutzerzentriertes Design. Entdecken Sie einige unserer letzten Arbeiten.",
         "keyFeatures": "Hauptmerkmale",
         "viewLiveSite": "Live-Seite ansehen"
     },
     "Process": {
         "preTitle": "WIE WIR ARBEITEN",
         "title": "Prozess",
-        "description": "Unser Prozess ist auf Klarheit und Zusammenarbeit ausgelegt und stellt sicher, dass jedes Projekt eine Partnerschaft ist, die zu außergewöhnlichen Ergebnissen führt.",
+        "description": "Unser Prozess ist auf Klarheit und Kooperation ausgelegt. Jedes Projekt ist eine Partnerschaft, die zu exzellenten Ergebnissen führt.",
         "step1Title": "01. Erstgespräch",
         "step1TitleDescription": "Ihre Vision verstehen",
-        "step1Description": "Ein kostenloses Gespräch, um Ihre Vision und Ziele abzugleichen.",
+        "step1Description": "Ein kostenloses Gespräch, um Ihre Vision und Ziele zu klären.",
         "step2Title": "02. Angebot",
         "step2TitleDescription": "Ihr Konzept erstellen",
-        "step2Description": "Ein maßgeschneidertes Angebot mit Umfang, Zeitplan und transparenter Investition.",
+        "step2Description": "Ein individuelles Angebot mit Umfang, Zeitplan und transparenter Investition.",
         "step3Title": "03. Entwicklung",
         "step3TitleDescription": "Ideen zum Leben erwecken",
-        "step3Description": "Wir entwickeln Ihre Lösung mit Präzision und liefern regelmäßige Updates.",
+        "step3Description": "Wir entwickeln Ihre Lösung mit Präzision und geben regelmäßige Updates.",
         "step4Title": "04. Feedback",
         "step4TitleDescription": "Details verfeinern",
-        "step4Description": "Wir sammeln an wichtigen Meilensteinen Feedback und iterieren mit Ihnen.",
+        "step4Description": "Wir holen an Meilensteinen Feedback ein und arbeiten es mit Ihnen ein.",
         "step5Title": "05. Support",
         "step5TitleDescription": "Langfristigen Erfolg sichern",
-        "step5Description": "Laufende Support- und Wartungspakete für langfristigen Erfolg."
+        "step5Description": "Laufender Support und Wartungspakete für Ihren langfristigen Erfolg."
     },
     "Blog": {
         "preTitle": "AUS DEM BLOG",
         "title": "Blog",
-        "description": "Eine Sammlung unserer Gedanken zu Design, Entwicklung und Zusammenarbeit. Verwenden Sie die Tags, um Artikel nach Themen zu filtern.",
+        "description": "Eine Sammlung unserer Gedanken zu Design, Entwicklung und Zusammenarbeit. Filtern Sie Artikel nach Thema über die Tags.",
         "seeAll": "Alle Artikel ansehen"
     },
     "Contact": {
         "title": "Erzählen Sie uns von Ihrem Projekt.",
-        "description": "Kurzes Formular. Zwei Schritte. Wir antworten innerhalb von 1–2 Werktagen."
+        "description": "Kurzes Formular in zwei Schritten. Wir antworten innerhalb von 1–2 Werktagen."
     },
     "ContactForm": {
         "step1": "Basis",
@@ -103,10 +103,10 @@
         "companyLabel": "Firma (optional)",
         "companyPlaceholder": "Acme Inc.",
         "nextButton": "Weiter",
-        "validationMessage": "Geben Sie Ihren Namen und eine gültige E-Mail-Adresse ein, um fortzufahren.",
+        "validationMessage": "Geben Sie Ihren Namen und eine gültige E-Mail ein, um fortzufahren.",
         "servicesLabel": "Was benötigen Sie? (Mehrfachauswahl möglich)",
         "briefLabel": "Projektbeschreibung",
-        "briefPlaceholder": "Ziele, Zeitplan, Referenzen, Erfolgskriterien…",
+        "briefPlaceholder": "Ziele, Zeitplan, Referenzen, Erfolgsfaktoren…",
         "backButton": "Zurück",
         "sendButton": "Nachricht senden",
         "sendingButton": "Wird gesendet…",
@@ -114,11 +114,11 @@
         "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
         "networkError": "Netzwerkfehler. Bitte versuchen Sie es erneut.",
         "thankYou": "Vielen Dank!",
-        "confirmation": "Wir werden uns innerhalb von 1–2 Werktagen bei Ihnen melden.",
+        "confirmation": "Wir melden uns innerhalb von 1–2 Werktagen bei Ihnen.",
         "sendAnother": "Weitere senden"
     },
     "Footer": {
-        "description": "Studio Minsky — entwickelt durchdachte, schnelle und zugängliche Weberlebnisse.",
+        "description": "Studio Minsky — entwickelt durchdachte, schnelle und zugängliche Web-Erlebnisse.",
         "email": "hallo@studiominsky.com",
         "services": "Leistungen",
         "projects": "Projekte",
@@ -137,7 +137,7 @@
     "BlogPage": {
         "backToHome": "Zurück zur Startseite",
         "title": "Unser Blog",
-        "description": "Eine Sammlung unserer Gedanken zu Design, Entwicklung und Zusammenarbeit. Verwenden Sie die Tags, um Artikel nach Themen zu filtern.",
+        "description": "Eine Sammlung unserer Gedanken zu Design, Entwicklung und Zusammenarbeit. Filtern Sie Artikel nach Thema über die Tags.",
         "allTopics": "Alle Themen",
         "allPosts": "Alle Beiträge",
         "noPosts": "Keine Beiträge für \"{tag}\" gefunden",
@@ -156,14 +156,14 @@
             "navServices": "Leistungen",
             "navContact": "Kontakt",
             "heroTitle": "Ihre beeindruckende Website",
-            "heroSubtitle": "Wir erstellen blitzschnelle, visuell beeindruckende und benutzerfreundliche Websites, die Besucher in Kunden verwandeln.",
+            "heroSubtitle": "Wir erstellen schnelle, visuell starke und nutzerfreundliche Websites, die Besucher in Kunden verwandeln.",
             "cta": "Jetzt starten",
             "feature1Title": "Blitzschnell",
-            "feature1Description": "Optimiert für beste Leistung, um das beste Benutzererlebnis zu gewährleisten.",
+            "feature1Description": "Für beste Leistung optimiert, um ein optimales Nutzererlebnis zu gewährleisten.",
             "feature2Title": "Voll responsiv",
-            "feature2Description": "Perfekte Darstellung auf allen Geräten, von Desktops bis zu Smartphones.",
+            "feature2Description": "Perfekte Darstellung auf allen Geräten, von Desktops bis Smartphones.",
             "feature3Title": "SEO-optimiert",
-            "feature3Description": "Entwickelt, um in Suchmaschinen hoch zu ranken und mehr Besucher anzuziehen."
+            "feature3Description": "Entwickelt, um in Suchmaschinen hoch zu ranken und mehr Besucher zu gewinnen."
         },
         "WebApp": {
             "revenue": "Umsatz",
@@ -190,22 +190,22 @@
             "speed": "Geschwindigkeit",
             "usability": "Benutzerfreundlichkeit",
             "accessibility": "Barrierefreiheit",
-            "employeeTasks": "Aufgabenverteilung Mitarbeiter"
+            "employeeTasks": "Aufgabenverteilung"
         },
         "AI": {
             "mainTitle": "KI-Integration für Unternehmen",
             "card1Title": "Was ist KI-Integration?",
-            "card1Item1": "Automatisierung von Aufgaben für strategischere Arbeit.",
-            "card1Item2": "Verbesserung der Entscheidungsfindung durch Dateneinblicke.",
-            "card1Item3": "Personalisierung des Kundenerlebnisses.",
+            "card1Item1": "Aufgaben automatisieren für strategische Arbeit.",
+            "card1Item2": "Bessere Entscheidungen durch Dateneinblicke.",
+            "card1Item3": "Personalisierte Kundenerlebnisse.",
             "card2Title": "Vorteile der KI-Integration",
-            "card2Item1": "Gesteigerte Effizienz und Produktivität.",
-            "card2Item2": "Reduzierte Kosten durch Automatisierung.",
-            "card2Item3": "Erhöhte Kundenzufriedenheit und -bindung.",
-            "card2Item4": "Ein signifikanter Wettbewerbsvorteil.",
+            "card2Item1": "Mehr Effizienz und Produktivität.",
+            "card2Item2": "Weniger Kosten durch Automatisierung.",
+            "card2Item3": "Höhere Kundenzufriedenheit & -bindung.",
+            "card2Item4": "Ein klarer Wettbewerbsvorteil.",
             "card3Title": "KI in Aktion: Produktempfehlung",
             "card4Title": "KI-gestützte Datenanalyse",
-            "card4Description": "KI identifiziert Schlüsseltrends für Wachstum."
+            "card4Description": "KI identifiziert Wachstumstrends."
         },
         "Chatbot": {
             "assistantName": "KI-Assistent",
@@ -213,12 +213,12 @@
             "greeting": "Hallo! Wie kann ich Ihnen heute helfen?",
             "userRequest": "Ich möchte ein Projekt starten.",
             "aiQuestion": "Natürlich! An welche Art von Projekt denken Sie?",
-            "option1": "Webanwendung",
+            "option1": "Web-App",
             "option2": "Website",
             "option3": "Chatbot",
             "option4": "Datenvisualisierung",
-            "userChoice": "Webanwendung",
-            "aiClosing": "Verstanden. Wir werden uns mit Ihnen in Verbindung setzen, um die Details zu besprechen. Vielen Dank!",
+            "userChoice": "Web-App",
+            "aiClosing": "Verstanden. Wir melden uns bei Ihnen, um die Details zu besprechen. Danke!",
             "feedbackQuestion": "Wie war Ihre Erfahrung mit mir?"
         }
     }

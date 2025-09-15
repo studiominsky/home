@@ -54,7 +54,7 @@ const WebAppVisual: React.FC = () => {
             {t('conversionRate')}
           </h4>
           <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-3xl md:text-[38px] font-bold text-foreground">
+            <span className="text-5xl sm:text-6xl font-bold text-foreground">
               2.57%
             </span>
           </div>
