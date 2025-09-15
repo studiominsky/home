@@ -14,28 +14,21 @@ export default function Contact() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const subRef = useRef<HTMLParagraphElement>(null);
-  const stepperRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const ctx = gsap.context(() => {
-      gsap.set(
-        [headingRef.current, subRef.current, stepperRef.current],
-        { opacity: 0, y: 30 }
-      );
+      gsap.set([headingRef.current, subRef.current], {
+        opacity: 0,
+        y: 30,
+      });
       gsap.to([headingRef.current, subRef.current], {
         opacity: 1,
         y: 0,
         duration: 0.8,
         stagger: 0.2,
-      });
-      gsap.to(stepperRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        delay: 0.4,
       });
     }, section);
 
