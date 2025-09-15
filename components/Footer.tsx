@@ -67,7 +67,7 @@ export default function Footer() {
 
           <div className="flex flex-col items-start gap-3">
             <Link
-              href="https://www.linkedin.com/"
+              href="https://www.linkedin.com/company/studiominsky"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -87,7 +87,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="https://github.com/"
+              href="https://github.com/studiominsky"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -107,7 +107,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="https://x.com/"
+              href="https://x.com/studiominsky"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
