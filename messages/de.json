@@ -141,7 +141,8 @@
         "allTopics": "Alle Themen",
         "allPosts": "Alle Beiträge",
         "noPosts": "Keine Beiträge für \"{tag}\" gefunden",
-        "noPostsDescription": "Versuchen Sie, einen anderen Tag auszuwählen."
+        "noPostsDescription": "Versuchen Sie, einen anderen Tag auszuwählen.",
+        "englishOnlyNotice": "Alle Blog-Beiträge sind derzeit nur auf Englisch verfügbar."
     },
     "BlogPostPage": {
         "publishedOn": "Veröffentlicht am",

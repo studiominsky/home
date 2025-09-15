@@ -141,7 +141,8 @@
         "allTopics": "All topics",
         "allPosts": "All Posts",
         "noPosts": "No posts found for \"{tag}\"",
-        "noPostsDescription": "Try selecting another tag."
+        "noPostsDescription": "Try selecting another tag.",
+        "englishOnlyNotice": "All blog posts are currently available in English only."
     },
     "BlogPostPage": {
         "publishedOn": "Published on",

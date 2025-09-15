@@ -38,7 +38,7 @@ export default async function BlogPostPage({
       <article className="mt-[80px] container mx-auto px-4 py-8">
         <header className="mb-8 flex flex-col lg:flex-row gap-8 lg:gap-20 items-start">
           <div className="flex-1 mt-auto">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-geometric leading-tight lg:leading-20 uppercase font-bold mb-3">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-[75px] font-geometric leading-tight xl:leading-20 uppercase font-bold mb-3">
               {frontMatter.title}
             </h1>
 

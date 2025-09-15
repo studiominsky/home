@@ -7,6 +7,7 @@ import Image from 'next/image';
 import clsx from 'clsx';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTranslations } from 'next-intl'; // Import the hook
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export default function FilteredBlogPosts({ posts }: Props) {
+  const t = useTranslations('BlogPage'); // Initialize the hook
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
   const component = useRef(null);
@@ -36,6 +38,7 @@ export default function FilteredBlogPosts({ posts }: Props) {
     return posts.filter((post) => post.tags?.includes(selectedTag));
   }, [posts, selectedTag]);
 
+  // ... (useLayoutEffect hooks remain the same) ...
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -99,14 +102,13 @@ export default function FilteredBlogPosts({ posts }: Props) {
             ref={titleRef}
             className="text-5xl md:text-[75px] font-geometric uppercase font-bold opacity-0 translate-y-8"
           >
-            Our Blog
+            {t('title')}
           </h1>
           <p
             ref={paragraphRef}
             className="max-w-xl text-lg text-foreground/80 mt-4 opacity-0 translate-y-8"
           >
-            A collection of our thoughts on design, development, and
-            collaboration. Use the tags to filter articles by topic.
+            {t('description')}
           </p>
         </div>
 
@@ -114,7 +116,7 @@ export default function FilteredBlogPosts({ posts }: Props) {
           ref={filtersRef}
           className="w-full lg:w-auto lg:max-w-md p-0 lg:p-6 bg-background/50 opacity-0 translate-y-8"
         >
-          <h3 className="font-bold text-xl mb-4">All topics</h3>
+          <h3 className="font-bold text-xl mb-4">{t('allTopics')}</h3>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedTag(null)}
@@ -125,7 +127,7 @@ export default function FilteredBlogPosts({ posts }: Props) {
                   : 'bg-primary/20 border-primary text-primary hover:bg-primary/30'
               )}
             >
-              All Posts
+              {t('allPosts')}
             </button>
             {allTags.map((tag) => (
               <button
@@ -192,10 +194,12 @@ export default function FilteredBlogPosts({ posts }: Props) {
         ) : (
           <div className="text-center py-10 border rounded-md">
             <h3 className="text-xl font-bold">
-              No posts found for &quot;{selectedTag}&quot;
+              {selectedTag
+                ? t('noPosts', { tag: selectedTag })
+                : t('noPostsAtAll')}
             </h3>
             <p className="text-foreground/70 mt-2">
-              Try selecting another tag.
+              {t('noPostsDescription')}
             </p>
           </div>
         )}
