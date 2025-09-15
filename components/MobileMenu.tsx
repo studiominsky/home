@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { Menu, X, GlobeIcon } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
@@ -16,13 +16,25 @@ type Props = {
 
 export default function MobileMenu({ onContactClick }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentHash, setCurrentHash] = useState<string>('');
   const containerRef = useRef<HTMLDivElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const scrollToIdRef = useRef<string | null>(null);
   const scrollPosRef = useRef<number>(0);
+
   const t = useTranslations('Header');
   const locale = useLocale();
   const pathname = usePathname();
+
+  useEffect(() => {
+    const updateHash = () => {
+      if (typeof window === 'undefined') return;
+      setCurrentHash(window.location.hash.replace(/^#/, ''));
+    };
+    updateHash();
+    window.addEventListener('hashchange', updateHash);
+    return () => window.removeEventListener('hashchange', updateHash);
+  }, [pathname]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -33,7 +45,7 @@ export default function MobileMenu({ onContactClick }: Props) {
         '.menu-overlay'
       ) as HTMLElement | null;
       const links = gsap.utils.toArray<HTMLElement>(
-        '.mobile-menu a.menu-item'
+        '.mobile-menu a.menu-item, .mobile-menu div.menu-item'
       );
       if (!menu || !overlay) return;
 
@@ -59,15 +71,16 @@ export default function MobileMenu({ onContactClick }: Props) {
             document.body.style.overflow = '';
 
             if (scrollToIdRef.current) {
-              const el = document.getElementById(
-                scrollToIdRef.current
-              );
+              const id = scrollToIdRef.current;
+              scrollToIdRef.current = null;
+
+              history.pushState(null, '', `#${id}`);
+              const el = document.getElementById(id);
               if (el)
                 el.scrollIntoView({
                   behavior: 'smooth',
                   block: 'start',
                 });
-              scrollToIdRef.current = null;
             } else {
               window.scrollTo(0, scrollPosRef.current);
             }
@@ -140,21 +153,25 @@ export default function MobileMenu({ onContactClick }: Props) {
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>
   ) => {
-    const href = e.currentTarget.getAttribute('href') || '';
-    if (href.startsWith('/#') && pathname === '/') {
+    const rawHref = e.currentTarget.getAttribute('href') || '';
+    const url = new URL(rawHref, window.location.origin);
+    const samePage = url.pathname === window.location.pathname;
+    const hash = url.hash.replace(/^#/, '');
+
+    if (samePage && hash) {
       e.preventDefault();
-      const id = href.slice(2);
-      scrollToIdRef.current = id;
+      scrollToIdRef.current = hash;
       setIsOpen(false);
       return;
     }
+
     setIsOpen(false);
   };
 
   return (
     <div ref={containerRef} className="lg:hidden">
       <button
-        className="relative z-30 flex h-8 w-8 cursor-pointer items-center justify-center"
+        className="relative z-50 flex h-8 w-8 cursor-pointer items-center justify-center"
         onClick={() => setIsOpen((v) => !v)}
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
         aria-expanded={isOpen}
@@ -181,37 +198,31 @@ export default function MobileMenu({ onContactClick }: Props) {
 
       <div
         id="mobile-menu-panel"
-        className="mobile-menu fixed left-0 right-0 top-0 z-50 hidden h-dvh flex-col overflow-y-auto border-b border-border bg-background p-6 sm:h-[70vh]"
+        className="mobile-menu fixed left-0 right-0 top-0 z-40 hidden h-dvh flex-col overflow-y-auto border-b border-border bg-background p-6"
         role="dialog"
         aria-modal="true"
       >
         <div className="menu-item mb-10 flex items-center justify-between">
           <Logo className="w-40" />
-          <button
-            onClick={() => setIsOpen(false)}
-            aria-label="Close menu"
-            className="rounded-md cursor-pointer p-2 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
-          >
-            <X className="h-5 w-5" />
-          </button>
         </div>
+
         <div className="mt-12 flex flex-grow flex-col items-start space-y-6">
           <Link
-            href="/#services"
+            href={{ pathname: '/', hash: 'services' }}
             className="menu-item font-geometric text-3xl transition-transform duration-300 ease-out hover:translate-x-2"
             onClick={handleLinkClick}
           >
             {t('services')}
           </Link>
           <Link
-            href="/#projects"
+            href={{ pathname: '/', hash: 'projects' }}
             className="menu-item font-geometric text-3xl transition-transform duration-300 ease-out hover:translate-x-2"
             onClick={handleLinkClick}
           >
             {t('projects')}
           </Link>
           <Link
-            href="/#process"
+            href={{ pathname: '/', hash: 'process' }}
             className="menu-item font-geometric text-3xl transition-transform duration-300 ease-out hover:translate-x-2"
             onClick={handleLinkClick}
           >
@@ -225,7 +236,7 @@ export default function MobileMenu({ onContactClick }: Props) {
             {t('blog')}
           </Link>
           <Link
-            href="/#contact"
+            href={{ pathname: '/', hash: 'contact' }}
             className="menu-item font-geometric text-3xl transition-transform duration-300 ease-out hover:translate-x-2"
             onClick={(e) => {
               e.preventDefault();
@@ -236,10 +247,8 @@ export default function MobileMenu({ onContactClick }: Props) {
             {t('contact')}
           </Link>
         </div>
-        <div
-          className="menu-item mt-auto space-y-2"
-          onClick={() => setIsOpen(false)}
-        >
+
+        <div className="menu-item mt-auto space-y-2">
           <div className="flex items-center justify-between p-2">
             <span className="text-sm font-medium">{t('theme')}</span>
             <ThemeToggle />
@@ -258,9 +267,9 @@ export default function MobileMenu({ onContactClick }: Props) {
                 { code: 'de', name: 'Deutsch' },
               ].map((lang) => (
                 <Link
-                  href={pathname}
-                  locale={lang.code}
                   key={lang.code}
+                  href={{ pathname, hash: currentHash || undefined }}
+                  locale={lang.code}
                   className={clsx(
                     'p-2 text-sm',
                     locale === lang.code && 'font-bold'

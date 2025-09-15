@@ -18,7 +18,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-
 import clsx from 'clsx';
 import FullWidth from './FullWidth';
 import Logo from './Logo';
@@ -30,6 +29,7 @@ import ContactForm from './ContactForm';
 
 import { useTranslations, useLocale } from 'next-intl';
 import { usePathname, Link } from '@/i18n/navigation';
+import NextLink from 'next/link';
 import MobileMenu from './MobileMenu';
 
 type Props = {
@@ -47,7 +47,7 @@ const ListItem = React.forwardRef<
   return (
     <li>
       <NavigationMenuLink asChild>
-        <Link
+        <NextLink
           href={href || ''}
           ref={ref}
           className={clsx(
@@ -66,7 +66,7 @@ const ListItem = React.forwardRef<
               {subtitle}
             </p>
           ) : null}
-        </Link>
+        </NextLink>
       </NavigationMenuLink>
     </li>
   );
@@ -84,6 +84,22 @@ export default function HeaderClient({ posts, latest }: Props) {
     { code: 'en', name: 'English' },
     { code: 'de', name: 'Deutsch' },
   ];
+
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    const href = e.currentTarget.getAttribute('href');
+    if (pathname === '/' && href && href.startsWith('/#')) {
+      e.preventDefault();
+      const id = href.substring(2);
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     if (window.location.hash) {
@@ -113,6 +129,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                   <Link
                     href="/#services"
                     className={navigationMenuTriggerStyle()}
+                    onClick={handleLinkClick}
                   >
                     {t('services')}
                   </Link>
@@ -121,6 +138,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                   <Link
                     href="/#projects"
                     className={navigationMenuTriggerStyle()}
+                    onClick={handleLinkClick}
                   >
                     {t('projects')}
                   </Link>
@@ -129,6 +147,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                   <Link
                     href="/#process"
                     className={navigationMenuTriggerStyle()}
+                    onClick={handleLinkClick}
                   >
                     {t('process')}
                   </Link>
@@ -143,7 +162,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                       <li className="row-span-3">
                         {latest ? (
                           <NavigationMenuLink asChild>
-                            <Link
+                            <NextLink
                               href={`/blog/${latest.slug}`}
                               className={clsx(
                                 'group flex h-full w-full flex-col rounded-lg p-3',
@@ -174,7 +193,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                                   {latest.description}
                                 </p>
                               ) : null}
-                            </Link>
+                            </NextLink>
                           </NavigationMenuLink>
                         ) : (
                           <div className="p-3 text-sm leading-tight text-muted-foreground">
@@ -194,7 +213,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                       </div>
                     </ul>
                     <div className="mt-auto relative bottom-10 right-5 flex justify-end">
-                      <Link
+                      <NextLink
                         href="/blog"
                         className={clsx(
                           'cursor-pointer text-card z-99 max-w-[230px] bg-background-inverted font-sans px-4 py-2 flex items-center justify-center rounded-full text-center',
@@ -206,7 +225,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                         }}
                       >
                         See all articles
-                      </Link>
+                      </NextLink>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
