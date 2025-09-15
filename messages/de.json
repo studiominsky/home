@@ -56,11 +56,28 @@
         "chatbotsAdditional": "Unsere Chatbots sind 24/7 verfügbar und bieten Ihren Kunden sofortige Hilfe."
     },
     "Projects": {
-        "preTitle": "AUSGEWÄHLTE ARBEITEN",
-        "title": "Projekte",
-        "description": "Unser Portfolio zeigt unser Engagement für Qualität, Leistung und nutzerzentriertes Design. Entdecken Sie einige unserer letzten Arbeiten.",
+        "preTitle": "02 AUSGEWÄHLTE ARBEITEN",
+        "title": "PROJEKTE",
+        "description": "Unser Prozess ist auf Klarheit und Zusammenarbeit ausgelegt und stellt sicher, dass jedes Projekt eine Partnerschaft ist, die zu außergewöhnlichen Ergebnissen führt.",
         "keyFeatures": "Hauptmerkmale",
-        "viewLiveSite": "Live-Seite ansehen"
+        "viewLiveSite": "Live-Seite ansehen",
+        "fineInterfaceDescription": "Fine Interface ist eine kuratierte Galerie für schön gestaltete Benutzeroberflächen, in der die Community neue Funde einreichen und speichern kann. Die Seite dient auch als Testumgebung für Designsysteme und verwendet Radix-UI-Primitive sowie Next.js-Server-Aktionen, um Abstimmungen ohne Neuladen der Seite zu ermöglichen.",
+        "fineInterfaceFeature1": "Benutzerauthentifizierung (Google/GitHub)",
+        "fineInterfaceFeature2": "Websites zur Überprüfung einreichen",
+        "fineInterfaceFeature3": "Ordner zum Speichern von Lieblingswebsites erstellen",
+        "fineInterfaceFeature4": "Websites bewerten",
+        "fineInterfaceFeature5": "Admin-Panel für Freigaben",
+        "panellioDescription": "Panellio ist ein persönliches Verwaltungstool, das dabei hilft, das Online-Leben zu organisieren, Ablenkungen zu reduzieren und die Produktivität zu steigern. Benutzer können Verzeichnisse erstellen und Funktionen wie Notizen, Aufgaben und Gewohnheiten hinzufügen. Panellio enthält auch einen KI-Assistenten zur Überwachung und Analyse von Daten.",
+        "panellioFeature1": "Verzeichnisse für verschiedene Projekte erstellen",
+        "panellioFeature2": "Funktionen wie Notizen, Aufgaben und Gewohnheiten hinzufügen",
+        "panellioFeature3": "Daten mit KI überwachen und analysieren",
+        "panellioFeature4": "Statistiken und Fortschritt verfolgen",
+        "panellioFeature5": "Kostenlose und kostenpflichtige Abonnements",
+        "wordInventoryDescription": "Word Inventory ist eine Webanwendung zum Sprachenlernen mit einer sauberen Oberfläche, die von KI angetrieben wird. Sie hilft Benutzern, ihren Wortschatz zu erweitern, indem sie Wörter speichern, KI-generierte Beispielsätze erhalten und Grammatikerklärungen bekommen.",
+        "wordInventoryFeature1": "Neuen Wortschatz speichern und organisieren",
+        "wordInventoryFeature2": "Kontextbezogene Beispiele von einer KI erhalten",
+        "wordInventoryFeature3": "KI-gestützte Grammatikerklärungen",
+        "wordInventoryFeature4": "Saubere, benutzerfreundliche Oberfläche"
     },
     "Process": {
         "preTitle": "WIE WIR ARBEITEN",
@@ -86,7 +103,8 @@
         "preTitle": "AUS DEM BLOG",
         "title": "Blog",
         "description": "Eine Sammlung unserer Gedanken zu Design, Entwicklung und Zusammenarbeit. Filtern Sie Artikel nach Thema über die Tags.",
-        "seeAll": "Alle Artikel ansehen"
+        "seeAll": "Alle Artikel ansehen",
+        "englishOnlyNotice": "Alle Blog-Beiträge sind derzeit nur auf Englisch verfügbar."
     },
     "Contact": {
         "title": "Erzählen Sie uns von Ihrem Projekt.",

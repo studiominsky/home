@@ -1,6 +1,11 @@
 'use client';
 
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, {
+  useLayoutEffect,
+  useRef,
+  useState,
+  useMemo,
+} from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
@@ -11,6 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { useTranslations } from 'next-intl';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,80 +36,82 @@ interface ProjectDataItem {
   caseStudyUrl?: string;
 }
 
-const projectData: ProjectDataItem[] = [
-  {
-    id: 1,
-    title: 'Fine Interface',
-    logoLight: '/logos/fineinterface-light.svg',
-    logoDark: '/logos/fineinterface-dark.svg',
-    description:
-      'Fine Interface is a curated gallery of beautifully crafted user interfaces where the community can submit and save new finds. The site doubles as a design-system testbed, using Radix UI primitives and Next.js server actions to handle votes without page reloads.',
-    features: [
-      'User Authentication (Google/GitHub)',
-      'Submit Websites for review',
-      'Create Folders to save favorite websites',
-      'Rate Websites',
-      'Admin Panel for approvals',
-    ],
-    techStack: [
-      'Next.js',
-      'TypeScript',
-      'Tailwind CSS',
-      'Firebase',
-      'shadcn/ui',
-    ],
-    liveUrl: 'https://fineinterface.com',
-  },
-  {
-    id: 2,
-    title: 'Panellio',
-    logoLight: '/logos/panellio-light.svg',
-    logoDark: '/logos/panellio-dark.svg',
-    description:
-      'Panellio is a personal management tool designed to help organize your online life, reduce distractions, and boost productivity. It allows users to create directories and add features like notes, tasks, and habits. Panellio also includes an AI assistant to monitor and analyze data.',
-    features: [
-      'Create directories for different projects',
-      'Add features like notes, tasks, and habits',
-      'Monitor and analyze data with AI',
-      'Track stats and progress',
-      'Free and paid subscription plans',
-    ],
-    techStack: [
-      'Next.js',
-      'TypeScript',
-      'Tailwind CSS',
-      'Firebase',
-      'shadcn/ui',
-      'Stripe',
-    ],
-    liveUrl: 'https://panellio.com',
-  },
-  {
-    id: 3,
-    title: 'Word Inventory',
-    logoLight: '/logos/wordinventory-light.svg',
-    logoDark: '/logos/wordinventory-dark.svg',
-    description:
-      'Word Inventory is a language learning web application with a clean interface, powered by AI. It helps users expand their vocabulary by allowing them to save words, get AI-generated example sentences, and receive grammar explanations.',
-    features: [
-      'Save and organize new vocabulary',
-      'Get contextual examples from an AI',
-      'AI-powered grammar explanations',
-      'Clean, user-friendly interface',
-    ],
-    techStack: [
-      'Next.js',
-      'TypeScript',
-      'Tailwind CSS',
-      'Firebase',
-      'shadcn/ui',
-      'OpenAI',
-    ],
-    liveUrl: '#',
-  },
-];
-
 export default function Projects() {
+  const t = useTranslations('Projects');
+
+  const projectData: ProjectDataItem[] = useMemo(
+    () => [
+      {
+        id: 1,
+        title: 'Fine Interface',
+        logoLight: '/logos/fineinterface-light.svg',
+        logoDark: '/logos/fineinterface-dark.svg',
+        description: t('fineInterfaceDescription'),
+        features: [
+          t('fineInterfaceFeature1'),
+          t('fineInterfaceFeature2'),
+          t('fineInterfaceFeature3'),
+          t('fineInterfaceFeature4'),
+          t('fineInterfaceFeature5'),
+        ],
+        techStack: [
+          'Next.js',
+          'TypeScript',
+          'Tailwind CSS',
+          'Firebase',
+          'shadcn/ui',
+        ],
+        liveUrl: 'https://fineinterface.com',
+      },
+      {
+        id: 2,
+        title: 'Panellio',
+        logoLight: '/logos/panellio-light.svg',
+        logoDark: '/logos/panellio-dark.svg',
+        description: t('panellioDescription'),
+        features: [
+          t('panellioFeature1'),
+          t('panellioFeature2'),
+          t('panellioFeature3'),
+          t('panellioFeature4'),
+          t('panellioFeature5'),
+        ],
+        techStack: [
+          'Next.js',
+          'TypeScript',
+          'Tailwind CSS',
+          'Firebase',
+          'shadcn/ui',
+          'Stripe',
+        ],
+        liveUrl: 'https://panellio.com',
+      },
+      {
+        id: 3,
+        title: 'Word Inventory',
+        logoLight: '/logos/wordinventory-light.svg',
+        logoDark: '/logos/wordinventory-dark.svg',
+        description: t('wordInventoryDescription'),
+        features: [
+          t('wordInventoryFeature1'),
+          t('wordInventoryFeature2'),
+          t('wordInventoryFeature3'),
+          t('wordInventoryFeature4'),
+        ],
+        techStack: [
+          'Next.js',
+          'TypeScript',
+          'Tailwind CSS',
+          'Firebase',
+          'shadcn/ui',
+          'OpenAI',
+        ],
+        liveUrl: '#',
+      },
+    ],
+    [t]
+  );
+
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(
     null
@@ -214,7 +222,7 @@ export default function Projects() {
     >
       <Container>
         <span className="font-mono border-b border-border py-3 text-sm w-full block">
-          02 SELECTED WORK
+          {t('preTitle')}
         </span>
         <div className="flex flex-col pt-10">
           <div className="flex flex-col lg:flex-row justify-between gap-10">
@@ -222,15 +230,13 @@ export default function Projects() {
               ref={headerRef}
               className="font-geometric text-5xl md:text-6xl lg:text-[75px] w-full lg:w-2/5 opacity-0"
             >
-              PROJECTS
+              {t('title')}
             </h1>
             <p
               ref={paragraphRef}
               className="text-lg md:text-xl w-full lg:w-1/3 text-foreground opacity-0"
             >
-              Our process is designed for clarity and collaboration,
-              ensuring every project is a partnership that leads to
-              exceptional results.
+              {t('description')}
             </p>
           </div>
 
@@ -303,7 +309,7 @@ export default function Projects() {
 
                   <div className="my-6">
                     <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
-                      Key Features
+                      {t('keyFeatures')}
                     </h4>
                     <ul className="list-disc list-inside space-y-2 text-foreground/80">
                       {activeProject.features.map((feature) => (
@@ -342,7 +348,7 @@ export default function Projects() {
                         rel="noopener noreferrer"
                         className="cursor-pointer text-card z-99 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center text-[0.875rem] leading-[1.25rem] font-medium opacity-100 transition-transform hover:scale-105"
                       >
-                        View Live Site
+                        {t('viewLiveSite')}
                       </a>
                     )}
                   </div>
@@ -379,7 +385,7 @@ export default function Projects() {
 
                       <div className="my-6">
                         <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
-                          Key Features
+                          {t('keyFeatures')}
                         </h4>
                         <ul className="list-disc list-inside space-y-2 text-foreground/80">
                           {project.features.map((feature) => (
@@ -419,7 +425,7 @@ export default function Projects() {
                             rel="noopener noreferrer"
                             className="cursor-pointer text-card z-20 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center text-[0.875rem] leading-[1.25rem] font-medium opacity-100 transition-transform hover:scale-105"
                           >
-                            View Live Site
+                            {t('viewLiveSite')}
                           </a>
                         )}
                       </div>

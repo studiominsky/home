@@ -56,11 +56,28 @@
         "chatbotsAdditional": "Our chatbots are available 24/7, providing instant support to your customers."
     },
     "Projects": {
-        "preTitle": "SELECTED WORK",
-        "title": "Projects",
-        "description": "Our portfolio showcases our commitment to quality, performance, and user-centric design. Explore some of our recent work.",
+        "preTitle": "02 SELECTED WORK",
+        "title": "PROJECTS",
+        "description": "Our process is designed for clarity and collaboration, ensuring every project is a partnership that leads to exceptional results.",
         "keyFeatures": "Key Features",
-        "viewLiveSite": "View Live Site"
+        "viewLiveSite": "View Live Site",
+        "fineInterfaceDescription": "Fine Interface is a curated gallery of beautifully crafted user interfaces where the community can submit and save new finds. The site doubles as a design-system testbed, using Radix UI primitives and Next.js server actions to handle votes without page reloads.",
+        "fineInterfaceFeature1": "User Authentication (Google/GitHub)",
+        "fineInterfaceFeature2": "Submit Websites for review",
+        "fineInterfaceFeature3": "Create Folders to save favorite websites",
+        "fineInterfaceFeature4": "Rate Websites",
+        "fineInterfaceFeature5": "Admin Panel for approvals",
+        "panellioDescription": "Panellio is a personal management tool designed to help organize your online life, reduce distractions, and boost productivity. It allows users to create directories and add features like notes, tasks, and habits. Panellio also includes an AI assistant to monitor and analyze data.",
+        "panellioFeature1": "Create directories for different projects",
+        "panellioFeature2": "Add features like notes, tasks, and habits",
+        "panellioFeature3": "Monitor and analyze data with AI",
+        "panellioFeature4": "Track stats and progress",
+        "panellioFeature5": "Free and paid subscription plans",
+        "wordInventoryDescription": "Word Inventory is a language learning web application with a clean interface, powered by AI. It helps users expand their vocabulary by allowing them to save words, get AI-generated example sentences, and receive grammar explanations.",
+        "wordInventoryFeature1": "Save and organize new vocabulary",
+        "wordInventoryFeature2": "Get contextual examples from an AI",
+        "wordInventoryFeature3": "AI-powered grammar explanations",
+        "wordInventoryFeature4": "Clean, user-friendly interface"
     },
     "Process": {
         "preTitle": "HOW WE DO IT",
@@ -86,7 +103,8 @@
         "preTitle": "FROM THE BLOG",
         "title": "Blog",
         "description": "A collection of our thoughts on design, development, and collaboration. Use the tags to filter articles by topic.",
-        "seeAll": "See all articles"
+        "seeAll": "See all articles",
+        "englishOnlyNotice": "All blog posts are currently available in English only."
     },
     "Contact": {
         "title": "Tell us about your project.",

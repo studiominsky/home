@@ -12,34 +12,28 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Container from './Container';
 import Image from 'next/image';
 import clsx from 'clsx';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { Info } from 'lucide-react';
+import type { BlogPostMeta } from '@/types/blog';
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Article = {
-  slug: string;
-  title: string;
-  description: string;
-  date: string;
-  tags: string[];
-  coverImage?: string;
-};
-
 export default function Blog() {
   const t = useTranslations('Blog');
+  const locale = useLocale(); // Get the current locale
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLHeadingElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<BlogPostMeta[]>([]);
 
   useEffect(() => {
     async function fetchArticles() {
       try {
         const res = await fetch('/api/posts');
         const json = await res.json();
-        const posts: Article[] = json.posts || [];
+        const posts: BlogPostMeta[] = json.posts || [];
         posts.sort(
           (a, b) =>
             new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -118,6 +112,17 @@ export default function Blog() {
             </p>
           </div>
 
+          {locale === 'de' && (
+            <div className="mt-12 flex items-center gap-3">
+              <span className="px-3 flex gap-1 items-center py-1 w-fit rounded-full text-xs font-bold font-mono transition-colors border bg-primary text-background border-primary">
+                <Info size={18} /> <span>Info</span>
+              </span>
+              <div className="text-md text-foreground">
+                {t('englishOnlyNotice')}
+              </div>
+            </div>
+          )}
+
           <div className="mt-12 md:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {articles.map((post, i) => (
               <div
@@ -135,7 +140,7 @@ export default function Blog() {
                   <div
                     className={clsx(
                       `post-card div${i + 1}`,
-                      'cursor-pointer p-6 transition-transform duration-300 hover:-translate-y-2' // A slightly more noticeable hover effect
+                      'cursor-pointer p-6 transition-transform duration-300 hover:-translate-y-2'
                     )}
                   >
                     {post.coverImage && (
