@@ -28,6 +28,7 @@ interface ProjectDataItem {
   description: string;
   features: string[];
   techStack: string[];
+  status: 'statusFinished' | 'statusInDevelopment' | 'statusEarlyPhase';
   testimonial?: {
     quote: string;
     author: string;
@@ -51,7 +52,6 @@ export default function Projects() {
           t('fineInterfaceFeature1'),
           t('fineInterfaceFeature2'),
           t('fineInterfaceFeature3'),
-          t('fineInterfaceFeature4'),
           t('fineInterfaceFeature5'),
         ],
         techStack: [
@@ -61,6 +61,7 @@ export default function Projects() {
           'Firebase',
           'shadcn/ui',
         ],
+        status: 'statusFinished',
         liveUrl: 'https://fineinterface.com',
       },
       {
@@ -84,6 +85,7 @@ export default function Projects() {
           'shadcn/ui',
           'Stripe',
         ],
+        status: 'statusFinished',
         liveUrl: 'https://panellio.com',
       },
       {
@@ -106,6 +108,7 @@ export default function Projects() {
           'shadcn/ui',
           'OpenAI',
         ],
+        status: 'statusInDevelopment',
         liveUrl: '#',
       },
     ],
@@ -113,9 +116,7 @@ export default function Projects() {
   );
 
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(
-    null
-  );
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLHeadingElement>(null);
@@ -214,6 +215,19 @@ export default function Projects() {
 
   const activeProject = projectData[activeIndex];
 
+  const getStatusClass = (status: ProjectDataItem['status']) => {
+    switch (status) {
+      case 'statusFinished':
+        return 'bg-green-200/20 border-green-500 text-green-500';
+      case 'statusInDevelopment':
+        return 'bg-blue-300/20 border-blue-500 text-blue-500';
+      case 'statusEarlyPhase':
+        return 'bg-gray-300/20 border-gray-500 text-gray-500';
+      default:
+        return 'bg-foreground/20 border-border text-foreground';
+    }
+  };
+
   return (
     <section
       id="projects"
@@ -260,11 +274,9 @@ export default function Projects() {
                       }}
                       className={`
                         inline-block w-4 h-4 rounded-full border transition-colors duration-300
-                        ${
-                          activeIndex === index ||
-                          hoveredIndex === index
-                            ? 'bg-primary border-primary'
-                            : 'bg-foreground/30 border-border'
+                        ${activeIndex === index || hoveredIndex === index
+                          ? 'bg-primary border-primary'
+                          : 'bg-foreground/30 border-border'
                         }
                       `}
                     />
@@ -274,11 +286,9 @@ export default function Projects() {
                       }}
                       className={`
                         text-[32px] uppercase transition-colors duration-300
-                        ${
-                          activeIndex === index ||
-                          hoveredIndex === index
-                            ? 'text-foreground'
-                            : 'text-foreground/30'
+                        ${activeIndex === index || hoveredIndex === index
+                          ? 'text-foreground'
+                          : 'text-foreground/30'
                         }
                       `}
                     >
@@ -329,28 +339,47 @@ export default function Projects() {
                     </blockquote>
                   )}
 
-                  <div className="flex gap-2 flex-wrap my-6">
-                    {activeProject.techStack.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 bg-primary/20 border border-primary text-primary rounded-full text-xs font-bold font-mono"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                  <div className="my-6">
+                    <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
+                      {t('status')}
+                    </h4>
+                    <span
+                      className={`px-3 py-1 border rounded-full text-xs font-bold font-mono ${getStatusClass(
+                        activeProject.status
+                      )}`}
+                    >
+                      {t(activeProject.status)}
+                    </span>
                   </div>
 
-                  <div className="flex gap-4 mt-6">
-                    {activeProject.liveUrl && (
-                      <a
-                        href={activeProject.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="cursor-pointer text-card z-99 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center text-[0.875rem] leading-[1.25rem] font-medium opacity-100 transition-transform hover:scale-105"
-                      >
-                        {t('viewLiveSite')}
-                      </a>
-                    )}
+                  <div className="my-6">
+                    <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
+                      {t('stack')}
+                    </h4>
+                    <div className="flex gap-2 flex-wrap">
+                      {activeProject.techStack.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 bg-primary/20 border border-primary text-primary rounded-full text-xs font-bold font-mono"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 mt-8">
+                    {activeProject.status === 'statusFinished' &&
+                      activeProject.liveUrl && (
+                        <a
+                          href={activeProject.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="cursor-pointer text-card z-99 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center text-[0.875rem] leading-[1.25rem] font-medium opacity-100 transition-transform hover:scale-105"
+                        >
+                          {t('viewLiveSite')}
+                        </a>
+                      )}
                   </div>
                 </div>
               )}
@@ -359,10 +388,7 @@ export default function Projects() {
           <div className="lg:hidden mt-12">
             <Accordion type="multiple">
               {projectData.map((project, index) => (
-                <AccordionItem
-                  value={`item-${index}`}
-                  key={project.id}
-                >
+                <AccordionItem value={`item-${index}`} key={project.id}>
                   <AccordionTrigger className="text-2xl font-geometric uppercase">
                     {project.title}
                   </AccordionTrigger>
@@ -394,40 +420,56 @@ export default function Projects() {
                         </ul>
                       </div>
 
-                      {activeProject.testimonial && (
+                      {project.testimonial && (
                         <blockquote className="my-6 border-l-2 border-primary pl-4 italic text-foreground/90">
-                          <p>
-                            &quot;{activeProject.testimonial.quote}
-                            &quot;
-                          </p>
+                          <p>&quot;{project.testimonial.quote}&quot;</p>
                           <cite className="mt-2 block not-italic text-sm text-foreground/60">
-                            – {activeProject.testimonial.author}
+                            – {project.testimonial.author}
                           </cite>
                         </blockquote>
                       )}
 
-                      <div className="flex gap-2 flex-wrap my-6">
-                        {project.techStack.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-3 py-1 bg-primary/20 border border-primary text-primary rounded-full text-xs font-bold font-mono"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                      <div className="my-6">
+                        <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
+                          {t('status')}
+                        </h4>
+                        <span
+                          className={`px-3 py-1 border rounded-full text-xs font-bold font-mono ${getStatusClass(
+                            project.status
+                          )}`}
+                        >
+                          {t(project.status)}
+                        </span>
+                      </div>
+
+                      <div className="my-6">
+                        <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
+                          {t('stack')}
+                        </h4>
+                        <div className="flex gap-2 flex-wrap">
+                          {project.techStack.map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-3 py-1 bg-primary/20 border border-primary text-primary rounded-full text-xs font-bold font-mono"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
 
                       <div className="flex gap-4 mt-6">
-                        {project.liveUrl && (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="cursor-pointer text-card z-20 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center text-[0.875rem] leading-[1.25rem] font-medium opacity-100 transition-transform hover:scale-105"
-                          >
-                            {t('viewLiveSite')}
-                          </a>
-                        )}
+                        {project.status === 'statusFinished' &&
+                          project.liveUrl && (
+                            <a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="cursor-pointer text-card z-20 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center text-[0.875rem] leading-[1.25rem] font-medium opacity-100 transition-transform hover:scale-105"
+                            >
+                              {t('viewLiveSite')}
+                            </a>
+                          )}
                       </div>
                     </div>
                   </AccordionContent>
