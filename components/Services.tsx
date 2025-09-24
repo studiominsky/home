@@ -43,7 +43,7 @@ const Services: React.FC = () => {
     {
       title: t('websites'),
       description: t('websitesDescription'),
-      tags: ['Webflow', 'Wordpress', 'Shopify', 'SEO'],
+      tags: ['Marketing', 'Shopify', 'SEO', 'Headless CMS', 'WordPress'],
       additional: t('websitesAdditional'),
     },
     {
@@ -216,11 +216,10 @@ const Services: React.FC = () => {
                       }}
                       className={`
                         inline-block w-4 h-4 rounded-full border transition-colors duration-300
-                        ${
-                          activeIndex === index ||
+                        ${activeIndex === index ||
                           hoveredIndex === index
-                            ? 'bg-primary border-primary'
-                            : 'bg-foreground/30 border-border'
+                          ? 'bg-primary border-primary'
+                          : 'bg-foreground/30 border-border'
                         }
                       `}
                     />
@@ -230,11 +229,10 @@ const Services: React.FC = () => {
                       }}
                       className={`
                         text-[32px] uppercase transition-colors duration-300
-                        ${
-                          activeIndex === index ||
+                        ${activeIndex === index ||
                           hoveredIndex === index
-                            ? 'text-foreground'
-                            : 'text-foreground/30'
+                          ? 'text-foreground'
+                          : 'text-foreground/30'
                         }
                       `}
                     >
