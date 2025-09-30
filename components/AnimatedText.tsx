@@ -73,8 +73,7 @@ export default function ContentBlock({
       <Container>
         <h4
           ref={textRef}
-          className="text-black text-center font-geometric text-4xl sm:text-5xl md:text-6xl lg:text-7xl  mb-8 leading-tight md:leading-23"
-        >
+          className="text-black text-center font-geometric text-4xl md:text-6xl 2xl:text-7xl mb-8 leading-tight">
           {children}
         </h4>
 

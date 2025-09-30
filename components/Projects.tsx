@@ -148,6 +148,7 @@ export default function Projects() {
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
+        defaults: { overwrite: 'auto' },
         scrollTrigger: {
           trigger: section,
           start: 'top 70%',
@@ -167,13 +168,13 @@ export default function Projects() {
         }
       ).fromTo(
         projectListRef.current,
-        { opacity: 0, x: -30 },
+        { opacity: 0, y: 12 },
         {
           opacity: 1,
-          x: 0,
-          duration: 0.7,
+          y: 0,
+          duration: 0.6,
           ease: 'power3.out',
-          stagger: 0.15,
+          stagger: 0.12,
         },
         '-=0.5'
       );
@@ -182,34 +183,71 @@ export default function Projects() {
     return () => ctx.revert();
   }, []);
 
+  const resetHoverTransforms = React.useCallback(() => {
+    titleRefs.current.forEach((el, i) => {
+      if (!el) return;
+      if (i !== activeIndex) {
+        gsap.killTweensOf(el);
+        gsap.set(el, { x: 0, clearProps: 'transform' });
+      }
+    });
+    circleRefs.current.forEach((el, i) => {
+      if (!el) return;
+      if (i !== activeIndex) {
+        gsap.killTweensOf(el);
+        gsap.set(el, { x: 0, clearProps: 'transform' });
+      }
+    });
+  }, [activeIndex]);
+
+  useLayoutEffect(() => {
+    resetHoverTransforms();
+  }, [activeIndex, resetHoverTransforms]);
+
   const handleMouseEnter = (index: number) => {
     if (index === activeIndex) return;
     setHoveredIndex(index);
-    gsap.to(circleRefs.current[index], {
+
+    const circle = circleRefs.current[index];
+    const title = titleRefs.current[index];
+    if (!circle || !title) return;
+
+    gsap.killTweensOf([circle, title]);
+    gsap.to(circle, {
       x: 12,
-      duration: 0.5,
+      duration: 0.35,
       ease: 'back.out(1.2)',
+      overwrite: 'auto',
     });
-    gsap.to(titleRefs.current[index], {
+    gsap.to(title, {
       x: 12,
-      duration: 0.5,
+      duration: 0.35,
       ease: 'back.out(1.2)',
-      delay: 0.075,
+      overwrite: 'auto',
+      delay: 0.06,
     });
   };
 
   const handleMouseLeave = (index: number) => {
     setHoveredIndex(null);
-    gsap.to(titleRefs.current[index], {
+
+    const circle = circleRefs.current[index];
+    const title = titleRefs.current[index];
+    if (!circle || !title) return;
+
+    gsap.killTweensOf([circle, title]);
+    gsap.to(title, {
       x: 0,
-      duration: 0.5,
-      ease: 'back.out(1.2)',
+      duration: 0.3,
+      ease: 'power2.out',
+      overwrite: 'auto',
     });
-    gsap.to(circleRefs.current[index], {
+    gsap.to(circle, {
       x: 0,
-      duration: 0.5,
-      ease: 'back.out(1.2)',
-      delay: 0.075,
+      duration: 0.3,
+      ease: 'power2.out',
+      overwrite: 'auto',
+      delay: 0.06,
     });
   };
 
@@ -238,6 +276,7 @@ export default function Projects() {
         <span className="font-mono border-b border-border py-3 text-sm w-full block">
           {t('preTitle')}
         </span>
+
         <div className="flex flex-col pt-10">
           <div className="flex flex-col lg:flex-row justify-between gap-10">
             <h1
@@ -255,7 +294,10 @@ export default function Projects() {
           </div>
 
           <div className="hidden lg:flex pt-20 gap-10">
-            <div className="w-1/3 flex flex-col">
+            <div
+              className="w-1/3 flex flex-col"
+              onMouseLeave={resetHoverTransforms}
+            >
               {projectData.map((project, index) => (
                 <div
                   ref={(el) => {
@@ -272,25 +314,21 @@ export default function Projects() {
                       ref={(el) => {
                         circleRefs.current[index] = el;
                       }}
-                      className={`
-                        inline-block w-4 h-4 rounded-full border transition-colors duration-300
+                      className={`will-change-transform inline-block w-4 h-4 rounded-full border transition-colors duration-300
                         ${activeIndex === index || hoveredIndex === index
                           ? 'bg-primary border-primary'
                           : 'bg-foreground/30 border-border'
-                        }
-                      `}
+                        }`}
                     />
                     <h3
                       ref={(el) => {
                         titleRefs.current[index] = el;
                       }}
-                      className={`
-                        text-3xl uppercase transition-colors duration-300
+                      className={`will-change-transform text-2xl xl:text-3xl uppercase transition-colors duration-300
                         ${activeIndex === index || hoveredIndex === index
                           ? 'text-foreground'
                           : 'text-foreground/30'
-                        }
-                      `}
+                        }`}
                     >
                       {project.title}
                     </h3>
@@ -385,6 +423,7 @@ export default function Projects() {
               )}
             </div>
           </div>
+
           <div className="lg:hidden mt-12">
             <Accordion type="multiple">
               {projectData.map((project, index) => (

@@ -227,7 +227,7 @@ function Process() {
                       <div className="w-1/3 process-step-title">
                         <h3
                           ref={(el) => { titleRefs.current[i] = el; }}
-                          className="font-geometric text-3xl uppercase text-foreground/30 transition-colors duration-300"
+                          className="font-geometric text-2xl xl:text-3xl uppercase text-foreground/30 transition-colors duration-300"
                         >
                           {s.title}
                         </h3>
