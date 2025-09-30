@@ -1,7 +1,13 @@
 'use client';
 
 import React, { useLayoutEffect, useRef } from 'react';
-import { TrendingUp, UserRound } from 'lucide-react';
+import {
+  TrendingUp,
+  UserRound,
+  CheckCircle2,
+  Clock,
+  Smile,
+} from 'lucide-react';
 import { Pie, PieChart, RadialBar, RadialBarChart } from 'recharts';
 import {
   ChartTooltip,
@@ -23,9 +29,7 @@ const DataVizVisual: React.FC = () => {
 
   useLayoutEffect(() => {
     if (!vizRef.current) return;
-
     const el = vizRef.current;
-
     const ctx = gsap.context(() => {
       gsap.fromTo(
         el.children,
@@ -44,99 +48,48 @@ const DataVizVisual: React.FC = () => {
         }
       );
     }, vizRef);
-
     return () => ctx.revert();
   }, []);
 
   const radialChartData = [
-    {
-      browser: 'chrome',
-      visitors: 275,
-      fill: 'rgba(var(--color-primary-rgb), 1)',
-    },
-    {
-      browser: 'safari',
-      visitors: 200,
-      fill: 'rgba(var(--color-primary-rgb), 0.8)',
-    },
-    {
-      browser: 'firefox',
-      visitors: 187,
-      fill: 'rgba(var(--color-primary-rgb), 0.6)',
-    },
-    {
-      browser: 'edge',
-      visitors: 173,
-      fill: 'rgba(var(--color-primary-rgb), 0.4)',
-    },
-    {
-      browser: 'other',
-      visitors: 90,
-      fill: 'rgba(var(--color-primary-rgb), 0.2)',
-    },
+    { stage: 'Qualification', value: 110, fill: 'rgba(var(--color-primary-rgb), 1)' },
+    { stage: 'Needs Analysis', value: 105, fill: 'rgba(var(--color-primary-rgb), 0.8)' },
+    { stage: 'Proposal', value: 130, fill: 'rgba(var(--color-primary-rgb), 0.6)' },
+    { stage: 'Negotiation', value: 105, fill: 'rgba(var(--color-primary-rgb), 0.4)' },
+    { stage: 'Closed Won', value: 75, fill: 'rgba(var(--color-primary-rgb), 0.2)' },
   ];
 
   const radialChartConfig = {
-    visitors: { label: 'Visitors' },
-    chrome: {
-      label: 'Chrome',
-      color: 'rgba(var(--color-primary-rgb), 1)',
-    },
-    safari: {
-      label: 'Safari',
-      color: 'rgba(var(--color-primary-rgb), 0.8)',
-    },
-    firefox: {
-      label: 'Firefox',
-      color: 'rgba(var(--color-primary-rgb), 0.6)',
-    },
-    edge: {
-      label: 'Edge',
-      color: 'rgba(var(--color-primary-rgb), 0.4)',
-    },
-    other: {
-      label: 'Other',
-      color: 'rgba(var(--color-primary-rgb), 0.2)',
-    },
+    value: { label: 'Deals' },
+    Qualification: { label: 'Qualification', color: 'rgba(var(--color-primary-rgb), 1)' },
+    'Needs Analysis': { label: 'Needs Analysis', color: 'rgba(var(--color-primary-rgb), 0.8)' },
+    Proposal: { label: 'Proposal', color: 'rgba(var(--color-primary-rgb), 0.6)' },
+    Negotiation: { label: 'Negotiation', color: 'rgba(var(--color-primary-rgb), 0.4)' },
+    'Closed Won': { label: 'Closed Won', color: 'rgba(var(--color-primary-rgb), 0.2)' },
   } satisfies ChartConfig;
-
-  const calendarDays = Array.from({ length: 30 }, (_, i) => i + 1);
-  const selectedDays = [11, 12, 13];
 
   const employeeData = [
     {
-      name: 'Alice Johnson',
-      role: 'Project Manager',
+      name: 'Elena Rodriguez',
+      role: 'Sales Lead',
       data: [
-        {
-          name: 'Completed',
-          value: 80,
-          fill: 'var(--color-primary)',
-        },
+        { name: 'Completed', value: 80, fill: 'var(--color-primary)' },
         { name: 'Pending', value: 20, fill: 'var(--color-border)' },
       ],
     },
     {
-      name: 'Bob Williams',
-      role: 'Lead Engineer',
+      name: 'Ben Carter',
+      role: 'Support Engineer',
       data: [
-        {
-          name: 'Completed',
-          value: 65,
-          fill: 'var(--color-primary)',
-        },
+        { name: 'Completed', value: 65, fill: 'var(--color-primary)' },
         { name: 'Pending', value: 35, fill: 'var(--color-border)' },
       ],
     },
     {
-      name: 'Charlie Brown',
-      role: 'UX Designer',
+      name: 'Aisha Khan',
+      role: 'Product Designer',
       data: [
-        {
-          name: 'Completed',
-          value: 90,
-          fill: 'var(--color-primary)',
-        },
+        { name: 'Completed', value: 90, fill: 'var(--color-primary)' },
         { name: 'Pending', value: 10, fill: 'var(--color-border)' },
       ],
     },
@@ -172,12 +125,12 @@ const DataVizVisual: React.FC = () => {
                   content={
                     <ChartTooltipContent
                       hideLabel
-                      nameKey="browser"
+                      nameKey="stage"
                     />
                   }
                 />
                 <RadialBar
-                  dataKey="visitors"
+                  dataKey="value"
                   background={{
                     fill: 'rgba(var(--color-primary-rgb), 0.25)',
                   }}
@@ -201,75 +154,83 @@ const DataVizVisual: React.FC = () => {
           </h4>
           <div className="flex items-baseline gap-2 mt-2">
             <span className="text-5xl sm:text-6xl font-bold text-foreground">
-              2.57%
+              3.14%
             </span>
           </div>
           <div className="flex items-center gap-1 text-positive font-medium text-sm">
             <TrendingUp className="w-4 h-4" />
-            <span>+10%</span>
+            <span>+12%</span>
           </div>
         </div>
 
-        <div className="md:col-span-2 lg:col-span-2 bg-card border border-border rounded-md p-4 flex flex-col">
-          <h4 className="font-semibold text-sm text-foreground text-center">
-            {t('keyDates')}
+        <div className="md:col-span-2 lg:col-span-2 bg-card border border-border rounded-md p-4 flex flex-col justify-center">
+          <h4 className="font-semibold text-sm text-foreground text-center mb-4">
+            {t('supportMetrics')}
           </h4>
-          <div className="grid grid-cols-7 gap-y-1 text-center text-xs text-foreground/60 mt-2">
-            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
-              <div key={index}>{day}</div>
-            ))}
-          </div>
-          <div className="grid grid-cols-7 gap-1 mt-1">
-            {calendarDays.map((day) => (
-              <div
-                key={day}
-                className={`flex items-center justify-center text-xs w-8 md:w-full aspect-square rounded-full ${selectedDays.includes(day) ? 'bg-primary text-background' : 'text-foreground/80'}`}
-              >
-                {day}
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <CheckCircle2 className="w-5 h-5 text-positive" />
+              <div>
+                <p className="text-xs text-foreground/70">{t('ticketsSolved')}</p>
+                <p className="text-lg font-bold">1,204</p>
               </div>
-            ))}
+            </div>
+            <div className="flex items-center gap-3">
+              <Clock className="w-5 h-5 text-primary" />
+              <div>
+                <p className="text-xs text-foreground/70">{t('avgResponseTime')}</p>
+                <p className="text-lg font-bold">1.2h</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Smile className="w-5 h-5 text-primary" />
+              <div>
+                <p className="text-xs text-foreground/70">{t('csat')}</p>
+                <p className="text-lg font-bold">92%</p>
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="md:col-span-4 lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-7">
           <div className="bg-card border border-border rounded-md p-4 flex flex-col">
             <h4 className="font-semibold text-foreground mb-4">
-              {t('performanceMetrics')}
+              {t('operationalStatus')}
             </h4>
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                  <span>{t('speed')}</span>
-                  <span>95%</span>
+                  <span>{t('apiUptime')}</span>
+                  <span>99.9%</span>
                 </div>
                 <div
                   className="w-full rounded-full h-2.5"
                   style={{
-                    background: `linear-gradient(to right, var(--color-positive) 95%, rgba(var(--color-primary-rgb), 0.25) 95%)`,
+                    background: `linear-gradient(to right, var(--color-positive) 99.9%, rgba(var(--color-primary-rgb), 0.25) 99.9%)`,
                   }}
                 />
               </div>
               <div>
                 <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                  <span>{t('usability')}</span>
-                  <span>82%</span>
+                  <span>{t('dbLoad')}</span>
+                  <span>45%</span>
                 </div>
                 <div
                   className="w-full rounded-full h-2.5"
                   style={{
-                    background: `linear-gradient(to right, var(--color-primary) 82%, rgba(var(--color-primary-rgb), 0.25) 82%)`,
+                    background: `linear-gradient(to right, var(--color-primary) 45%, rgba(var(--color-primary-rgb), 0.25) 45%)`,
                   }}
                 />
               </div>
               <div>
                 <div className="flex justify-between text-sm mb-1 text-foreground/80">
-                  <span>{t('accessibility')}</span>
-                  <span>95%</span>
+                  <span>{t('errorRate')}</span>
+                  <span>0.8%</span>
                 </div>
                 <div
                   className="w-full rounded-full h-2.5"
                   style={{
-                    background: `linear-gradient(to right, var(--color-primary) 95%, rgba(var(--color-primary-rgb), 0.25) 95%)`,
+                    background: `linear-gradient(to right, var(--color-negative) 0.8%, rgba(var(--color-primary-rgb), 0.25) 0.8%)`,
                   }}
                 />
               </div>

@@ -204,16 +204,19 @@
             "inactive": "Inactive"
         },
         "DataViz": {
-            "chartTitle": "Radial Chart - Browser Share",
-            "chartSubtitle": "January - June 2025",
-            "trendingUp": "Trending up by 5.2% this month",
-            "conversionRate": "Conversion Rate",
-            "keyDates": "Key Dates",
-            "performanceMetrics": "Performance Metrics",
-            "speed": "Speed",
-            "usability": "Usability",
-            "accessibility": "Accessibility",
-            "employeeTasks": "Employee Task Distribution"
+            "chartTitle": "Sales Pipeline",
+            "chartSubtitle": "Current Quarter (Q3 2025)",
+            "trendingUp": "New leads up by 8%",
+            "conversionRate": "Lead Conversion Rate",
+            "supportMetrics": "Support Metrics",
+            "ticketsSolved": "Tickets Solved (24h)",
+            "avgResponseTime": "Avg. Response Time",
+            "csat": "CSAT",
+            "operationalStatus": "Operational Status",
+            "apiUptime": "API Uptime",
+            "dbLoad": "Database Load",
+            "errorRate": "Error Rate",
+            "employeeTasks": "Team Task Distribution"
         },
         "AI": {
             "mainTitle": "AI Integration for Business",

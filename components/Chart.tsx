@@ -10,17 +10,17 @@ import {
 } from './ui/chart';
 
 const chartData = [
-  { month: 'January', desktop: 86 },
-  { month: 'February', desktop: 105 },
-  { month: 'March', desktop: 137 },
-  { month: 'April', desktop: 103 },
-  { month: 'May', desktop: 179 },
-  { month: 'June', desktop: 214 },
+  { month: 'January', revenue: 12300 },
+  { month: 'February', revenue: 15500 },
+  { month: 'March', revenue: 13700 },
+  { month: 'April', revenue: 18400 },
+  { month: 'May', revenue: 21900 },
+  { month: 'June', revenue: 24200 },
 ];
 
 const chartConfig = {
-  desktop: {
-    label: 'Desktop',
+  revenue: {
+    label: 'Revenue',
     color: 'hsl(var(--chart-1))',
   },
 } satisfies ChartConfig;
@@ -70,7 +70,7 @@ export function ChartAreaGradient() {
           content={<ChartTooltipContent indicator="dot" />}
         />
         <Area
-          dataKey="desktop"
+          dataKey="revenue"
           type="natural"
           fill={`url(#${gradientId})`}
           stroke="var(--color-primary)"

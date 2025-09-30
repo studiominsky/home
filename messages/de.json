@@ -204,16 +204,19 @@
             "inactive": "Inaktiv"
         },
         "DataViz": {
-            "chartTitle": "Radial-Diagramm - Browser-Anteil",
-            "chartSubtitle": "Januar - Juni 2025",
-            "trendingUp": "Anstieg um 5,2% in diesem Monat",
-            "conversionRate": "Konversionsrate",
-            "keyDates": "Wichtige Termine",
-            "performanceMetrics": "Leistungskennzahlen",
-            "speed": "Geschwindigkeit",
-            "usability": "Benutzerfreundlichkeit",
-            "accessibility": "Barrierefreiheit",
-            "employeeTasks": "Aufgabenverteilung"
+            "chartTitle": "Vertriebspipeline",
+            "chartSubtitle": "Aktuelles Quartal (Q3 2025)",
+            "trendingUp": "Neue Leads +8%",
+            "conversionRate": "Lead-Konversionsrate",
+            "supportMetrics": "Support-Metriken",
+            "ticketsSolved": "Gelöste Tickets (24h)",
+            "avgResponseTime": "Ø Antwortzeit",
+            "csat": "CSAT",
+            "operationalStatus": "Betriebsstatus",
+            "apiUptime": "API-Verfügbarkeit",
+            "dbLoad": "Datenbanklast",
+            "errorRate": "Fehlerrate",
+            "employeeTasks": "Team-Aufgabenverteilung"
         },
         "AI": {
             "mainTitle": "KI-Integration für Unternehmen",
