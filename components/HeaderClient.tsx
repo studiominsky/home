@@ -277,7 +277,7 @@ export default function HeaderClient({ posts, latest }: Props) {
                               className={clsx(
                                 'block cursor-pointer rounded-md p-2 text-sm hover:bg-accent',
                                 locale === lang.code &&
-                                  'font-bold bg-accent/50'
+                                'font-bold bg-accent/50'
                               )}
                             >
                               {lang.name}
@@ -322,7 +322,7 @@ export default function HeaderClient({ posts, latest }: Props) {
         >
           <div className="flex items-center justify-center px-10 pt-10 md:px-0 md:pt-0">
             <DialogHeader>
-              <DialogTitle className="font-geometric text-center text-[32px] md:text-[42px] leading-none">
+              <DialogTitle className="font-geometric text-center text-3xl md:text-[42px] leading-none">
                 {t('dialogTitle')}
               </DialogTitle>
               <DialogDescription className="pt-2 text-center text-base md:text-lg">

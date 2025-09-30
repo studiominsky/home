@@ -320,7 +320,7 @@ export default function Banner() {
 
       if (!isDesktop) {
         applyFinalLayout();
-        return () => {};
+        return () => { };
       }
 
       const cleanup = buildDesktopAnimation();
@@ -377,7 +377,7 @@ export default function Banner() {
             <span>{t('title')}</span>
           </span>
 
-          <span className="absolute top-full font-sans mt-2 max-w-2xl text-[21px] leading-[32px] tracking-[-0.03em] text-foreground">
+          <span className="absolute top-full font-sans mt-2 max-w-2xl text-[21px] leading-3xl tracking-[-0.03em] text-foreground">
             <div
               ref={availabilityRef}
               className="relative flex items-center gap-2 mb-3 opacity-0"

@@ -285,7 +285,7 @@ export default function Projects() {
                         titleRefs.current[index] = el;
                       }}
                       className={`
-                        text-[32px] uppercase transition-colors duration-300
+                        text-3xl uppercase transition-colors duration-300
                         ${activeIndex === index || hoveredIndex === index
                           ? 'text-foreground'
                           : 'text-foreground/30'
