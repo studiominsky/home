@@ -29,10 +29,6 @@ interface ProjectDataItem {
   features: string[];
   techStack: string[];
   status: 'statusFinished' | 'statusInDevelopment' | 'statusEarlyPhase';
-  testimonial?: {
-    quote: string;
-    author: string;
-  };
   liveUrl?: string;
   caseStudyUrl?: string;
 }
@@ -256,13 +252,13 @@ export default function Projects() {
   const getStatusClass = (status: ProjectDataItem['status']) => {
     switch (status) {
       case 'statusFinished':
-        return 'bg-green-200/20 border-green-500 text-green-500';
+        return 'bg-lime-700 border-lime-700 text-white';
       case 'statusInDevelopment':
-        return 'bg-blue-300/20 border-blue-500 text-blue-500';
+        return 'bg-teal-600 border-teal-600 text-white';
       case 'statusEarlyPhase':
-        return 'bg-gray-300/20 border-gray-500 text-gray-500';
+        return 'bg-orange-600 border-orange-600 text-white';
       default:
-        return 'bg-foreground/20 border-border text-foreground';
+        return 'bg-primary border-primary text-foreground';
     }
   };
 
@@ -366,17 +362,6 @@ export default function Projects() {
                     </ul>
                   </div>
 
-                  {activeProject.testimonial && (
-                    <blockquote className="my-6 border-l-2 border-primary pl-4 italic text-foreground/90">
-                      <p>
-                        &quot;{activeProject.testimonial.quote}&quot;
-                      </p>
-                      <cite className="mt-2 block not-italic text-sm text-foreground/60">
-                        – {activeProject.testimonial.author}
-                      </cite>
-                    </blockquote>
-                  )}
-
                   <div className="my-6">
                     <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
                       {t('status')}
@@ -458,15 +443,6 @@ export default function Projects() {
                           ))}
                         </ul>
                       </div>
-
-                      {project.testimonial && (
-                        <blockquote className="my-6 border-l-2 border-primary pl-4 italic text-foreground/90">
-                          <p>&quot;{project.testimonial.quote}&quot;</p>
-                          <cite className="mt-2 block not-italic text-sm text-foreground/60">
-                            – {project.testimonial.author}
-                          </cite>
-                        </blockquote>
-                      )}
 
                       <div className="my-6">
                         <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
