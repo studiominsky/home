@@ -1,22 +1,17 @@
-'use client';
+"use client";
 
-import React, {
-  useLayoutEffect,
-  useRef,
-  useState,
-  useMemo,
-} from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Container from './Container';
-import { ThemedImage } from './ThemedImage';
+import React, { useLayoutEffect, useRef, useState, useMemo } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Container from "./Container";
+import { ThemedImage } from "./ThemedImage";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { useTranslations } from 'next-intl';
+} from "@/components/ui/accordion";
+import { useTranslations } from "next-intl";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,84 +23,86 @@ interface ProjectDataItem {
   description: string;
   features: string[];
   techStack: string[];
-  status: 'statusFinished' | 'statusInDevelopment' | 'statusEarlyPhase';
+  status: "statusFinished" | "statusInDevelopment" | "statusEarlyPhase";
   liveUrl?: string;
   caseStudyUrl?: string;
 }
 
 export default function Projects() {
-  const t = useTranslations('Projects');
+  const t = useTranslations("Projects");
 
   const projectData: ProjectDataItem[] = useMemo(
     () => [
       {
         id: 1,
-        title: 'Fine Interface',
-        logoLight: '/logos/fineinterface-light.svg',
-        logoDark: '/logos/fineinterface-dark.svg',
-        description: t('fineInterfaceDescription'),
+        title: "Fine Interface",
+        logoLight: "/logos/fineinterface-light.svg",
+        logoDark: "/logos/fineinterface-dark.svg",
+        description: t("fineInterfaceDescription"),
         features: [
-          t('fineInterfaceFeature1'),
-          t('fineInterfaceFeature2'),
-          t('fineInterfaceFeature3'),
-          t('fineInterfaceFeature5'),
+          t("fineInterfaceFeature1"),
+          t("fineInterfaceFeature2"),
+          t("fineInterfaceFeature3"),
+          t("fineInterfaceFeature5"),
         ],
         techStack: [
-          'Next.js',
-          'TypeScript',
-          'Tailwind CSS',
-          'Firebase',
-          'shadcn/ui',
+          "Next.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "Firebase",
+          "shadcn/ui",
         ],
-        status: 'statusFinished',
-        liveUrl: 'https://fineinterface.com',
+        status: "statusFinished",
+        liveUrl: "https://fineinterface.com",
       },
       {
         id: 2,
-        title: 'Panellio',
-        logoLight: '/logos/panellio-light.svg',
-        logoDark: '/logos/panellio-dark.svg',
-        description: t('panellioDescription'),
+        title: "Panellio",
+        logoLight: "/logos/panellio-light.svg",
+        logoDark: "/logos/panellio-dark.svg",
+        description: t("panellioDescription"),
         features: [
-          t('panellioFeature1'),
-          t('panellioFeature2'),
-          t('panellioFeature3'),
-          t('panellioFeature4'),
-          t('panellioFeature5'),
+          t("panellioFeature1"),
+          t("panellioFeature2"),
+          t("panellioFeature3"),
+          t("panellioFeature4"),
+          t("panellioFeature5"),
         ],
         techStack: [
-          'Next.js',
-          'TypeScript',
-          'Tailwind CSS',
-          'Firebase',
-          'shadcn/ui',
-          'Stripe',
+          "Next.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "Firebase",
+          "shadcn/ui",
+          "Stripe",
         ],
-        status: 'statusFinished',
-        liveUrl: 'https://panellio.com',
+        status: "statusFinished",
+        liveUrl: "https://panellio.com",
       },
       {
         id: 3,
-        title: 'Word Inventory',
-        logoLight: '/logos/wordinventory-light.svg',
-        logoDark: '/logos/wordinventory-dark.svg',
-        description: t('wordInventoryDescription'),
+        title: "Word Inventory",
+        logoLight: "/logos/wordinventory-light.svg",
+        logoDark: "/logos/wordinventory-dark.svg",
+        description: t("wordInventoryDescription"),
         features: [
-          t('wordInventoryFeature1'),
-          t('wordInventoryFeature2'),
-          t('wordInventoryFeature3'),
-          t('wordInventoryFeature4'),
+          t("wordInventoryFeature1"),
+          t("wordInventoryFeature2"),
+          t("wordInventoryFeature3"),
+          t("wordInventoryFeature4"),
         ],
         techStack: [
-          'Next.js',
-          'TypeScript',
-          'Tailwind CSS',
-          'Firebase',
-          'shadcn/ui',
-          'OpenAI',
+          "Next.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "shadcn/ui",
+          "OpenAI",
+          "Stripe",
+          "Supabase",
+          "Hetzner",
         ],
-        status: 'statusInDevelopment',
-        liveUrl: '#',
+        status: "statusInDevelopment",
+        liveUrl: "#",
       },
     ],
     [t]
@@ -132,7 +129,7 @@ export default function Projects() {
           opacity: 1,
           y: 0,
           duration: 0.5,
-          ease: 'power3.out',
+          ease: "power3.out",
         }
       );
     }
@@ -144,11 +141,11 @@ export default function Projects() {
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        defaults: { overwrite: 'auto' },
+        defaults: { overwrite: "auto" },
         scrollTrigger: {
           trigger: section,
-          start: 'top 70%',
-          toggleActions: 'play none none none',
+          start: "top 70%",
+          toggleActions: "play none none none",
         },
       });
 
@@ -159,7 +156,7 @@ export default function Projects() {
           opacity: 1,
           y: 0,
           duration: 1,
-          ease: 'power3.out',
+          ease: "power3.out",
           stagger: 0.2,
         }
       ).fromTo(
@@ -169,10 +166,10 @@ export default function Projects() {
           opacity: 1,
           y: 0,
           duration: 0.6,
-          ease: 'power3.out',
+          ease: "power3.out",
           stagger: 0.12,
         },
-        '-=0.5'
+        "-=0.5"
       );
     }, section);
 
@@ -184,14 +181,14 @@ export default function Projects() {
       if (!el) return;
       if (i !== activeIndex) {
         gsap.killTweensOf(el);
-        gsap.set(el, { x: 0, clearProps: 'transform' });
+        gsap.set(el, { x: 0, clearProps: "transform" });
       }
     });
     circleRefs.current.forEach((el, i) => {
       if (!el) return;
       if (i !== activeIndex) {
         gsap.killTweensOf(el);
-        gsap.set(el, { x: 0, clearProps: 'transform' });
+        gsap.set(el, { x: 0, clearProps: "transform" });
       }
     });
   }, [activeIndex]);
@@ -212,14 +209,14 @@ export default function Projects() {
     gsap.to(circle, {
       x: 12,
       duration: 0.35,
-      ease: 'back.out(1.2)',
-      overwrite: 'auto',
+      ease: "back.out(1.2)",
+      overwrite: "auto",
     });
     gsap.to(title, {
       x: 12,
       duration: 0.35,
-      ease: 'back.out(1.2)',
-      overwrite: 'auto',
+      ease: "back.out(1.2)",
+      overwrite: "auto",
       delay: 0.06,
     });
   };
@@ -235,30 +232,30 @@ export default function Projects() {
     gsap.to(title, {
       x: 0,
       duration: 0.3,
-      ease: 'power2.out',
-      overwrite: 'auto',
+      ease: "power2.out",
+      overwrite: "auto",
     });
     gsap.to(circle, {
       x: 0,
       duration: 0.3,
-      ease: 'power2.out',
-      overwrite: 'auto',
+      ease: "power2.out",
+      overwrite: "auto",
       delay: 0.06,
     });
   };
 
   const activeProject = projectData[activeIndex];
 
-  const getStatusClass = (status: ProjectDataItem['status']) => {
+  const getStatusClass = (status: ProjectDataItem["status"]) => {
     switch (status) {
-      case 'statusFinished':
-        return 'bg-lime-700 border-lime-700 text-white';
-      case 'statusInDevelopment':
-        return 'bg-teal-600 border-teal-600 text-white';
-      case 'statusEarlyPhase':
-        return 'bg-orange-600 border-orange-600 text-white';
+      case "statusFinished":
+        return "bg-lime-700 border-lime-700 text-white";
+      case "statusInDevelopment":
+        return "bg-teal-600 border-teal-600 text-white";
+      case "statusEarlyPhase":
+        return "bg-orange-600 border-orange-600 text-white";
       default:
-        return 'bg-primary border-primary text-foreground';
+        return "bg-primary border-primary text-foreground";
     }
   };
 
@@ -270,7 +267,7 @@ export default function Projects() {
     >
       <Container>
         <span className="font-mono border-b border-border py-3 text-sm w-full block">
-          {t('preTitle')}
+          {t("preTitle")}
         </span>
 
         <div className="flex flex-col pt-10">
@@ -279,13 +276,13 @@ export default function Projects() {
               ref={headerRef}
               className="font-geometric text-5xl md:text-6xl lg:text-[75px] w-full lg:w-2/5 opacity-0"
             >
-              {t('title')}
+              {t("title")}
             </h1>
             <p
               ref={paragraphRef}
               className="text-lg md:text-xl w-full lg:w-1/3 text-foreground opacity-0"
             >
-              {t('description')}
+              {t("description")}
             </p>
           </div>
 
@@ -311,9 +308,10 @@ export default function Projects() {
                         circleRefs.current[index] = el;
                       }}
                       className={`will-change-transform inline-block w-4 h-4 rounded-full border transition-colors duration-300
-                        ${activeIndex === index || hoveredIndex === index
-                          ? 'bg-primary border-primary'
-                          : 'bg-foreground/30 border-border'
+                        ${
+                          activeIndex === index || hoveredIndex === index
+                            ? "bg-primary border-primary"
+                            : "bg-foreground/30 border-border"
                         }`}
                     />
                     <h3
@@ -321,9 +319,10 @@ export default function Projects() {
                         titleRefs.current[index] = el;
                       }}
                       className={`will-change-transform text-2xl xl:text-3xl uppercase transition-colors duration-300
-                        ${activeIndex === index || hoveredIndex === index
-                          ? 'text-foreground'
-                          : 'text-foreground/30'
+                        ${
+                          activeIndex === index || hoveredIndex === index
+                            ? "text-foreground"
+                            : "text-foreground/30"
                         }`}
                     >
                       {project.title}
@@ -353,7 +352,7 @@ export default function Projects() {
 
                   <div className="my-6">
                     <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
-                      {t('keyFeatures')}
+                      {t("keyFeatures")}
                     </h4>
                     <ul className="list-disc list-inside space-y-2 text-foreground/80">
                       {activeProject.features.map((feature) => (
@@ -364,7 +363,7 @@ export default function Projects() {
 
                   <div className="my-6">
                     <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
-                      {t('status')}
+                      {t("status")}
                     </h4>
                     <span
                       className={`px-3 py-1 border rounded-full text-xs font-bold font-mono ${getStatusClass(
@@ -377,7 +376,7 @@ export default function Projects() {
 
                   <div className="my-6">
                     <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
-                      {t('stack')}
+                      {t("stack")}
                     </h4>
                     <div className="flex gap-2 flex-wrap">
                       {activeProject.techStack.map((tag) => (
@@ -392,7 +391,7 @@ export default function Projects() {
                   </div>
 
                   <div className="flex gap-4 mt-8">
-                    {activeProject.status === 'statusFinished' &&
+                    {activeProject.status === "statusFinished" &&
                       activeProject.liveUrl && (
                         <a
                           href={activeProject.liveUrl}
@@ -400,7 +399,7 @@ export default function Projects() {
                           rel="noopener noreferrer"
                           className="cursor-pointer text-card z-99 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center text-[0.875rem] leading-[1.25rem] font-medium opacity-100 transition-transform hover:scale-105"
                         >
-                          {t('viewLiveSite')}
+                          {t("viewLiveSite")}
                         </a>
                       )}
                   </div>
@@ -435,7 +434,7 @@ export default function Projects() {
 
                       <div className="my-6">
                         <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
-                          {t('keyFeatures')}
+                          {t("keyFeatures")}
                         </h4>
                         <ul className="list-disc list-inside space-y-2 text-foreground/80">
                           {project.features.map((feature) => (
@@ -446,7 +445,7 @@ export default function Projects() {
 
                       <div className="my-6">
                         <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
-                          {t('status')}
+                          {t("status")}
                         </h4>
                         <span
                           className={`px-3 py-1 border rounded-full text-xs font-bold font-mono ${getStatusClass(
@@ -459,7 +458,7 @@ export default function Projects() {
 
                       <div className="my-6">
                         <h4 className="font-mono text-sm uppercase text-foreground/60 mb-3">
-                          {t('stack')}
+                          {t("stack")}
                         </h4>
                         <div className="flex gap-2 flex-wrap">
                           {project.techStack.map((tag) => (
@@ -474,7 +473,7 @@ export default function Projects() {
                       </div>
 
                       <div className="flex gap-4 mt-6">
-                        {project.status === 'statusFinished' &&
+                        {project.status === "statusFinished" &&
                           project.liveUrl && (
                             <a
                               href={project.liveUrl}
@@ -482,7 +481,7 @@ export default function Projects() {
                               rel="noopener noreferrer"
                               className="cursor-pointer text-card z-20 max-w-[230px] bg-background-inverted font-sans px-5 py-3 flex items-center justify-center rounded-full text-center text-[0.875rem] leading-[1.25rem] font-medium opacity-100 transition-transform hover:scale-105"
                             >
-                              {t('viewLiveSite')}
+                              {t("viewLiveSite")}
                             </a>
                           )}
                       </div>
